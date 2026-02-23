@@ -109,7 +109,7 @@
             <div class="px-6 pt-10 pb-4 bg-white dark:bg-slate-900 relative">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <div id="home-avatar" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-inner transition-all duration-500"></div>
+                        <div id="home-avatar" onclick="window.switchView('view-profile', 'nav-profile')" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-inner transition-all duration-500 cursor-pointer active:scale-90"></div>
                         <div>
                             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider translate-y-0.5" data-t="welcome">Selamat datang,</p>
                             <p id="home-username" class="font-extrabold text-slate-900 dark:text-white text-lg tracking-tight">-</p>
@@ -119,8 +119,9 @@
                 </div>
             </div>
 
-            <div class="px-6 pb-10 bg-white dark:bg-slate-900 rounded-b-[2.5rem] shadow-sm border-b border-slate-100 dark:border-slate-800">
-                <div class="bg-premium-gradient rounded-[2rem] p-7 shadow-xl shadow-indigo-200/40 dark:shadow-none text-white relative overflow-hidden flex flex-col justify-between">
+            <div class="px-6 pb-8 bg-white dark:bg-slate-900 rounded-b-[2.5rem] shadow-sm border-b border-slate-100 dark:border-slate-800">
+                <!-- Main Blue Card -->
+                <div class="bg-premium-gradient rounded-[2rem] p-7 shadow-xl shadow-indigo-200/40 dark:shadow-none text-white relative overflow-hidden flex flex-col justify-between mb-5">
                     <div>
                         <div class="relative z-10 flex justify-between items-center mb-1">
                             <p class="text-indigo-100 font-medium text-xs opacity-80 uppercase tracking-widest" data-t="total_balance">Total Saldo</p>
@@ -128,13 +129,7 @@
                                 <i id="eye-icon" data-lucide="eye" class="w-4 h-4 text-white"></i>
                             </button>
                         </div>
-                        <h1 id="total-balance" class="text-4xl font-black tracking-tight mb-4" data-value="0">Rp 0</h1>
-                    </div>
-                    
-                    <!-- DANA-LIKE LIVE FEED CARD -->
-                    <div id="live-feed-card" class="relative z-10 bg-white/20 backdrop-blur-md border border-white/20 rounded-xl p-3 flex items-center gap-3 shadow-inner hidden mt-2 mb-5">
-                        <div class="text-xl shrink-0" id="live-feed-icon">💰</div>
-                        <p id="live-feed-text" class="text-xs font-bold leading-tight text-white line-clamp-2">Memuat aktivitas terbaru...</p>
+                        <h1 id="total-balance" class="text-4xl font-black tracking-tight mb-8" data-value="0">Rp 0</h1>
                     </div>
                     
                     <div class="relative z-10 pt-5 border-t border-white/20 flex justify-between items-center">
@@ -148,6 +143,12 @@
                             <p id="mutasi-out" class="font-bold text-sm text-rose-300" data-value="0">Rp 0</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- STANDALONE LIVE FEED CARD -->
+                <div id="live-feed-card" class="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl p-4 flex items-center gap-4 shadow-sm hidden">
+                    <div class="w-10 h-10 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center shadow-sm shrink-0 text-xl" id="live-feed-icon">💰</div>
+                    <p id="live-feed-text" class="text-[11px] font-bold leading-snug text-slate-600 dark:text-slate-300 line-clamp-2">Memuat aktivitas terbaru...</p>
                 </div>
             </div>
 
@@ -251,7 +252,7 @@
                     </select>
                 </div>
             </div>
-            <!-- REMOVED: onclick dari item agar riwayat hanya dilihat (view-only) -->
+            <!-- REMOVED: onclick dan reaksi dari item agar murni hanya informasi mutasi -->
             <div id="global-history-container" class="p-6 space-y-4"></div>
         </main>
 
@@ -658,6 +659,9 @@
             avatar: { emoji: '', colorClass: 'bg-indigo-100', textClass: 'text-indigo-700' },
             joinedRooms: [], darkMode: false, language: 'id', hideInstallBanner: false
         };
+        // Temp state for modal
+        let tempAvatarSelection = { ...appData.avatar };
+
         let globalRooms = [];
         let globalHistory = [];
         let currentRoomId = null;
@@ -668,8 +672,8 @@
         let currentTimeFilter = 'all_time'; 
         let isInitialHistoryLoad = true; 
         
-        let chatUnsubscribe = null; // for chat cleanup
-        let lastBackPress = 0; // for hardware back button
+        let chatUnsubscribe = null; 
+        let lastBackPress = 0; 
 
         const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-celebration', 'modal-edit', 'modal-name-entry'];
 
@@ -806,7 +810,6 @@
             }
         }
 
-        // Add user to room members
         async function joinRoomMembers(roomId) {
             if(!appData.uid || !appData.user) return;
             try {
@@ -862,7 +865,10 @@
                     if (userSnap.exists()) {
                         const cloudData = userSnap.data();
                         appData.user = cloudData.name || user.displayName || 'Pengguna';
-                        if (cloudData.avatar) appData.avatar = cloudData.avatar;
+                        if (cloudData.avatar) {
+                            appData.avatar = cloudData.avatar;
+                            tempAvatarSelection = { ...appData.avatar };
+                        }
                         
                         if (cloudData.joinedRooms) {
                             const mergedRooms = [...new Set([...appData.joinedRooms, ...cloudData.joinedRooms])];
@@ -872,7 +878,6 @@
                             }
                         }
                         
-                        // Cek URL params untuk join room setelah refresh
                         const urlParams = new URLSearchParams(window.location.search);
                         const sharedId = urlParams.get('id');
                         if(sharedId && !appData.joinedRooms.includes(sharedId)) { 
@@ -1004,13 +1009,15 @@
                 updateUI();
                 if(currentRoomId) refreshRoomUI(currentRoomId);
 
-                // Notif Realtime
+                // Notif Realtime dengan terjemahan yang benar
                 if (!isInitialHistoryLoad && hasNewContent && latestTx) {
                     if (appData.joinedRooms.includes(latestTx.roomId) && latestTx.userName !== appData.user) {
-                        const verb = latestTx.type === 'in' ? 'menabung' : 'menarik';
-                        const verbEn = latestTx.type === 'in' ? 'added' : 'withdrew';
-                        const v = appData.language === 'id' ? verb : verbEn;
-                        window.showRealtimeNotif(`🔔 ${latestTx.userName} ${v} Rp ${latestTx.amount.toLocaleString('id-ID')} di ${latestTx.roomName}`);
+                        const isId = appData.language === 'id';
+                        const vIn = isId ? 'menabung' : 'added';
+                        const vOut = isId ? 'menarik' : 'withdrew';
+                        const prep = latestTx.type === 'in' ? (isId ? 'di' : 'to') : (isId ? 'dari' : 'from');
+                        
+                        window.showRealtimeNotif(`🔔 ${latestTx.userName} ${latestTx.type === 'in' ? vIn : vOut} Rp ${latestTx.amount.toLocaleString('id-ID')} ${prep} ${latestTx.roomName}`);
                     }
                 }
             });
@@ -1157,7 +1164,7 @@
             try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         };
 
-        // Render Reactions HTML
+        // Render Reactions HTML - Radio behavior per person
         const getReactionHTML = (trxId, reactionsData = {}) => {
             const emojis = ['🔥', '👏', '❤️'];
             let html = `<div class="flex gap-2 mt-2">`;
@@ -1178,11 +1185,25 @@
             const hData = globalHistory.find(h => h.id === trxId);
             if(!hData) return;
             let reactions = hData.reactions || {};
-            if(!reactions[emoji]) reactions[emoji] = [];
+            const allEmojis = ['🔥', '👏', '❤️'];
+            let alreadyHadThisEmoji = false;
+
+            // Remove user from all other reactions first (Radio Button behavior)
+            allEmojis.forEach(e => {
+                if(reactions[e]) {
+                    const idx = reactions[e].indexOf(appData.uid);
+                    if(idx > -1) {
+                        reactions[e].splice(idx, 1);
+                        if(e === emoji) alreadyHadThisEmoji = true; // They clicked the same emoji again to turn it off
+                    }
+                }
+            });
             
-            const idx = reactions[emoji].indexOf(appData.uid);
-            if(idx > -1) reactions[emoji].splice(idx, 1);
-            else reactions[emoji].push(appData.uid);
+            // If they didn't just turn off the same emoji, add it to the newly selected one
+            if(!alreadyHadThisEmoji) {
+                if(!reactions[emoji]) reactions[emoji] = [];
+                reactions[emoji].push(appData.uid);
+            }
             
             try { await updateDoc(doc(db, "history", trxId), { reactions: reactions }); } catch(e) {}
         };
@@ -1460,7 +1481,7 @@
             const profUser = document.getElementById('profile-username');
             const profEmail = document.getElementById('profile-email');
             
-            if(homeAv) { homeAv.className = `w-12 h-12 rounded-full flex items-center justify-center text-xl font-black shadow-inner border border-black/5 dark:border-white/5 ${appData.avatar.colorClass} ${appData.avatar.textClass}`; homeAv.innerText = displayChar; }
+            if(homeAv) { homeAv.className = `w-12 h-12 rounded-full flex items-center justify-center text-xl font-black shadow-inner border border-black/5 dark:border-white/5 cursor-pointer active:scale-90 transition-transform ${appData.avatar.colorClass} ${appData.avatar.textClass}`; homeAv.innerText = displayChar; }
             if(profAv) { profAv.className = `w-24 h-24 rounded-full flex justify-center items-center text-5xl font-black shadow-inner border border-black/5 dark:border-white/5 ${appData.avatar.colorClass} ${appData.avatar.textClass}`; profAv.innerText = displayChar; }
             if(homeUser) homeUser.innerText = appData.user;
             if(profUser) profUser.innerText = appData.user;
@@ -1483,9 +1504,16 @@
             if(liveFeedCard && liveFeedText && globalHistory.length > 0) {
                 const latest = globalHistory[0];
                 liveFeedCard.classList.remove('hidden');
-                const verb = latest.type === 'in' ? 'menabung' : 'menarik';
+                
+                const isId = appData.language === 'id';
+                const verbIn = isId ? 'menabung' : 'added';
+                const verbOut = isId ? 'menarik' : 'withdrew';
+                const verb = latest.type === 'in' ? verbIn : verbOut;
+                const justStr = isId ? 'baru saja' : 'just';
+                const prepStr = latest.type === 'in' ? (isId ? 'di' : 'to') : (isId ? 'dari' : 'from');
+
                 liveFeedIcon.innerText = latest.type === 'in' ? '💰' : '💸';
-                liveFeedText.innerHTML = `${latest.userName} baru saja <span class="${latest.type === 'in' ? 'text-emerald-300' : 'text-rose-300'}">${verb} Rp ${latest.amount.toLocaleString('id-ID')}</span> di ${latest.roomName}`;
+                liveFeedText.innerHTML = `${latest.userName} ${justStr} <span class="${latest.type === 'in' ? 'text-emerald-600 dark:text-emerald-400 font-black' : 'text-rose-600 dark:text-rose-400 font-black'}">${verb} Rp ${latest.amount.toLocaleString('id-ID')}</span> ${prepStr} <b class="text-slate-800 dark:text-white">${latest.roomName}</b>`;
             } else if (liveFeedCard) {
                 liveFeedCard.classList.add('hidden');
             }
@@ -1570,8 +1598,8 @@
                 else filtered.forEach(h => {
                     const isIn = h.type === 'in';
                     const noteHtml = h.note ? `<p class="text-[10px] text-slate-500 italic mt-1 truncate max-w-[200px]">"${h.note}"</p>` : '';
-                    // DIUBAH: Dihilangkan onclick untuk menuju Room Detail
-                    gHistContainer.innerHTML += `<div class="p-5 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-50 dark:border-slate-800 shadow-sm flex flex-col gap-2"><div class="flex justify-between items-center"><div class="flex items-center gap-4 flex-1 overflow-hidden"><div class="w-10 h-10 shrink-0 rounded-xl ${isIn ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} flex items-center justify-center"><i data-lucide="${isIn ? 'arrow-down' : 'arrow-up'}" class="w-5 h-5"></i></div><div class="overflow-hidden flex-1 pr-2"><p class="text-sm font-black dark:text-white truncate">${h.roomName}</p><p class="text-[9px] font-bold text-slate-400 uppercase truncate">${h.userName} • ${h.date.split(',')[0]}</p>${noteHtml}</div></div><p class="text-sm font-black shrink-0 ${isIn ? 'text-emerald-600' : 'text-rose-600'} ml-2">${isIn?'+':'-'}Rp ${h.amount.toLocaleString('id-ID')}</p></div>${getReactionHTML(h.id, h.reactions)}</div>`;
+                    // DIUBAH: Dihilangkan onclick dan getReactionHTML() di Menu Riwayat Utama agar bersih
+                    gHistContainer.innerHTML += `<div class="p-5 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-50 dark:border-slate-800 shadow-sm flex flex-col gap-2"><div class="flex justify-between items-center"><div class="flex items-center gap-4 flex-1 overflow-hidden"><div class="w-10 h-10 shrink-0 rounded-xl ${isIn ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} flex items-center justify-center"><i data-lucide="${isIn ? 'arrow-down' : 'arrow-up'}" class="w-5 h-5"></i></div><div class="overflow-hidden flex-1 pr-2"><p class="text-sm font-black dark:text-white truncate">${h.roomName}</p><p class="text-[9px] font-bold text-slate-400 uppercase truncate">${h.userName} • ${h.date.split(',')[0]}</p>${noteHtml}</div></div><p class="text-sm font-black shrink-0 ${isIn ? 'text-emerald-600' : 'text-rose-600'} ml-2">${isIn?'+':'-'}Rp ${h.amount.toLocaleString('id-ID')}</p></div></div>`;
                 });
             }
 
@@ -1624,6 +1652,13 @@
             if (appData.darkMode) { document.documentElement.classList.add('dark'); const t = document.getElementById('toggle-dark'); if(t) t.checked = true; }
             applyTranslations();
 
+            document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function() { const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : ''; }); });
+        };
+
+        window.openAvatarModal = () => {
+            // Load selections every time modal opens
+            tempAvatarSelection = { ...appData.avatar };
+            
             const COLORS = [
                 {bg:'bg-indigo-100', txt:'text-indigo-700'}, {bg:'bg-rose-100', txt:'text-rose-700'}, 
                 {bg:'bg-emerald-100', txt:'text-emerald-700'}, {bg:'bg-amber-100', txt:'text-amber-700'}, 
@@ -1632,29 +1667,41 @@
             ];
             const colorDiv = document.getElementById('color-options');
             if (colorDiv) {
+                colorDiv.innerHTML = '';
                 COLORS.forEach(c => {
                     const b = document.createElement('button'); b.className = `color-btn w-14 h-14 rounded-full border-4 ${c.bg} shrink-0 transition-all active:scale-90`;
-                    b.onclick = () => { document.querySelectorAll('#color-options button').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); appData.avatar.colorClass = c.bg; appData.avatar.textClass = c.txt; };
-                    if(appData.avatar.colorClass === c.bg) b.classList.add('selected'); colorDiv.appendChild(b);
+                    b.onclick = () => { 
+                        document.querySelectorAll('#color-options button').forEach(x => x.classList.remove('selected')); 
+                        b.classList.add('selected'); 
+                        tempAvatarSelection.colorClass = c.bg; 
+                        tempAvatarSelection.textClass = c.txt; 
+                    };
+                    if(tempAvatarSelection.colorClass === c.bg) b.classList.add('selected'); 
+                    colorDiv.appendChild(b);
                 });
             }
 
             const EMOJIS = ['A', '🐱', '🐶', '🦊', '🦄', '🦖', '🐮', '🐸', '👽', '🍣', '🍔', '🍕', '🍜', '🍟', '🍦', '🍩', '☕', '🐼', '🐯', '🤖', '👾', '👻', '🚀', '🎸', '⚽'];
             const emojiDiv = document.getElementById('emoji-options');
             if (emojiDiv) {
+                emojiDiv.innerHTML = '';
                 EMOJIS.forEach(e => {
                     const b = document.createElement('button'); b.className = `emoji-btn p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl text-2xl border-2 border-transparent active:scale-90 flex items-center justify-center`;
                     b.innerText = e === 'A' ? 'Ab' : e;
-                    b.onclick = () => { document.querySelectorAll('#emoji-options button').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); appData.avatar.emoji = (e === 'A') ? '' : e; };
-                    if((e === 'A' && !appData.avatar.emoji) || (e === appData.avatar.emoji)) b.classList.add('selected');
+                    b.onclick = () => { 
+                        document.querySelectorAll('#emoji-options button').forEach(x => x.classList.remove('selected')); 
+                        b.classList.add('selected'); 
+                        tempAvatarSelection.emoji = (e === 'A') ? '' : e; 
+                    };
+                    if((e === 'A' && !tempAvatarSelection.emoji) || (e === tempAvatarSelection.emoji)) b.classList.add('selected');
                     emojiDiv.appendChild(b);
                 });
             }
-
-            document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function() { const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : ''; }); });
-        };
+            window.showModal('modal-avatar');
+        }
 
         window.saveAvatarSelection = async () => { 
+            appData.avatar = { ...tempAvatarSelection };
             window.saveLocal(); 
             updateUI(); 
             window.closeAllModals(); 

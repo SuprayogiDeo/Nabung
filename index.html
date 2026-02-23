@@ -72,8 +72,8 @@
     <div class="app-container flex flex-col h-screen relative bg-slate-50 dark:bg-slate-900 shadow-2xl">
         
         <!-- SPLASH SCREEN -->
-        <div id="splash-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700 max-w-[480px] mx-auto">
-            <div class="w-28 h-28 bg-white dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mb-8 shadow-2xl shadow-indigo-500/20 animate-bounce">
+        <div id="splash-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700 max-w-[480px] mx-auto text-center">
+            <div class="w-28 h-28 bg-white dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mb-8 shadow-2xl shadow-indigo-500/20 animate-bounce mx-auto">
                 <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Logo" class="w-16 h-16">
             </div>
             <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">Tabungan Bersama</h1>
@@ -81,9 +81,9 @@
         </div>
 
         <!-- REALTIME NOTIFICATION TOAST -->
-        <div id="realtime-notif" class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-[90%] max-w-[400px] bg-indigo-600 text-white p-4 rounded-2xl shadow-2xl z-[110] flex items-start gap-3 transition-transform duration-300">
-            <div class="bg-white/20 p-2 rounded-full shrink-0"><i data-lucide="bell-ring" class="w-5 h-5 text-white"></i></div>
-            <div class="text-left">
+        <div id="realtime-notif" class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-[90%] max-w-[400px] bg-indigo-600 text-white p-4 rounded-2xl shadow-2xl z-[110] flex items-start gap-3 transition-transform duration-300 cursor-pointer" onclick="this.classList.add('-translate-y-full')">
+            <div class="bg-white/20 p-2 rounded-full shrink-0"><i data-lucide="bell-ring" class="w-5 h-5 text-white animate-pulse"></i></div>
+            <div class="flex-1 pr-2 text-left">
                 <p class="text-[10px] font-bold text-indigo-200 uppercase tracking-widest mb-0.5" data-t="notif_title">Aktivitas Baru!</p>
                 <p id="realtime-notif-text" class="text-sm font-black leading-tight"></p>
             </div>
@@ -109,8 +109,9 @@
                 </div>
             </div>
 
-            <div class="px-6 pb-4 bg-white dark:bg-slate-900 rounded-b-[2.5rem] shadow-sm border-b border-slate-100 dark:border-slate-800">
-                <div class="bg-premium-gradient rounded-[2rem] p-7 shadow-xl shadow-indigo-200/40 dark:shadow-none text-white relative overflow-hidden text-left">
+            <div class="px-6 pb-4 bg-white dark:bg-slate-900 rounded-b-[2.5rem] shadow-sm border-b border-slate-100 dark:border-slate-800 text-left">
+                <!-- Total Balance Card -->
+                <div class="bg-premium-gradient rounded-[2rem] p-7 shadow-xl shadow-indigo-200/40 dark:shadow-none text-white relative overflow-hidden text-left mb-6">
                     <div class="relative z-10 flex justify-between items-center mb-1">
                         <p class="text-indigo-100 font-medium text-xs opacity-80 uppercase tracking-widest" data-t="total_balance">Total Saldo</p>
                         <button onclick="window.toggleBalance()" class="p-2 bg-white/10 rounded-full active:scale-95 transition-transform">
@@ -132,13 +133,13 @@
                     </div>
                 </div>
 
-                <!-- DANA Style Feed Updates -->
-                <div class="mt-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden text-left">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="p-1.5 bg-rose-100 dark:bg-rose-900/30 text-rose-500 rounded-lg"><i data-lucide="megaphone" class="w-3 h-3"></i></div>
-                        <h3 class="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Updates Teman</h3>
+                <!-- DANA Style Feed Updates (Optimized non-truncated) -->
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 text-left">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="p-1.5 bg-rose-100 dark:bg-rose-900/30 text-rose-500 rounded-lg"><i data-lucide="megaphone" class="w-4 h-4"></i></div>
+                        <h3 class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Updates Teman</h3>
                     </div>
-                    <div id="home-updates-feed" class="space-y-2 h-10 overflow-y-auto no-scrollbar relative">
+                    <div id="home-updates-feed" class="space-y-4 max-h-40 overflow-y-auto no-scrollbar relative text-left">
                         <p class="text-[10px] text-slate-400 italic">Belum ada aktivitas terbaru...</p>
                     </div>
                 </div>
@@ -163,7 +164,10 @@
                     <h1 id="detail-title" class="font-bold text-lg text-slate-800 dark:text-white truncate max-w-[150px]">Detail</h1>
                 </div>
                 
-                <div id="detail-member-pile" class="flex -space-x-2 overflow-hidden mr-2"></div>
+                <!-- Member Pile -->
+                <div id="detail-member-pile" class="flex -space-x-2 overflow-hidden mr-2">
+                    <!-- Avatars Injected Here -->
+                </div>
 
                 <button onclick="window.openEditModal()" class="p-2 text-slate-400 hover:text-indigo-500 transition-colors"><i data-lucide="edit-2" class="w-5 h-5"></i></button>
             </div>
@@ -183,19 +187,25 @@
                 </div>
             </div>
 
+            <!-- Detail Tabs (Social Logic) -->
             <div class="flex bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
-                <button onclick="window.switchDetailTab('history')" id="tab-btn-history" class="flex-1 py-4 text-xs font-black text-indigo-600 border-b-2 border-indigo-600 uppercase transition-all" data-t="history_tab">Riwayat</button>
-                <button onclick="window.switchDetailTab('chat')" id="tab-btn-chat" class="flex-1 py-4 text-xs font-bold text-slate-400 border-b-2 border-transparent uppercase transition-all flex items-center justify-center gap-2">Diskusi <i data-lucide="message-circle" class="w-3.5 h-3.5"></i></button>
+                <button onclick="window.switchDetailTab('history')" id="tab-btn-history" class="flex-1 py-4 text-xs font-black text-indigo-600 border-b-2 border-indigo-600 transition-colors uppercase tracking-widest" data-t="history_tab">Riwayat</button>
+                <button onclick="window.switchDetailTab('chat')" id="tab-btn-chat" class="flex-1 py-4 text-xs font-bold text-slate-400 border-b-2 border-transparent transition-colors uppercase tracking-widest flex items-center justify-center gap-2">Diskusi <i data-lucide="message-circle" class="w-3.5 h-3.5"></i></button>
             </div>
 
-            <div id="tab-content-history" class="flex-1 overflow-y-auto no-scrollbar p-6">
+            <!-- Tab Content: History -->
+            <div id="tab-content-history" class="flex-1 overflow-y-auto no-scrollbar p-6 text-left">
                 <div id="detail-history-list" class="relative border-l-2 border-indigo-100 dark:border-indigo-900/30 ml-3 space-y-8 pb-4"></div>
             </div>
 
+            <!-- Tab Content: Chat -->
             <div id="tab-content-chat" class="flex-1 hidden bg-slate-50 dark:bg-slate-950 p-4 pb-24 overflow-y-auto no-scrollbar flex flex-col">
-                <div id="chat-list" class="space-y-4 flex-1 mb-4 flex flex-col justify-end text-left"></div>
+                <div id="chat-list" class="space-y-4 flex-1 mb-4 flex flex-col justify-end text-left">
+                    <!-- Chat bubbles injected here -->
+                </div>
             </div>
 
+            <!-- Action Bar (Sticky Bottom) -->
             <div id="action-bar-history" class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 max-w-[480px] mx-auto z-20 flex gap-4">
                 <button onclick="window.openTransactionModal('tarik')" class="flex-1 py-4 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 font-black rounded-2xl active:bg-rose-100" data-t="withdraw">Tarik</button>
                 <button onclick="window.openTransactionModal('nabung')" class="flex-1 py-4 bg-premium text-white font-black rounded-2xl shadow-xl shadow-indigo-200 dark:shadow-none active:opacity-90" data-t="save">Nabung</button>
@@ -211,7 +221,7 @@
 
         <!-- VIEW 3: GLOBAL HISTORY -->
         <main id="view-history" class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-white dark:bg-slate-900 hidden text-left">
-            <div class="px-6 pt-10 pb-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10">
+            <div class="px-6 pt-10 pb-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10 text-left">
                 <h1 class="text-2xl font-black text-slate-900 dark:text-white mb-5 tracking-tight" data-t="history">Riwayat</h1>
                 
                 <div class="flex items-center justify-between gap-2">
@@ -291,7 +301,7 @@
         <div id="modal-overlay" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm z-[50] hidden transition-opacity" onclick="window.closeAllModals()"></div>
 
         <!-- ONBOARDING -->
-        <div id="modal-onboarding" class="fixed inset-0 z-[60] flex items-center justify-center p-8 bg-white dark:bg-slate-900 max-w-[480px] mx-auto transition-opacity duration-500 hidden opacity-0">
+        <div id="modal-onboarding" class="fixed inset-0 z-[60] flex items-center justify-center p-8 bg-white dark:bg-slate-900 max-w-[480px] mx-auto transition-opacity duration-500 hidden opacity-0 text-center">
             <div class="w-full text-center">
                 <div class="w-28 h-28 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mx-auto flex items-center justify-center mb-10 shadow-inner border border-indigo-100 dark:border-indigo-900/30">
                     <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Logo" class="w-16 h-16 mx-auto">
@@ -312,7 +322,7 @@
                 <div class="w-28 h-28 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mx-auto flex items-center justify-center mb-10 shadow-inner border border-indigo-100 dark:border-indigo-900/30">
                     <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Logo" class="w-16 h-16 mx-auto">
                 </div>
-                <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter">Konfirmasi Profil</h2>
+                <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter text-center">Konfirmasi Profil</h2>
                 <div class="text-left mb-8 relative">
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Nama Tampilan</label>
                     <input type="text" id="onboarding-name" placeholder="Contoh: Leonardo Suprayogi" class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-[1.25rem] font-bold text-xl outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all text-slate-900 dark:text-white">
@@ -374,7 +384,10 @@
         import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // --- CONFIG ---
+        // --- GLOBAL CONSTANTS & FIREBASE CONFIG ---
+        const DB_KEY = 'tabungan_app_v10_stable';
+        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-celebration', 'modal-edit', 'modal-install', 'modal-name-entry'];
+
         const firebaseConfig = {
             apiKey: "AIzaSyDUPTlI50-ZrTwokK9A9S7MJr5iCmqqyT4",
             authDomain: "tabungan-bersama-e48da.firebaseapp.com",
@@ -387,8 +400,55 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        const DB_KEY = 'tabungan_app_v10_stable';
-        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-celebration', 'modal-edit', 'modal-install', 'modal-name-entry'];
+        // --- TRANSLATIONS ---
+        const i18n = {
+            id: {
+                welcome: "Selamat datang,", total_balance: "Total Saldo", income: "Masuk", outcome: "Keluar",
+                savings_goal: "Tujuan Tabungan", available_balance: "Saldo Tersedia", progress: "Progres Keseluruhan",
+                archive_now: "Arsipkan Sekarang", history: "Riwayat Transaksi", history_tab: "Riwayat", chat_tab: "Diskusi",
+                withdraw: "Tarik", save: "Nabung", nav_home: "Beranda", nav_history: "Riwayat", nav_profile: "Profil",
+                archive: "Arsip Tabungan", archive_desc: "Target 100% Selesai", dark_mode: "Mode Gelap", language_name: "Bahasa",
+                language_val: "ID", edit_goal: "Ubah Tabungan", goal_name: "Nama Tujuan", target_nominal: "Target Nominal",
+                save_changes: "Simpan Perubahan", goal_reached: "Tercapai!", celeb_desc: "Tabungan", celeb_done: "lunas 100%!",
+                continue: "Lanjutkan", label_depositor: "Penyetor", label_note: "Catatan (Opsional)", confirm: "Konfirmasi",
+                all: "Semua", in: "Masuk", out: "Keluar", data_activities: "Data & Aktivitas", app_settings: "Pengaturan Aplikasi",
+                no_goals: "Belum ada tabungan", no_archive: "Belum ada arsip", empty_history: "Belum ada riwayat",
+                placeholder_goal: "Beli Laptop...", install_app: "Install Aplikasi",
+                choose_avatar: "Pilih Avatar", options: "Opsi", share: "Bagikan", delete: "Hapus Tabungan",
+                share_title: "Undang Teman",
+                install_ios_desc: "Untuk pengguna iPhone/iPad (Safari):", install_ios_step1: "Tekan ikon Bagikan di bawah", install_ios_step2: "Pilih 'Tambah ke Layar Utama'",
+                install_android_desc: "Untuk pengguna Android (Chrome):", install_android_step1: "Tekan ikon Titik Tiga di atas", install_android_step2: "Pilih 'Tambahkan ke Layar Utama'",
+                install_prompt_title: "Install Aplikasi", install_prompt_desc: "Akses lebih cepat & mudah", install_btn: "Lihat Tutorial",
+                login_desc: "Simpan data tabungan Anda dengan aman di awan menggunakan akun Google.", login_google: "Masuk dengan Google", logout: "Keluar (Logout)",
+                name_warning: "*Peringatan: Nama tidak dapat diubah setelah disimpan. Mohon gunakan nama asli Anda.",
+                filter_all_time: "Semua Waktu", filter_this_month: "Bulan Ini", filter_last_month: "Bulan Lalu",
+                empty_goal_desc: "Yuk, buat tujuan pertamamu!", empty_archive_desc: "Belum ada tabungan yang diselesaikan", empty_history_desc: "Mulai menabung untuk melihat riwayat",
+                notif_title: "Aktivitas Baru!"
+            },
+            en: {
+                welcome: "Welcome,", total_balance: "Total Balance", income: "Income", outcome: "Outcome",
+                savings_goal: "Saving Goals", available_balance: "Available Balance", progress: "Total Progress",
+                archive_now: "Archive Now", history: "Transaction History", history_tab: "History", chat_tab: "Chat",
+                withdraw: "Withdraw", save: "Save", nav_home: "Home", nav_history: "History", nav_profile: "Profile",
+                archive: "Archive", archive_desc: "100% Goal Completed", dark_mode: "Dark Mode", language_name: "Language",
+                language_val: "EN", edit_goal: "Edit Saving", goal_name: "Goal Name", target_nominal: "Target Amount",
+                save_changes: "Save Changes", goal_reached: "Reached!", celeb_desc: "Saving", celeb_done: "is 100% completed!",
+                continue: "Continue", label_depositor: "Depositor", label_note: "Note (Optional)", confirm: "Confirm",
+                all: "All", in: "In", out: "Out", data_activities: "Data & Activities", app_settings: "App Settings",
+                no_goals: "No goals yet", no_archive: "No archived items", empty_history: "No history yet",
+                placeholder_goal: "Buy a Laptop...", install_app: "Install App",
+                choose_avatar: "Choose Avatar", options: "Options", share: "Share", delete: "Delete Goal",
+                share_title: "Invite Friends",
+                install_ios_desc: "For iPhone/iPad users (Safari):", install_ios_step1: "Tap the Share icon at the bottom", install_ios_step2: "Select 'Add to Home Screen'",
+                install_android_desc: "For Android users (Chrome):", install_android_step1: "Tap the Three Dots icon at the top", install_android_step2: "Select 'Add to Home screen'",
+                install_prompt_title: "Install App", install_prompt_desc: "Faster access & easy to use", install_btn: "View Tutorial",
+                login_desc: "Save your savings data securely in the cloud using your Google account.", login_google: "Sign in with Google", logout: "Log Out",
+                name_warning: "*Warning: Name cannot be changed once saved. Please use your real name.",
+                filter_all_time: "All Time", filter_this_month: "This Month", filter_last_month: "Last Month",
+                empty_goal_desc: "Let's create your first goal!", empty_archive_desc: "No completed goals yet", empty_history_desc: "Start saving to see your history",
+                notif_title: "New Activity!"
+            }
+        };
 
         // --- APP STATE ---
         let appData = JSON.parse(localStorage.getItem(DB_KEY)) || {
@@ -413,12 +473,12 @@
             const currentView = document.querySelector('main:not(.hidden)')?.id;
             if (currentView === 'view-home') {
                 if (backPressedOnce) {
-                    // Browser default
+                    // Default browser behavior (exit app)
                 } else {
                     backPressedOnce = true;
                     showToast("Tekan sekali lagi untuk keluar");
-                    history.pushState(null, null, null);
-                    setTimeout(() => backPressedOnce = false, 2000);
+                    history.pushState(null, null, null); // Block first back press
+                    setTimeout(() => backPressedOnce = false, 2000); // Reset after 2s
                 }
             } else if (currentView === 'view-profile' || currentView === 'view-history') {
                 window.switchView('view-home', 'nav-home');
@@ -517,9 +577,7 @@
 
         async function syncJoinedRoomsToCloud() {
             if(appData.uid) {
-                try {
-                    await updateDoc(doc(db, "users", appData.uid), { joinedRooms: appData.joinedRooms });
-                } catch(e) { console.log("Gagal sync rooms ke awan"); }
+                try { await updateDoc(doc(db, "users", appData.uid), { joinedRooms: appData.joinedRooms }); } catch(e) {}
             }
         }
 
@@ -530,11 +588,7 @@
             }
             if(appData.uid) {
                 try { await updateDoc(doc(db, "users", appData.uid), { joinedRooms: appData.joinedRooms }); } catch(e) {}
-                try {
-                    await updateDoc(doc(db, "rooms", roomId), { 
-                        [`membersMap.${appData.uid}`]: { name: appData.user, avatar: appData.avatar }
-                    });
-                } catch(e) {}
+                try { await updateDoc(doc(db, "rooms", roomId), { [`membersMap.${appData.uid}`]: { name: appData.user, avatar: appData.avatar } }); } catch(e) {}
             }
         }
 
@@ -622,10 +676,8 @@
             const btn = document.getElementById('btn-google-login');
             btn.disabled = true; 
             btn.innerHTML = createSpinner() + ' ...';
-            
-            const provider = new GoogleAuthProvider();
             try {
-                await signInWithPopup(auth, provider);
+                await signInWithPopup(auth, new GoogleAuthProvider());
                 window.showToast("Autentikasi berhasil!");
             } catch (error) {
                 if(error.code !== 'auth/popup-closed-by-user') alert("Gagal login: " + error.message);
@@ -690,6 +742,7 @@
                 globalHistory = snap.docs.map(d => d.data()).filter(h => appData.joinedRooms.includes(h.roomId)).sort((a,b) => b.timestamp - a.timestamp);
                 updateUI(); if(currentRoomId) refreshRoomUI(currentRoomId);
 
+                // Push Notifikasi In-App (Hanya untuk transaksi milik teman)
                 if (!isInitialHistoryLoad && hasNewAdded && latestTx) {
                     if (appData.joinedRooms.includes(latestTx.roomId) && latestTx.userName !== appData.user) {
                         const v = appData.language === 'id' ? (latestTx.type === 'in' ? 'menabung' : 'menarik') : (latestTx.type === 'in' ? 'added' : 'withdrew');
@@ -744,14 +797,17 @@
             const chats = globalChats.filter(c => c.roomId === currentRoomId);
             list.innerHTML = chats.map(c => {
                 const isMe = c.uid === appData.uid;
-                return isMe ? `<div class="flex flex-col items-end mb-1"><div class="chat-bubble-me py-2 px-4 text-sm font-medium shadow-sm">${c.text}</div><span class="text-[8px] font-bold text-slate-400 mt-1">${c.date}</span></div>`
-                : `<div class="flex items-end gap-2 mb-1 text-left"><div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black ${c.avatar.colorClass}">${c.avatar.emoji || c.userName[0]}</div><div class="flex flex-col items-start"><p class="text-[8px] font-bold text-slate-400 ml-1 mb-0.5">${c.userName}</p><div class="chat-bubble-other py-2 px-4 text-sm font-medium shadow-sm text-left">${c.text}</div><span class="text-[8px] font-bold text-slate-400 mt-1 ml-1">${c.date}</span></div></div>`;
+                return isMe ? `<div class="flex flex-col items-end mb-1"><div class="chat-bubble-me py-2 px-4 text-sm font-medium shadow-sm break-words max-w-[80%]">${c.text}</div><span class="text-[8px] font-bold text-slate-400 mt-1">${c.date}</span></div>`
+                : `<div class="flex items-end gap-2 mb-1 text-left"><div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black ${c.avatar.colorClass}">${c.avatar.emoji || c.userName[0]}</div><div class="flex flex-col items-start"><p class="text-[8px] font-bold text-slate-400 ml-1 mb-0.5">${c.userName}</p><div class="chat-bubble-other py-2 px-4 text-sm font-medium shadow-sm text-left break-words max-w-[80%]">${c.text}</div><span class="text-[8px] font-bold text-slate-400 mt-1 ml-1">${c.date}</span></div></div>`;
             }).join('') || `<p class="text-center opacity-40 text-xs">Belum ada obrolan</p>`;
             const container = document.getElementById('tab-content-chat'); if(container) container.scrollTop = container.scrollHeight;
             lucide.createIcons();
         }
 
-        window.toggleReaction = async (txId, emoji) => {
+        window.toggleReaction = async (txId, emoji, btnElement) => {
+            if(btnElement) btnElement.classList.add('reaction-pop');
+            setTimeout(() => { if(btnElement) btnElement.classList.remove('reaction-pop'); }, 300);
+
             const tx = globalHistory.find(h => h.id === txId);
             if(!tx) return;
             let currentRx = tx.reactions || {};
@@ -770,8 +826,19 @@
 
             const pile = document.getElementById('detail-member-pile');
             if(pile && r.membersMap) pile.innerHTML = Object.values(r.membersMap).map(m => `<div class="w-7 h-7 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center text-[10px] font-black shadow-sm ${m.avatar.colorClass}">${m.avatar.emoji || m.name[0]}</div>`).join('');
+            
+            const tgtBox = document.getElementById('detail-target-container');
+            if(r.hasTarget) {
+                tgtBox.classList.remove('hidden');
+                const pct = Math.min(Math.round((r.balance/r.target)*100), 100);
+                document.getElementById('detail-progress-text').innerText = `${r.balance.toLocaleString('id-ID')} / ${r.target.toLocaleString('id-ID')}`;
+                document.getElementById('detail-progress-bar').style.width = pct + '%';
+            } else tgtBox.classList.add('hidden');
+            
             const histList = document.getElementById('detail-history-list');
             const filtered = globalHistory.filter(h => h.roomId === id);
+            
+            // Render riwayat dan cegah diklik (hanya dilihat)
             histList.innerHTML = filtered.map(h => {
                 const isIn = h.type === 'in';
                 const noteHtml = h.note ? `<p class="text-[10px] text-slate-500 italic mt-1 truncate max-w-[150px]">"${h.note}"</p>` : '';
@@ -780,9 +847,9 @@
                     Object.values(h.reactions).forEach(em => { if(em === '🔥') rxFire++; if(em === '👏') rxClap++; if(em === '❤️') rxHeart++; });
                     myRx = h.reactions[appData.uid];
                 }
-                const btnClass = "text-[9px] font-black px-2 py-1 rounded-full border transition-colors active:scale-90 flex items-center gap-1";
-                return `<div class="relative pl-8 mb-6"><span class="absolute -left-[20px] top-1 ${isIn?'bg-emerald-100 text-emerald-600':'bg-rose-100 text-rose-600'} p-1.5 rounded-full border-4 border-white dark:border-slate-950"><i data-lucide="${isIn?'arrow-down':'arrow-up'}" class="w-3.5 h-3.5"></i></span><div class="flex justify-between items-start"><div class="flex-1 pr-2"><p class="text-sm font-black dark:text-white">${h.userName}</p><p class="text-[9px] font-bold text-slate-400">${h.date}</p>${noteHtml}</div><p class="text-sm font-black ${isIn?'text-emerald-600':'text-rose-600'}">Rp ${h.amount.toLocaleString('id-ID')}</p></div><div class="flex gap-1.5 mt-2"><button onclick="window.toggleReaction('${h.id}', '🔥')" class="${btnClass} ${myRx==='🔥'?'bg-orange-100 border-orange-200 text-orange-700':'bg-slate-50 dark:bg-slate-800 border-transparent'}">🔥 ${fire||''}</button><button onclick="window.toggleReaction('${h.id}', '👏')" class="${btnClass} ${myRx==='👏'?'bg-amber-100 border-amber-200 text-amber-700':'bg-slate-50 dark:bg-slate-800 border-transparent'}">👏 ${clap||''}</button><button onclick="window.toggleReaction('${h.id}', '❤️')" class="${btnClass} ${myRx==='❤️'?'bg-rose-100 border-rose-200 text-rose-700':'bg-slate-50 dark:bg-slate-800 border-transparent'}">❤️ ${heart||''}</button></div></div>`
-            }).join('') || `<p class="text-center opacity-40">Belum ada riwayat</p>`;
+                const btnClass = "text-[9px] font-black px-2 py-1 rounded-full border transition-colors active:scale-90 flex items-center gap-1 cursor-pointer";
+                return `<div class="relative pl-8 mb-6 cursor-default"><span class="absolute -left-[20px] top-1 ${isIn?'bg-emerald-100 text-emerald-600':'bg-rose-100 text-rose-600'} p-1.5 rounded-full border-4 border-white dark:border-slate-950"><i data-lucide="${isIn?'arrow-down':'arrow-up'}" class="w-3.5 h-3.5"></i></span><div class="flex justify-between items-start"><div class="flex-1 pr-2"><p class="text-sm font-black dark:text-white">${h.userName}</p><p class="text-[9px] font-bold text-slate-400">${h.date}</p>${noteHtml}</div><p class="text-sm font-black ${isIn?'text-emerald-600':'text-rose-600'}">Rp ${h.amount.toLocaleString('id-ID')}</p></div><div class="flex gap-1.5 mt-2"><button onclick="window.toggleReaction('${h.id}', '🔥', this)" class="${btnClass} ${myRx==='🔥'?'bg-orange-100 border-orange-200 text-orange-700':'bg-slate-50 dark:bg-slate-800 border-transparent text-slate-500'}">🔥 ${rxFire||''}</button><button onclick="window.toggleReaction('${h.id}', '👏', this)" class="${btnClass} ${myRx==='👏'?'bg-amber-100 border-amber-200 text-amber-700':'bg-slate-50 dark:bg-slate-800 border-transparent text-slate-500'}">👏 ${rxClap||''}</button><button onclick="window.toggleReaction('${h.id}', '❤️', this)" class="${btnClass} ${myRx==='❤️'?'bg-rose-100 border-rose-200 text-rose-700':'bg-slate-50 dark:bg-slate-800 border-transparent text-slate-500'}">❤️ ${rxHeart||''}</button></div></div>`
+            }).join('') || `<div class="text-center py-10 opacity-40"><i data-lucide="hourglass" class="w-10 h-10 mx-auto mb-3 text-slate-400"></i><p class="text-xs font-bold text-slate-400 uppercase">Belum ada riwayat</p></div>`;
             lucide.createIcons();
         }
 
@@ -792,19 +859,50 @@
             document.getElementById('tab-content-chat').classList.toggle('hidden', tab !== 'chat');
             document.getElementById('action-bar-history').classList.toggle('hidden', tab !== 'history');
             document.getElementById('action-bar-chat').classList.toggle('hidden', tab !== 'chat');
-            document.getElementById('tab-btn-history').className = tab === 'history' ? "flex-1 py-4 text-xs font-black text-indigo-600 border-b-2 border-indigo-600 uppercase" : "flex-1 py-4 text-xs font-bold text-slate-400 border-b-2 border-transparent uppercase";
-            document.getElementById('tab-btn-chat').className = tab === 'chat' ? "flex-1 py-4 text-xs font-black text-indigo-600 border-b-2 border-indigo-600 uppercase flex items-center justify-center gap-2" : "flex-1 py-4 text-xs font-bold text-slate-400 border-b-2 border-transparent uppercase flex items-center justify-center gap-2";
+            document.getElementById('tab-btn-history').className = tab === 'history' ? "flex-1 py-4 text-xs font-black text-indigo-600 border-b-2 border-indigo-600 uppercase transition-all" : "flex-1 py-4 text-xs font-bold text-slate-400 border-b-2 border-transparent uppercase transition-all";
+            document.getElementById('tab-btn-chat').className = tab === 'chat' ? "flex-1 py-4 text-xs font-black text-indigo-600 border-b-2 border-indigo-600 uppercase transition-all flex items-center justify-center gap-2" : "flex-1 py-4 text-xs font-bold text-slate-400 border-b-2 border-transparent uppercase transition-all flex items-center justify-center gap-2";
             if(tab === 'chat') refreshChatUI();
         };
 
         window.switchView = (viewId, navId = null) => {
-            ['view-home', 'view-detail', 'view-history', 'view-profile'].forEach(v => document.getElementById(v)?.classList.add('hidden'));
+            ['view-home', 'view-detail', 'view-history', 'view-profile', 'view-create', 'view-archive'].forEach(v => document.getElementById(v)?.classList.add('hidden'));
             document.getElementById(viewId)?.classList.remove('hidden');
-            document.getElementById('bottom-nav')?.classList.toggle('hidden', ['view-detail'].includes(viewId));
+            const nav = document.getElementById('bottom-nav');
+            if (['view-detail', 'view-create', 'view-archive'].includes(viewId)) nav.classList.add('hidden');
+            else nav.classList.remove('hidden');
+            if(navId) {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.replace('text-indigo-600', 'text-slate-300');
+                    btn.querySelector('span')?.classList.replace('font-black', 'font-bold');
+                });
+                const active = document.getElementById(navId);
+                if(active) {
+                    active.classList.replace('text-slate-300', 'text-indigo-600');
+                    active.querySelector('span')?.classList.replace('font-bold', 'font-black');
+                }
+            }
             window.scrollTo(0,0);
         };
 
         window.historyBackOverride = (fallback) => window.switchView(fallback, 'nav-' + fallback.split('-')[1]);
+
+        window.filterHistory = (type) => {
+            currentHistoryFilter = type;
+            ['all', 'in', 'out'].forEach(f => {
+                const btn = document.getElementById('filter-'+f);
+                if(!btn) return;
+                if(f === type) {
+                    btn.classList.add('bg-slate-900', 'text-white', 'dark:bg-indigo-600');
+                    btn.classList.remove('bg-slate-100', 'text-slate-600', 'dark:bg-slate-800', 'dark:text-slate-400');
+                } else {
+                    btn.classList.remove('bg-slate-900', 'text-white', 'dark:bg-indigo-600');
+                    btn.classList.add('bg-slate-100', 'text-slate-600', 'dark:bg-slate-800', 'dark:text-slate-400');
+                }
+            });
+            updateUI();
+        };
+
+        window.changeTimeFilter = (val) => { currentTimeFilter = val; updateUI(); }
 
         function updateUI() {
             if(!appData.user) return;
@@ -813,18 +911,69 @@
                 const el = document.getElementById(id);
                 if(el) { el.className = `w-${id.includes('profile')?24:12} h-${id.includes('profile')?24:12} rounded-full flex items-center justify-center text-${id.includes('profile')?'5xl':'xl'} font-black shadow-inner border border-black/5 dark:border-white/5 ${appData.avatar.colorClass} ${appData.avatar.textClass}`; el.innerText = appData.avatar.emoji || appData.user[0].toUpperCase(); }
             });
+
             document.getElementById('home-username').innerText = appData.user;
             document.getElementById('profile-username').innerText = appData.user;
             document.getElementById('profile-email').innerText = appData.email || '';
+
             const active = globalRooms.filter(r => !r.isArchived);
             const total = active.reduce((acc, r) => acc + r.balance, 0);
-            document.getElementById('total-balance').innerText = isBalanceHidden ? 'Rp *********' : 'Rp ' + total.toLocaleString('id-ID');
+            const totalEl = document.getElementById('total-balance');
+            if(totalEl) {
+                totalEl.setAttribute('data-value', total);
+                totalEl.innerText = isBalanceHidden ? 'Rp *********' : 'Rp ' + total.toLocaleString('id-ID');
+            }
+
+            // DANA Style Feed (Not Truncated)
             const feed = document.getElementById('home-updates-feed');
-            if(feed) feed.innerHTML = globalHistory.slice(0, 5).map(h => `<div class="flex items-center gap-2 pb-1 border-b border-slate-50 dark:border-slate-800/50 last:border-0"><div class="w-5 h-5 rounded-full ${h.type==='in'?'bg-emerald-50 text-emerald-500':'bg-rose-50 text-rose-500'} flex items-center justify-center shrink-0 text-[8px] font-black">${h.userName[0]}</div><p class="text-[10px] font-medium text-slate-600 dark:text-slate-300 truncate"><span class="font-black text-slate-900 dark:text-white">${h.userName}</span> ${h.type==='in'?'menabung':'menarik'} <span class="font-black text-indigo-600">Rp ${h.amount.toLocaleString('id-ID')}</span></p></div>`).join('') || `<p class="text-[10px] text-slate-400 italic">Belum ada aktivitas...</p>`;
+            if(feed) {
+                feed.innerHTML = '';
+                const items = globalHistory.slice(0, 10);
+                if(items.length === 0) feed.innerHTML = `<p class="text-[10px] text-slate-400 italic text-left">Belum ada aktivitas terbaru...</p>`;
+                else {
+                    feed.innerHTML = items.map(h => {
+                        const verb = appData.language === 'id' ? (h.type === 'in' ? 'menabung' : 'menarik') : (h.type === 'in' ? 'added' : 'withdrew');
+                        return `
+                        <div class="flex items-start gap-3 pb-3 border-b border-slate-50 dark:border-slate-800/50 last:border-0 last:pb-0 cursor-pointer active:scale-95 transition-transform text-left" onclick="window.openRoomDetail('${h.roomId}')">
+                            <div class="w-7 h-7 rounded-full ${h.type==='in'?'bg-emerald-50 text-emerald-600':'bg-rose-50 text-rose-600'} flex items-center justify-center shrink-0 text-[10px] font-black border border-white dark:border-slate-800 mt-0.5">${h.userName[0].toUpperCase()}</div>
+                            <div class="flex-1">
+                                <p class="text-[11px] font-medium text-slate-600 dark:text-slate-300 leading-snug break-words">
+                                    <span class="font-black text-slate-900 dark:text-white">${h.userName}</span> 
+                                    ${verb} 
+                                    <span class="font-black text-indigo-600 dark:text-indigo-400">Rp ${h.amount.toLocaleString('id-ID')}</span> 
+                                    di ${h.roomName}
+                                </p>
+                                <p class="text-[9px] font-bold text-slate-400 mt-0.5">${h.date.split(',')[0]}</p>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+            }
+
             const container = document.getElementById('rooms-container');
-            container.innerHTML = active.map(r => `<div class="bg-white dark:bg-slate-900 p-6 rounded-[2.5rem] border border-slate-100 shadow-sm active:scale-[0.98] transition-all cursor-pointer" onclick="window.openRoomDetail('${r.id}')"><div class="flex justify-between items-start mb-6"><div class="flex items-center gap-4"><div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 flex items-center justify-center rounded-2xl"><i data-lucide="target"></i></div><h3 class="font-black text-slate-800 dark:text-white text-lg">${r.name}</h3></div></div><div class="flex justify-between items-end"><div><p class="text-[9px] font-black text-slate-400 uppercase mb-1">Terkumpul</p><p class="text-2xl font-black dark:text-white">Rp ${r.balance.toLocaleString('id-ID')}</p></div></div></div>`).join('') || `<div class="text-center py-10 opacity-40"><p class="text-xs font-bold">${lang.no_goals}</p></div>`;
+            container.innerHTML = active.map(r => `<div class="bg-white dark:bg-slate-900 p-6 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm active:scale-[0.98] transition-all cursor-pointer text-left" onclick="window.openRoomDetail('${r.id}')"><div class="flex justify-between items-start mb-6"><div class="flex items-center gap-4"><div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center rounded-2xl"><i data-lucide="target"></i></div><h3 class="font-black text-slate-800 dark:text-white text-lg">${r.name}</h3></div><button onclick="event.stopPropagation(); window.openManageModal('${r.id}')" class="text-slate-300 p-2"><i data-lucide="more-vertical"></i></button></div><div class="flex justify-between items-end"><div><p class="text-[9px] font-black text-slate-400 uppercase mb-1">Terkumpul</p><p class="text-2xl font-black dark:text-white">Rp ${r.balance.toLocaleString('id-ID')}</p></div></div></div>`).join('') || `<div class="text-center py-10 opacity-40"><p class="text-xs font-bold uppercase tracking-widest">${lang.no_goals}</p></div>`;
+            
             const gHist = document.getElementById('global-history-container');
-            gHist.innerHTML = globalHistory.map(h => `<div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-50 shadow-sm"><div class="flex items-center gap-4 flex-1 overflow-hidden"><div class="w-10 h-10 rounded-xl ${h.type==='in'?'bg-emerald-50 text-emerald-600':'bg-rose-50 text-rose-600'} flex items-center justify-center shrink-0"><i data-lucide="${h.type==='in'?'arrow-down':'arrow-up'}" class="w-5 h-5"></i></div><div class="overflow-hidden flex-1"><p class="text-sm font-black dark:text-white truncate">${h.roomName}</p><p class="text-[9px] font-bold text-slate-400 uppercase truncate">${h.userName} • ${h.date.split(',')[0]}</p></div></div><p class="text-sm font-black ${h.type==='in'?'text-emerald-600':'text-rose-600'} ml-2">Rp ${h.amount.toLocaleString('id-ID')}</p></div>`).join('') || `<p class="text-center opacity-40">Belum ada riwayat</p>`;
+            let filteredGHist = globalHistory;
+            if(currentHistoryFilter !== 'all') filteredGHist = filteredGHist.filter(h => h.type === currentHistoryFilter);
+            
+            const now = new Date();
+            if(currentTimeFilter === 'this_month') {
+                filteredGHist = filteredGHist.filter(h => { const d = new Date(h.timestamp); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
+            } else if(currentTimeFilter === 'last_month') {
+                filteredGHist = filteredGHist.filter(h => { const d = new Date(h.timestamp); let lm = now.getMonth() - 1; let ly = now.getFullYear(); if(lm < 0) { lm = 11; ly--; } return d.getMonth() === lm && d.getFullYear() === ly; });
+            }
+
+            // Global History (Non-clickable, view only)
+            gHist.innerHTML = filteredGHist.map(h => `<div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-50 dark:border-slate-800 shadow-sm text-left"><div class="flex items-center gap-4 flex-1 overflow-hidden"><div class="w-10 h-10 rounded-xl ${h.type==='in'?'bg-emerald-50 text-emerald-600':'bg-rose-50 text-rose-600'} flex items-center justify-center shrink-0"><i data-lucide="${h.type==='in'?'arrow-down':'arrow-up'}" class="w-5 h-5"></i></div><div class="overflow-hidden flex-1 text-left"><p class="text-sm font-black dark:text-white truncate">${h.roomName}</p><p class="text-[9px] font-bold text-slate-400 uppercase truncate">${h.userName} • ${h.date.split(',')[0]}</p></div></div><p class="text-sm font-black shrink-0 ${h.type==='in'?'text-emerald-600':'text-rose-600'} ml-2">Rp ${h.amount.toLocaleString('id-ID')}</p></div>`).join('') || `<div class="text-center py-20 opacity-40"><i data-lucide="scroll" class="w-10 h-10 mx-auto mb-3 text-slate-400"></i><p class="text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300">Belum ada riwayat</p></div>`;
+            
+            let mIn = 0, mOut = 0;
+            globalHistory.forEach(h => {
+                const d = new Date(h.timestamp);
+                if(d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) { if(h.type === 'in') mIn += h.amount; else mOut += h.amount; }
+            });
+            document.getElementById('mutasi-in').innerText = isBalanceHidden ? 'Rp ***' : 'Rp ' + mIn.toLocaleString('id-ID');
+            document.getElementById('mutasi-out').innerText = isBalanceHidden ? 'Rp ***' : 'Rp ' + mOut.toLocaleString('id-ID');
             lucide.createIcons(); applyTranslations();
         }
 
@@ -833,18 +982,18 @@
         window.saveAvatarSelection = async () => { window.saveLocal(); updateUI(); window.closeAllModals(); if(appData.uid) await updateDoc(doc(db, "users", appData.uid), { avatar: appData.avatar }); };
 
         window.onload = () => {
-            const COLORS = [{bg:'bg-indigo-100', txt:'text-indigo-700'}, {bg:'bg-rose-100', txt:'text-rose-700'}, {bg:'bg-emerald-100', txt:'text-emerald-700'}, {bg:'bg-amber-100', txt:'text-amber-700'}, {bg:'bg-purple-100', txt:'text-purple-700'}, {bg:'bg-slate-200', txt:'text-slate-700'}, {bg:'bg-sky-100', txt:'text-sky-700'}, {bg:'bg-fuchsia-100', txt:'text-fuchsia-700'}];
             const colorDiv = document.getElementById('color-options');
             if (colorDiv) {
+                const COLORS = [{bg:'bg-indigo-100', txt:'text-indigo-700'}, {bg:'bg-rose-100', txt:'text-rose-700'}, {bg:'bg-emerald-100', txt:'text-emerald-700'}, {bg:'bg-amber-100', txt:'text-amber-700'}, {bg:'bg-purple-100', txt:'text-purple-700'}, {bg:'bg-slate-200', txt:'text-slate-700'}, {bg:'bg-sky-100', txt:'text-sky-700'}, {bg:'bg-fuchsia-100', txt:'text-fuchsia-700'}];
                 COLORS.forEach(c => {
                     const b = document.createElement('button'); b.className = `color-btn w-14 h-14 rounded-full border-4 ${c.bg} shrink-0 transition-all active:scale-90`;
                     b.onclick = () => { document.querySelectorAll('#color-options button').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); appData.avatar.colorClass = c.bg; appData.avatar.textClass = c.txt; };
                     if(appData.avatar.colorClass === c.bg) b.classList.add('selected'); colorDiv.appendChild(b);
                 });
             }
-            const EMOJIS = ['🐱', '🐶', '🦊', '🦄', 'Rex', '🐮', '🐸', 'Alien', 'Sushi', 'Burger', 'Pizza', 'Ramen', 'Fries', 'Ice', 'Donut', 'Coffee', '🐼', '🐯', 'Bot', '👾', 'Ghost', 'Rocket', 'Guitar', 'Ball'];
             const emojiDiv = document.getElementById('emoji-options');
             if (emojiDiv) {
+                const EMOJIS = ['🐱', '🐶', '🦊', '🦄', 'Rex', '🐮', '🐸', 'Alien', 'Sushi', 'Burger', 'Pizza', 'Ramen', 'Fries', 'Ice', 'Donut', 'Coffee', '🐼', '🐯', 'Bot', '👾', 'Ghost', 'Rocket', 'Guitar', 'Ball'];
                 EMOJIS.forEach(e => {
                     const b = document.createElement('button'); b.className = `emoji-btn p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl text-2xl border-2 border-transparent active:scale-90 flex items-center justify-center`;
                     b.innerText = e;
@@ -860,9 +1009,9 @@
             const container = document.getElementById('install-instructions');
             const lang = i18n[appData.language];
             if(isIOS) {
-                container.innerHTML = `<p class="text-sm text-slate-500 mb-3">${lang.install_ios_desc}</p><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl mb-2 flex items-center gap-3"><i data-lucide="share" class="text-indigo-500"></i><p class="text-sm font-black">1. ${lang.install_ios_step1}</p></div><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center gap-3"><i data-lucide="plus-square" class="text-indigo-500"></i><p class="text-sm font-black">2. ${lang.install_ios_step2}</p></div>`;
+                container.innerHTML = `<p class="text-sm text-slate-500 mb-3">${lang.install_ios_desc}</p><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl mb-2 flex items-center gap-3 text-left"><i data-lucide="share" class="text-indigo-500"></i><p class="text-sm font-black">1. ${lang.install_ios_step1}</p></div><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center gap-3 text-left"><i data-lucide="plus-square" class="text-indigo-500"></i><p class="text-sm font-black">2. ${lang.install_ios_step2}</p></div>`;
             } else {
-                container.innerHTML = `<p class="text-sm text-slate-500 mb-3">${lang.install_android_desc}</p><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl mb-2 flex items-center gap-3"><i data-lucide="more-vertical" class="text-indigo-500"></i><p class="text-sm font-black">1. ${lang.install_android_step1}</p></div><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center gap-3"><i data-lucide="download" class="text-indigo-500"></i><p class="text-sm font-black">2. ${lang.install_android_step2}</p></div>`;
+                container.innerHTML = `<p class="text-sm text-slate-500 mb-3">${lang.install_android_desc}</p><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl mb-2 flex items-center gap-3 text-left"><i data-lucide="more-vertical" class="text-indigo-500"></i><p class="text-sm font-black">1. ${lang.install_android_step1}</p></div><div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center gap-3 text-left"><i data-lucide="download" class="text-indigo-500"></i><p class="text-sm font-black">2. ${lang.install_android_step2}</p></div>`;
             }
             lucide.createIcons(); showModal('modal-install');
         };

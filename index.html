@@ -771,7 +771,7 @@
         let appData = JSON.parse(localStorage.getItem(DB_KEY)) || {
             user: '', email: '', uid: '',
             avatar: { emoji: '', colorClass: 'bg-indigo-100', textClass: 'text-indigo-700' },
-            joinedRooms: [], darkMode: false, language: 'id', hideInstallBanner: false
+            joinedRooms: [], darkMode: false, language: 'id', hideInstallBanner: false, pushEnabled: false
         };
         let tempAvatarSelection = { ...appData.avatar };
         let tempCategorySelection = 'lainnya'; 
@@ -879,12 +879,7 @@
                 textEl.innerText = msg;
                 notif.classList.remove('-translate-y-full');
                 notif.classList.add('translate-y-4');
-                try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(880, ctx.currentTime);
-                    osc.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.1);
-                } catch(e) {}
+                
                 setTimeout(() => {
                     notif.classList.remove('translate-y-4');
                     notif.classList.add('-translate-y-full');
@@ -966,12 +961,36 @@
             else document.documentElement.classList.remove('dark');
         };
 
-        window.requestPushPermission = () => {
+        window.requestPushPermission = async () => {
             const toggle = document.getElementById('toggle-notif');
-            if (toggle && toggle.checked) {
-                // Just simulate for now since FCM requires backend setup
-                window.showToast("Fitur notifikasi push sedang dalam tahap pengembangan (Beta).");
-                setTimeout(() => { toggle.checked = false; }, 1000);
+            if (!toggle) return;
+
+            if (toggle.checked) {
+                if (!("Notification" in window)) {
+                    window.showToast("Browser tidak mendukung notifikasi sistem.", true);
+                    toggle.checked = false;
+                    return;
+                }
+                
+                try {
+                    const permission = await Notification.requestPermission();
+                    if (permission === "granted") {
+                        appData.pushEnabled = true;
+                        window.saveLocal();
+                        window.showToast("Notifikasi berhasil diaktifkan!");
+                    } else {
+                        appData.pushEnabled = false;
+                        window.saveLocal();
+                        toggle.checked = false;
+                        window.showToast("Izin notifikasi ditolak oleh sistem.", true);
+                    }
+                } catch(e) {
+                    toggle.checked = false;
+                }
+            } else {
+                appData.pushEnabled = false;
+                window.saveLocal();
+                window.showToast("Notifikasi dinonaktifkan.");
             }
         }
 
@@ -1304,13 +1323,26 @@
                 updateUI();
                 if(currentRoomId) refreshRoomUI(currentRoomId);
 
+                // Notif Realtime
                 if (!isInitialHistoryLoad && hasNewContent && latestTx) {
                     if (appData.joinedRooms.includes(latestTx.roomId) && latestTx.userName !== appData.user) {
                         const isId = appData.language === 'id';
                         const vIn = isId ? 'menabung' : 'added';
                         const vOut = isId ? 'menarik' : 'withdrew';
                         const prep = latestTx.type === 'in' ? (isId ? 'di' : 'to') : (isId ? 'dari' : 'from');
-                        window.showRealtimeNotif(`🔔 ${latestTx.userName} ${latestTx.type === 'in' ? vIn : vOut} Rp ${latestTx.amount.toLocaleString('id-ID')} ${prep} ${latestTx.roomName}`);
+                        
+                        const notifText = `${latestTx.userName} ${latestTx.type === 'in' ? vIn : vOut} Rp ${latestTx.amount.toLocaleString('id-ID')} ${prep} ${latestTx.roomName}`;
+                        
+                        // Notif dalam aplikasi (tanpa suara)
+                        window.showRealtimeNotif(`🔔 ${notifText}`);
+                        
+                        // Notif Sistem (Push Notification) jika pengguna mengaktifkan dan mengizinkan
+                        if (appData.pushEnabled && window.Notification && Notification.permission === "granted") {
+                            new Notification(isId ? "Aktivitas Baru!" : "New Activity!", {
+                                body: notifText,
+                                icon: "https://cdn-icons-png.flaticon.com/512/2830/2830284.png"
+                            });
+                        }
                     }
                 }
             });
@@ -2297,6 +2329,17 @@
         window.onload = () => {
             lucide.createIcons();
             if (appData.darkMode) { document.documentElement.classList.add('dark'); const t = document.getElementById('toggle-dark'); if(t) t.checked = true; }
+            
+            // Setel state tombol Push Notif berdasarkan penyimpanan
+            const tNotif = document.getElementById('toggle-notif');
+            if(tNotif && appData.pushEnabled && window.Notification && Notification.permission === 'granted') {
+                tNotif.checked = true;
+            } else if (tNotif) {
+                tNotif.checked = false;
+                appData.pushEnabled = false; // Sinkronisasikan ulang jika izin dicabut manual dari browser
+                window.saveLocal();
+            }
+
             applyTranslations();
 
             document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function() { const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : ''; }); });

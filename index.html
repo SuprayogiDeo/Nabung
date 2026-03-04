@@ -12,8 +12,10 @@
     
     <title>Tabungan Bersama</title>
     
+    <!-- Dynamic Manifest Link -->
     <link rel="manifest" id="manifest-link">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
+    <!-- Icon for iOS with built-in padding (Play Games Style) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iI2VlZjJmZiIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyOCwgMTI4KSBzY2FsZSgwLjUpIj48cGF0aCBmaWxsPSIjNGY0NmU1IiBkPSJNMjU2IDk2TDY0IDE5MnY0Mi42aDM4NFYxOTJMMjU2IDk2em0tMTQ5LjMgMTgxLjN2MTQ5LjRoNDIuNlYyNzcuM2gtNDIuNnptMTA2LjYgMHYxNDkuNGg0Mi42VjI3Ny4zaC00Mi42em0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNIMzIwem0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNoLTQyLjZ6TTY0IDQ2OS4zdjQyLjZoMzg0di00Mi42SDY0eiIvPjwvZz48L3N2Zz4=">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,14 +32,15 @@
         body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; } 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; overflow-x: hidden; }
+        /* Gunakan 100dvh agar responsif terhadap keyboard di mobile */
+        .app-container { max-width: 480px; margin: 0 auto; height: 100dvh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
         .toggle-checkbox:checked { right: 0; border-color: #4f46e5; }
         .toggle-checkbox:checked + .toggle-label { background-color: #4f46e5; }
         .bg-premium-gradient { background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); }
         .toast-visible { opacity: 1 !important; transform: translate(-50%, -20px) !important; }
         .celeb-ping { animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite; }
         
-        /* Loading Animations (Floating Money & Coins) */
+        /* Loading Animations */
         @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         @keyframes shadowScale { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(0.5); opacity: 0.15; } }
         @keyframes floatCoin { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(15deg); } }
@@ -71,10 +74,6 @@
         .chat-bubble-other { border-radius: 1rem 1rem 1rem 0; background-color: #f1f5f9; color: #1e293b; }
         .dark .chat-bubble-other { background-color: #1e293b; color: #f8fafc; }
         
-        /* Pie Chart CSS */
-        .pie-chart { border-radius: 50%; width: 120px; height: 120px; background: conic-gradient(#e2e8f0 0% 100%); transition: background 0.5s ease; box-shadow: inset 0px 0px 20px rgba(0,0,0,0.05); }
-        .dark .pie-chart { box-shadow: inset 0px 0px 20px rgba(0,0,0,0.5); }
-        
         /* Mention Highlight */
         .mention-highlight { color: #3b82f6; font-weight: 900; background: rgba(59, 130, 246, 0.1); padding: 0 4px; border-radius: 4px; }
         .mention-me { color: #f43f5e; font-weight: 900; background: rgba(244, 63, 94, 0.1); padding: 0 4px; border-radius: 4px; }
@@ -82,9 +81,9 @@
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 transition-colors duration-300">
 
-    <div class="app-container flex flex-col h-screen relative bg-slate-50 dark:bg-slate-900 shadow-2xl">
+    <div class="app-container bg-slate-50 dark:bg-slate-900 shadow-2xl">
         
-        <!-- SPLASH SCREEN (FLOATING MONEY & COINS) -->
+        <!-- SPLASH SCREEN -->
         <div id="splash-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700 max-w-[480px] mx-auto overflow-hidden">
             <div class="relative w-32 h-32 flex justify-center items-center mb-8">
                 <div class="absolute top-2 left-1 text-2xl anim-coin-1 drop-shadow-md">🪙</div>
@@ -97,8 +96,8 @@
             <p class="text-xs font-bold text-slate-400 mt-2 tracking-widest uppercase">Menyiapkan Dompet...</p>
         </div>
 
-        <!-- REALTIME NOTIFICATION TOAST (Top) -->
-        <div id="realtime-notif" class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-[90%] max-w-[400px] bg-indigo-600 text-white p-4 rounded-2xl shadow-2xl z-[110] flex items-start gap-3 transition-transform duration-300">
+        <!-- REALTIME NOTIFICATION TOAST -->
+        <div id="realtime-notif" class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-[90%] max-w-[400px] bg-indigo-600 text-white p-4 rounded-2xl shadow-2xl z-[110] flex items-start gap-3 transition-transform duration-300 cursor-pointer" onclick="this.classList.replace('translate-y-4', '-translate-y-full')">
             <div class="bg-white/20 p-2 rounded-full shrink-0"><i data-lucide="bell-ring" class="w-5 h-5 text-white"></i></div>
             <div>
                 <p class="text-[10px] font-bold text-indigo-200 uppercase tracking-widest mb-0.5" data-t="notif_title">Aktivitas Baru!</p>
@@ -106,7 +105,7 @@
             </div>
         </div>
 
-        <!-- Normal Toast Notification (Bottom) -->
+        <!-- Normal Toast Notification -->
         <div id="toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 translate-y-4 bg-slate-900 dark:bg-slate-800 text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 z-[100] whitespace-nowrap pointer-events-none">
             Pesan
         </div>
@@ -116,7 +115,7 @@
             <div class="px-6 pt-10 pb-4 bg-white dark:bg-slate-900 relative">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <div id="home-avatar" onclick="window.switchView('view-profile', 'nav-profile')" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-inner transition-all duration-500 cursor-pointer active:scale-90 border-2 border-transparent hover:border-indigo-200"></div>
+                        <div id="home-avatar" onclick="window.navigateTab('view-profile', 'nav-profile')" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-inner transition-all duration-500 cursor-pointer active:scale-90 border-2 border-transparent hover:border-indigo-200"></div>
                         <div>
                             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider translate-y-0.5" data-t="welcome">Selamat datang,</p>
                             <p id="home-username" class="font-extrabold text-slate-900 dark:text-white text-lg tracking-tight">-</p>
@@ -138,7 +137,7 @@
                         <h1 id="total-balance" class="text-4xl font-black tracking-tight mb-4" data-value="0">Rp 0</h1>
                     </div>
 
-                    <!-- DANA-LIKE LIVE FEED CONTAINER (Inside Blue Card) -->
+                    <!-- LIVE FEED CONTAINER -->
                     <div id="live-feed-container" class="bg-white/20 backdrop-blur-sm border border-white/10 rounded-xl p-2.5 shadow-inner hidden flex-col mb-5">
                         <div id="live-feed-list" class="max-h-[75px] overflow-y-auto no-scrollbar space-y-2 snap-y">
                             <!-- Feed items injected here -->
@@ -179,7 +178,7 @@
         </main>
 
         <!-- VIEW 2: DETAIL ROOM -->
-        <main id="view-detail" class="flex-1 overflow-y-auto no-scrollbar pb-32 bg-slate-50 dark:bg-slate-950 hidden relative">
+        <main id="view-detail" class="flex-1 overflow-y-auto no-scrollbar bg-slate-50 dark:bg-slate-950 hidden relative">
             <div class="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md z-20 px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-3 flex-1 overflow-hidden">
                     <button onclick="window.history.back()" class="p-2 text-slate-600 dark:text-slate-400 active:scale-90"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
@@ -215,7 +214,7 @@
             </div>
 
             <!-- TAB CONTENT 1: RINGKASAN -->
-            <div id="room-tab-ringkasan">
+            <div id="room-tab-ringkasan" class="pb-24">
                 <div class="px-8 pb-6 pt-6 bg-white dark:bg-slate-900">
                     <div id="detail-target-container" class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-3xl text-left hidden border border-slate-100 dark:border-slate-800">
                         <div class="flex justify-between text-xs font-bold mb-3">
@@ -242,51 +241,59 @@
                 </div>
             </div>
 
-            <!-- TAB CONTENT 2: DISKUSI -->
+            <!-- TAB CONTENT 2: DISKUSI (Zero Gap & Fixed Input) -->
             <div id="room-tab-diskusi" class="hidden">
-                <div class="p-6 relative flex flex-col min-h-[55vh]">
-                    <div id="chat-messages" class="flex-1 overflow-y-auto no-scrollbar pb-2 space-y-4 pr-2">
+                <div class="p-6 pb-28 relative flex flex-col justify-end min-h-[calc(100vh-220px)]">
+                    <div id="chat-messages" class="w-full space-y-4 pr-2">
                         <!-- Chats injected here -->
                     </div>
+                </div>
 
-                    <!-- Sticker Panel -->
-                    <div id="sticker-panel" class="absolute bottom-[80px] left-6 right-6 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 p-4 hidden flex-wrap gap-2 z-30 transition-all justify-center">
-                        <button onclick="window.sendSticker('💸')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💸</button>
-                        <button onclick="window.sendSticker('🤑')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤑</button>
-                        <button onclick="window.sendSticker('🚀')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🚀</button>
-                        <button onclick="window.sendSticker('💰')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💰</button>
-                        <button onclick="window.sendSticker('📈')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">📈</button>
-                        <button onclick="window.sendSticker('📉')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">📉</button>
-                        <button onclick="window.sendSticker('🔥')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🔥</button>
-                        <button onclick="window.sendSticker('🏃‍♂️')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🏃‍♂️</button>
-                        <button onclick="window.sendSticker('🙏')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🙏</button>
-                        <button onclick="window.sendSticker('😭')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">😭</button>
-                        <button onclick="window.sendSticker('💀')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💀</button>
-                        <button onclick="window.sendSticker('🤡')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤡</button>
-                        <button onclick="window.sendSticker('🥳')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🥳</button>
-                        <button onclick="window.sendSticker('🤯')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤯</button>
-                        <button onclick="window.sendSticker('🤝')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤝</button>
-                        <button onclick="window.sendSticker('🥂')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🥂</button>
-                        <button onclick="window.sendSticker('🗿')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🗿</button>
-                        <button onclick="window.sendSticker('🛑')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🛑</button>
-                        <button onclick="window.sendSticker('🚨')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🚨</button>
-                        <button onclick="window.sendSticker('💡')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💡</button>
-                        <button onclick="window.sendSticker('💎')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💎</button>
+                <!-- Floating Scroll Down Button -->
+                <button id="chat-scroll-btn" onclick="window.scrollToBottomChat(false)" class="fixed bottom-[90px] right-6 z-40 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 p-3 rounded-full shadow-xl border border-slate-100 dark:border-slate-700 hidden active:scale-90 transition-transform">
+                    <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                    <span id="chat-unread-dot-hint" class="absolute top-0 right-0 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-800 hidden"></span>
+                </button>
+
+                <!-- FIXED CHAT INPUT -->
+                <div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto z-40">
+                    <div id="sticker-panel" class="absolute bottom-[80px] left-6 right-6 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 p-4 hidden flex-wrap gap-2 transition-all justify-center">
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('💸')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💸</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🤑')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤑</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🚀')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🚀</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('💰')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💰</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('📈')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">📈</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('📉')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">📉</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🔥')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🔥</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🏃‍♂️')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🏃‍♂️</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🙏')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🙏</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('😭')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">😭</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('💀')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💀</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🤡')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤡</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🥳')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🥳</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🤯')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤯</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🤝')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🤝</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🥂')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🥂</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🗿')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🗿</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🛑')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🛑</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('🚨')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">🚨</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('💡')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💡</button>
+                        <button onpointerdown="event.preventDefault(); window.sendSticker('💎')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💎</button>
                     </div>
 
-                    <div class="flex items-center gap-2 pt-4 relative z-20 mt-auto bg-slate-50 dark:bg-slate-950">
-                        <button onclick="window.toggleStickerPanel()" class="p-3 text-slate-400 hover:text-indigo-500 bg-white dark:bg-slate-800 rounded-xl transition-colors shadow-sm"><i data-lucide="smile" class="w-6 h-6"></i></button>
-                        <input type="text" id="chat-input" placeholder="Ketik pesan..." data-t="type_message" class="flex-1 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20 text-sm font-bold text-slate-900 dark:text-white shadow-sm">
-                        <button onclick="window.sendChatMessage()" class="p-3.5 bg-indigo-600 text-white rounded-xl active:scale-90 transition-transform shadow-lg shadow-indigo-200 dark:shadow-none"><i data-lucide="send" class="w-5 h-5"></i></button>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2 pb-safe shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)]">
+                        <button onpointerdown="event.preventDefault(); window.toggleStickerPanel()" class="p-3 text-slate-400 hover:text-indigo-500 bg-white dark:bg-slate-800 rounded-xl transition-colors shadow-sm"><i data-lucide="smile" class="w-6 h-6"></i></button>
+                        <!-- Autocomplete OFF & Spellcheck False -->
+                        <input type="text" id="chat-input" autocomplete="off" spellcheck="false" placeholder="Ketik pesan..." data-t="type_message" class="flex-1 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20 text-sm font-bold text-slate-900 dark:text-white shadow-sm">
+                        <button onpointerdown="event.preventDefault(); window.sendChatMessage()" class="p-3.5 bg-indigo-600 text-white rounded-xl active:scale-90 transition-transform shadow-lg shadow-indigo-200 dark:shadow-none"><i data-lucide="send" class="w-5 h-5"></i></button>
                     </div>
                 </div>
             </div>
 
-            <!-- GLOBAL BOTTOM ACTION BUTTONS -->
-            <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 max-w-[480px] mx-auto z-40 flex gap-4">
-                <button onclick="window.openTransactionModal('tarik')" class="flex-1 py-4 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 font-black rounded-2xl active:bg-rose-100" data-t="withdraw">Tarik</button>
-                <button onclick="window.openTransactionModal('nabung')" class="flex-1 py-4 bg-premium text-white font-black rounded-2xl shadow-xl shadow-indigo-200 dark:shadow-none active:opacity-90" data-t="save">Nabung</button>
-            </div>
+            <!-- FAB TRANSACTION -->
+            <button id="fab-trx" onclick="window.showModal('modal-action-sheet')" class="fixed bottom-6 right-6 z-40 bg-premium text-white p-4 rounded-full shadow-2xl shadow-indigo-500/50 dark:shadow-none active:scale-90 transition-transform">
+                <i data-lucide="plus" class="w-7 h-7"></i>
+            </button>
         </main>
 
         <!-- VIEW 3: HISTORY -->
@@ -323,21 +330,12 @@
                 <p id="profile-stats" class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 inline-block px-4 py-1.5 rounded-full">0 Tabungan Aktif</p>
             </div>
 
-            <div class="p-6 pb-0">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-2 mb-4">Analisis Saldo</h3>
-                <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm">
-                    <div id="pie-chart-element" class="pie-chart shrink-0"></div>
-                    <div id="pie-chart-legend" class="flex-1 pl-6 space-y-2">
-                        <p class="text-[10px] font-bold text-slate-400 italic">Belum ada data</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-6 space-y-8">
+            <div class="p-6 space-y-8 mt-4">
                 <div>
                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-2 mb-4" data-t="data_activities">Data & Aktivitas</h3>
                     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                        <div onclick="window.switchView('view-archive')" class="flex items-center justify-between p-5 cursor-pointer active:bg-slate-50 dark:active:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800">
+                        <!-- Menggunakan switchView dengan PushState untuk sub-halaman Arsip -->
+                        <div onclick="window.switchView('view-archive', null, true)" class="flex items-center justify-between p-5 cursor-pointer active:bg-slate-50 dark:active:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800">
                             <div class="flex items-center gap-4">
                                 <div class="p-2.5 bg-amber-50 dark:bg-amber-900/20 text-amber-500 rounded-xl"><i data-lucide="archive" class="w-5 h-5"></i></div>
                                 <div>
@@ -359,16 +357,12 @@
                 <div>
                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-2 mb-4" data-t="app_settings">Pengaturan Aplikasi</h3>
                     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm divide-y divide-slate-100 dark:divide-slate-800">
-                        <!-- Push Notif Settings Toggle -->
-                        <div class="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800">
+                        <div class="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800 cursor-pointer active:bg-slate-50 dark:active:bg-slate-800 transition-colors" onclick="window.handleInstallApp()">
                             <div class="flex items-center gap-4">
-                                <div class="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 rounded-xl"><i data-lucide="bell" class="w-5 h-5"></i></div>
-                                <span class="text-sm font-black text-slate-700 dark:text-slate-200">Notifikasi Push</span>
+                                <div class="p-2.5 bg-sky-50 dark:bg-sky-900/20 text-sky-500 rounded-xl"><i data-lucide="download" class="w-5 h-5"></i></div>
+                                <span class="text-sm font-black text-slate-700 dark:text-slate-200" data-t="install_app">Install Aplikasi</span>
                             </div>
-                            <div class="relative inline-block w-10 h-5">
-                                <input type="checkbox" id="toggle-notif" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 appearance-none cursor-pointer border-slate-200 transition-all" onclick="window.requestPushPermission()"/>
-                                <label for="toggle-notif" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-200 cursor-pointer transition-colors"></label>
-                            </div>
+                            <i data-lucide="chevron-right" class="text-slate-300 w-5 h-5"></i>
                         </div>
                         <div class="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800">
                             <div class="flex items-center gap-4">
@@ -410,7 +404,7 @@
             <div class="p-6 space-y-8">
                 <div>
                     <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3 px-1" data-t="goal_name">Nama Tujuan</label>
-                    <input type="text" id="create-name" placeholder="Beli Laptop..." class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-500/10 font-bold text-slate-900 dark:text-white transition-all">
+                    <input type="text" id="create-name" autocomplete="off" spellcheck="false" placeholder="Beli Laptop..." class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-500/10 font-bold text-slate-900 dark:text-white transition-all">
                 </div>
                 
                 <div>
@@ -428,7 +422,7 @@
                     </div>
                     <div id="target-input-div" class="hidden mt-6 relative text-center">
                         <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-black text-xl">Rp</span>
-                        <input type="text" id="create-target" inputmode="numeric" placeholder="0" class="money-input w-full p-5 pl-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-black text-2xl text-slate-900 dark:text-white outline-none">
+                        <input type="text" id="create-target" autocomplete="off" inputmode="numeric" placeholder="0" class="money-input w-full p-5 pl-14 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-black text-2xl text-slate-900 dark:text-white outline-none">
                     </div>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800">
@@ -442,10 +436,10 @@
                     <div id="milestone-input-div" class="hidden mt-6 space-y-4">
                         <div id="milestone-rows-container">
                             <div class="milestone-row bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mb-3 shadow-sm relative">
-                                <input type="text" placeholder="Item name..." class="ms-name w-full mb-3 text-sm font-bold border-b border-slate-100 dark:border-slate-700 outline-none pb-2 bg-transparent dark:text-white">
+                                <input type="text" autocomplete="off" spellcheck="false" placeholder="Item name..." class="ms-name w-full mb-3 text-sm font-bold border-b border-slate-100 dark:border-slate-700 outline-none pb-2 bg-transparent dark:text-white">
                                 <div class="relative">
                                     <span class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">Rp</span>
-                                    <input type="text" inputmode="numeric" placeholder="0" class="ms-price money-input w-full pl-6 text-sm font-black outline-none bg-transparent dark:text-white">
+                                    <input type="text" inputmode="numeric" autocomplete="off" placeholder="0" class="ms-price money-input w-full pl-6 text-sm font-black outline-none bg-transparent dark:text-white">
                                 </div>
                             </div>
                         </div>
@@ -460,15 +454,15 @@
 
         <!-- FOOTER NAV -->
         <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-10 pb-safe hidden">
-            <button onclick="window.switchView('view-home', 'nav-home')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-indigo-600 transition-all" id="nav-home">
+            <button onclick="window.navigateTab('view-home', 'nav-home')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-indigo-600 transition-all" id="nav-home">
                 <i data-lucide="home" class="w-6 h-6"></i>
                 <span class="text-[9px] font-black uppercase tracking-tighter" data-t="nav_home">Home</span>
             </button>
-            <button onclick="window.switchView('view-history', 'nav-history')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-slate-300 transition-all" id="nav-history">
+            <button onclick="window.navigateTab('view-history', 'nav-history')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-slate-300 transition-all" id="nav-history">
                 <i data-lucide="pie-chart" class="w-6 h-6"></i>
                 <span class="text-[9px] font-black uppercase tracking-tighter" data-t="nav_history">Riwayat</span>
             </button>
-            <button onclick="window.switchView('view-profile', 'nav-profile')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-slate-300 transition-all" id="nav-profile">
+            <button onclick="window.navigateTab('view-profile', 'nav-profile')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-slate-300 transition-all" id="nav-profile">
                 <i data-lucide="user" class="w-6 h-6"></i>
                 <span class="text-[9px] font-black uppercase tracking-tighter" data-t="nav_profile">Profil</span>
             </button>
@@ -476,6 +470,102 @@
 
         <!-- OVERLAY MODALS -->
         <div id="modal-overlay" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm z-[50] hidden transition-opacity" onclick="window.closeAllModals()"></div>
+
+        <!-- MODAL ACTION SHEET (PILIH TRANSAKSI) -->
+        <div id="modal-action-sheet" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-black text-xl text-slate-900 dark:text-white">Pilih Aksi</h3>
+                    <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
+                </div>
+                <div class="space-y-4">
+                    <button onclick="window.closeAllModals(); setTimeout(() => window.openTransactionModal('nabung'), 300)" class="w-full flex items-center gap-4 p-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl active:scale-[0.98] transition-transform border border-emerald-100 dark:border-emerald-800/50 shadow-sm">
+                        <div class="p-3 bg-emerald-500 text-white rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none"><i data-lucide="arrow-down" class="w-6 h-6"></i></div>
+                        <div class="text-left flex-1">
+                            <span class="block font-black text-emerald-700 dark:text-emerald-400 text-lg">Nabung</span>
+                            <span class="block text-[10px] font-bold text-emerald-600/70 dark:text-emerald-400/70 uppercase tracking-wide">Tambah saldo tabungan</span>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-emerald-300 dark:text-emerald-700"></i>
+                    </button>
+                    <button onclick="window.closeAllModals(); setTimeout(() => window.openTransactionModal('tarik'), 300)" class="w-full flex items-center gap-4 p-5 bg-rose-50 dark:bg-rose-900/20 rounded-2xl active:scale-[0.98] transition-transform border border-rose-100 dark:border-rose-800/50 shadow-sm">
+                        <div class="p-3 bg-rose-500 text-white rounded-xl shadow-lg shadow-rose-200 dark:shadow-none"><i data-lucide="arrow-up" class="w-6 h-6"></i></div>
+                        <div class="text-left flex-1">
+                            <span class="block font-black text-rose-700 dark:text-rose-400 text-lg">Tarik</span>
+                            <span class="block text-[10px] font-bold text-rose-600/70 dark:text-rose-400/70 uppercase tracking-wide">Ambil saldo tabungan</span>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-rose-300 dark:text-rose-700"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL TRANSACTION (NABUNG/TARIK) - DITAMBAHKAN KEMBALI -->
+        <div id="modal-transaction" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[65] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="trx-title" class="font-black text-2xl text-slate-900 dark:text-white">Transaksi</h3>
+                    <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
+                </div>
+                <div class="space-y-5 mb-8 text-left">
+                    <input type="hidden" id="trx-type" value="in">
+
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nominal</label>
+                        <div class="relative">
+                            <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-black text-xl">Rp</span>
+                            <input type="text" id="trx-amount" autocomplete="off" inputmode="numeric" placeholder="0" class="money-input w-full p-5 pl-14 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-black text-2xl text-slate-900 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all">
+                        </div>
+                    </div>
+
+                    <div id="trx-milestone-container" class="hidden">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Pilih Milestone</label>
+                        <select id="trx-milestone-select" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 appearance-none">
+                            <option value="">-- Pilih Milestone --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2" data-t="label_depositor">Penyetor</label>
+                        <div class="relative">
+                            <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <input type="text" id="trx-user-display" readonly class="w-full p-4 pl-12 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-slate-600 dark:text-slate-400 outline-none cursor-not-allowed">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2" data-t="label_note">Catatan (Opsional)</label>
+                        <input type="text" id="trx-note" autocomplete="off" spellcheck="false" placeholder="Tulis sesuatu..." class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                    </div>
+                </div>
+                <button id="btn-submit-trx" onclick="window.handleTransactionSubmit()" class="w-full py-5 text-white font-black text-lg rounded-[1.5rem] shadow-xl active:scale-95 transition-all bg-emerald-500 shadow-emerald-200 dark:shadow-none" data-t="continue">Lanjutkan</button>
+            </div>
+        </div>
+
+        <!-- MODAL CONFIRM TRX -->
+        <div id="modal-confirm-trx" class="fixed inset-0 z-[70] flex items-center justify-center p-8 hidden bg-slate-900/80 max-w-[480px] mx-auto backdrop-blur-sm transition-opacity duration-300 opacity-0">
+            <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] w-full text-center relative shadow-2xl transform scale-95 transition-transform duration-300" id="confirm-trx-card">
+                <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-4xl drop-shadow-md" id="confirm-trx-icon">💰</div>
+                <h3 class="font-black text-xl text-slate-900 dark:text-white mb-3">Konfirmasi Transaksi</h3>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-8" id="confirm-trx-desc">Anda akan menabung...</p>
+                <div class="flex gap-3">
+                    <button onclick="window.closeConfirmModal()" class="flex-1 py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-black rounded-2xl active:scale-95 transition-transform border border-slate-200 dark:border-slate-700">Batal</button>
+                    <button id="btn-confirm-yes" onclick="window.executeTransaction()" class="flex-1 py-4 bg-premium text-white font-black rounded-2xl shadow-xl shadow-indigo-200 dark:shadow-none active:scale-95 transition-transform">Lanjutkan</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL TUTORIAL INSTALL PWA -->
+        <div id="modal-install" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-black text-xl text-slate-900 dark:text-white" data-t="install_title">Cara Install</h3>
+                    <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
+                </div>
+                <div id="install-instructions" class="space-y-4">
+                    <!-- Dynamic Install Info -->
+                </div>
+            </div>
+        </div>
 
         <!-- ONBOARDING (EMAIL/PASS & GOOGLE) -->
         <div id="modal-onboarding" class="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-white dark:bg-slate-900 max-w-[480px] mx-auto transition-opacity duration-500 hidden opacity-0 overflow-y-auto no-scrollbar">
@@ -505,7 +595,7 @@
                             </button>
                         </div>
                         
-                        <!-- Password Validation Hints (Visible on Register) -->
+                        <!-- Password Validation Hints -->
                         <div id="pass-hints" class="hidden mt-3 px-2 space-y-1.5 text-[10px] font-bold">
                             <p id="hint-length" class="text-rose-500 flex items-center gap-1.5 transition-colors"><i data-lucide="x" class="w-3.5 h-3.5"></i> <span>Minimal 6 karakter</span></p>
                             <p id="hint-case" class="text-rose-500 flex items-center gap-1.5 transition-colors"><i data-lucide="x" class="w-3.5 h-3.5"></i> <span>Terdapat huruf besar & kecil</span></p>
@@ -552,7 +642,7 @@
                 <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter">Konfirmasi Profil</h2>
                 <div class="text-left mb-6 relative">
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Nama Tampilan</label>
-                    <input type="text" id="onboarding-name" placeholder="Contoh: Leonardo Suprayogi" class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-[1.25rem] font-bold text-xl outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all text-slate-900 dark:text-white">
+                    <input type="text" id="onboarding-name" autocomplete="off" spellcheck="false" placeholder="Contoh: Leonardo Suprayogi" class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-[1.25rem] font-bold text-xl outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all text-slate-900 dark:text-white">
                     <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-3 px-2 flex items-start gap-1.5 leading-tight">
                         <i data-lucide="info" class="w-3.5 h-3.5 shrink-0"></i>
                         <span data-t="name_warning">*Peringatan: Nama tidak dapat diubah setelah disimpan. Mohon gunakan nama asli Anda.</span>
@@ -590,13 +680,13 @@
                 <div class="space-y-6 mb-10 text-left">
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase mb-2" data-t="goal_name">Nama Tujuan</label>
-                        <input type="text" id="edit-name" class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
+                        <input type="text" id="edit-name" autocomplete="off" spellcheck="false" class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
                     </div>
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase mb-2" data-t="target_nominal">Target Nominal</label>
                         <div class="relative">
                             <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
-                            <input type="text" id="edit-target" inputmode="numeric" class="money-input w-full p-5 pl-14 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
+                            <input type="text" id="edit-target" autocomplete="off" inputmode="numeric" class="money-input w-full p-5 pl-14 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
                         </div>
                     </div>
                 </div>
@@ -604,7 +694,7 @@
             </div>
         </div>
 
-        <!-- MODAL MANAGE ROOM (ROLES APLIED) -->
+        <!-- MODAL MANAGE ROOM -->
         <div id="modal-manage" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-6">
@@ -625,56 +715,6 @@
                 <div class="bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex justify-between items-center mb-6">
                     <p id="share-link-text" class="text-sm font-bold text-slate-500 truncate mr-4">link...</p>
                     <button onclick="window.copyShareLink()" class="p-3 bg-indigo-100 text-indigo-600 rounded-xl active:scale-90 transition-transform"><i data-lucide="copy" class="w-5 h-5"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL TRANSACTION -->
-        <div id="modal-transaction" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
-            <div class="p-8">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 id="trx-title" class="font-black text-2xl text-slate-900 dark:text-white">Transaksi</h3>
-                    <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
-                </div>
-                <input type="hidden" id="trx-type" value="in">
-                <div class="space-y-6 mb-8 text-left">
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Nominal</label>
-                        <div class="relative">
-                            <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
-                            <input type="text" id="trx-amount" inputmode="numeric" placeholder="0" class="money-input w-full p-5 pl-14 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-black text-2xl text-slate-900 dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/10">
-                        </div>
-                    </div>
-                    
-                    <div id="trx-milestone-container" class="hidden">
-                        <label class="block text-[10px] font-black text-indigo-500 uppercase mb-2">Bayar Milestone? (Opsional)</label>
-                        <select id="trx-milestone-select" class="w-full p-5 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl font-bold text-indigo-700 dark:text-indigo-300 outline-none appearance-none">
-                            <option value="">-- Pilih Milestone --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2" data-t="label_depositor">Penyetor</label>
-                        <input type="text" id="trx-user-display" class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-bold text-slate-500 dark:text-slate-400 outline-none" disabled>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2" data-t="label_note">Catatan (Opsional)</label>
-                        <input type="text" id="trx-note" placeholder="..." class="w-full p-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
-                    </div>
-                </div>
-                <button id="btn-submit-trx" onclick="window.handleTransactionSubmit()" class="w-full py-5 bg-premium text-white font-black text-lg rounded-[1.5rem] shadow-xl" data-t="confirm">Konfirmasi</button>
-            </div>
-        </div>
-
-        <!-- MODAL CELEBRATION -->
-        <div id="modal-celebration" class="fixed inset-0 z-[60] flex items-center justify-center p-8 hidden bg-slate-900/90 max-w-[480px] mx-auto backdrop-blur-sm">
-            <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] w-full text-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-premium opacity-10 celeb-ping"></div>
-                <div class="relative z-10">
-                    <div class="text-6xl mb-4">🎉</div>
-                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-2" data-t="goal_reached">Tercapai!</h2>
-                    <p class="text-slate-500 dark:text-slate-400 font-bold mb-8"><span data-t="celeb_desc">Tabungan</span> <span id="celeb-room-name" class="text-indigo-600 dark:text-indigo-400"></span> <span data-t="celeb_done">lunas 100%!</span></p>
-                    <button onclick="window.closeAllModals()" class="w-full py-4 bg-slate-900 dark:bg-indigo-600 text-white font-black rounded-2xl" data-t="continue">Lanjutkan</button>
                 </div>
             </div>
         </div>
@@ -716,6 +756,8 @@
                 placeholder_goal: "Beli Laptop...", install_app: "Install Aplikasi", category: "Kategori",
                 install_title: "Cara Install", choose_avatar: "Pilih Avatar", options: "Opsi", share: "Bagikan", delete: "Hapus Tabungan", leave: "Keluar Tabungan",
                 share_title: "Undang Teman",
+                install_ios_desc: "Untuk pengguna iPhone/iPad (Safari):", install_ios_step1: "Tekan ikon Bagikan di bawah", install_ios_step2: "Pilih 'Tambah ke Layar Utama'",
+                install_android_desc: "Aplikasi siap diinstall ke perangkat Anda.", install_android_step1: "Tekan ikon Bagikan / Titik Tiga", install_android_step2: "Pilih 'Install Aplikasi' atau 'Tambahkan ke Layar Utama'",
                 install_prompt_title: "Install Aplikasi", install_prompt_desc: "Akses lebih cepat & mudah", install_btn: "Lihat Tutorial",
                 login_desc: "Simpan data tabungan Anda dengan aman di awan.", login_google: "Masuk dengan Google", logout: "Keluar (Logout)",
                 name_warning: "*Peringatan: Nama tidak dapat diubah setelah disimpan. Mohon gunakan nama asli Anda.",
@@ -743,6 +785,8 @@
                 placeholder_goal: "Buy a Laptop...", install_app: "Install App", category: "Category",
                 install_title: "How to Install", choose_avatar: "Choose Avatar", options: "Options", share: "Share", delete: "Delete Goal", leave: "Leave Goal",
                 share_title: "Invite Friends",
+                install_ios_desc: "For iPhone/iPad users (Safari):", install_ios_step1: "Tap the Share icon at the bottom", install_ios_step2: "Select 'Add to Home Screen'",
+                install_android_desc: "App is ready to be installed on your device.", install_android_step1: "Tap the Share / Three Dots icon", install_android_step2: "Select 'Install App' or 'Add to Home screen'",
                 install_prompt_title: "Install App", install_prompt_desc: "Faster access & easy to use", install_btn: "View Tutorial",
                 login_desc: "Save your savings data securely in the cloud.", login_google: "Sign in with Google", logout: "Log Out",
                 name_warning: "*Warning: Name cannot be changed once saved. Please use your real name.",
@@ -771,7 +815,7 @@
         let appData = JSON.parse(localStorage.getItem(DB_KEY)) || {
             user: '', email: '', uid: '',
             avatar: { emoji: '', colorClass: 'bg-indigo-100', textClass: 'text-indigo-700' },
-            joinedRooms: [], darkMode: false, language: 'id', hideInstallBanner: false, pushEnabled: false
+            joinedRooms: [], darkMode: false, language: 'id'
         };
         let tempAvatarSelection = { ...appData.avatar };
         let tempCategorySelection = 'lainnya'; 
@@ -797,36 +841,135 @@
 
         // Auth States
         let isLoginMode = true;
+        let pendingTransaction = null; 
 
-        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-celebration', 'modal-edit', 'modal-name-entry'];
+        // PWA Prompt
+        let deferredPrompt;
+
+        // Added 'modal-transaction' to the modalIds list (although it was already there in original code, it needed the HTML block to actually exist)
+        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-celebration', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install'];
+
+        // --- DYNAMIC MANIFEST & SERVICE WORKER ---
+        const manifestData = {
+            "name": "Tabungan Bersama",
+            "short_name": "Tabungan",
+            "start_url": "/?source=pwa",
+            "display": "standalone",
+            "background_color": "#f8fafc",
+            "theme_color": "#4f46e5",
+            "icons": [
+                {
+                    "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any maskable" 
+                },
+                {
+                    "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any maskable" 
+                }
+            ]
+        };
+        const manifestString = JSON.stringify(manifestData);
+        const manifestLink = document.getElementById('manifest-link');
+        if (manifestLink) {
+            manifestLink.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(manifestString);
+        }
+
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', function(e) { self.skipWaiting(); });
+                self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
+                self.addEventListener('fetch', function(e) { 
+                    e.respondWith(
+                        fetch(e.request).catch(function() { 
+                            return new Response('<html><body style="font-family:sans-serif;text-align:center;padding-top:50px;">Aplikasi Offline</body></html>', {headers: {'Content-Type': 'text/html'}}); 
+                        })
+                    ); 
+                });
+            `;
+            const blob = new Blob([swCode], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+        }
 
         // --- ROUTING / HARDWARE BACK BUTTON ---
-        history.pushState(null, null, location.href);
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        // Setel history root agar back tidak bablas ke halaman sebelumnya di browser
+        history.replaceState({ viewId: 'exit' }, "", location.href);
+        history.pushState({ viewId: 'view-home', navId: 'nav-home', isTab: true }, "", location.href);
+
         window.addEventListener('popstate', (e) => {
-            const currentView = document.querySelector('main:not(.hidden)')?.id;
+            // Cek Modal Terbuka
+            const modals = document.querySelectorAll('.fixed.z-\\[55\\], .fixed.z-\\[60\\], .fixed.z-\\[65\\], .fixed.z-\\[70\\]');
             let isModalOpen = false;
-            modalIds.forEach(id => {
-                const m = document.getElementById(id);
-                if(m && !m.classList.contains('hidden') && !m.classList.contains('translate-y-full')) isModalOpen = true;
+            modals.forEach(m => {
+                if(m && !m.classList.contains('hidden') && !m.classList.contains('translate-y-full') && !m.classList.contains('opacity-0')) {
+                    isModalOpen = true;
+                }
             });
 
             if (isModalOpen) {
-                history.pushState(null, null, location.href);
                 window.closeAllModals();
+                history.pushState(e.state, "", location.href); 
                 return;
             }
 
-            if (currentView && currentView !== 'view-home') {
-                history.pushState(null, null, location.href);
-                window.switchView('view-home', 'nav-home');
-            } else if (currentView === 'view-home') {
+            // Route ke page sesuai state
+            if (e.state && e.state.viewId === 'exit') {
                 const now = Date.now();
-                if (now - lastBackPress < 2000) history.go(-1);
-                else {
-                    history.pushState(null, null, location.href);
+                if (now - lastBackPress < 2000) {
+                    history.go(-1); // Benar-benar keluar
+                } else {
+                    history.pushState({ viewId: 'view-home', navId: 'nav-home', isTab: true }, "", location.href);
+                    window.switchView('view-home', 'nav-home', false);
                     lastBackPress = now;
                     window.showToast("Tekan sekali lagi untuk keluar");
                 }
+                return;
+            }
+
+            if (e.state && e.state.viewId) {
+                window.switchView(e.state.viewId, e.state.navId, false); 
+            }
+        });
+
+        // Pengatur Navigasi Tab Bawah (Anti-Looping)
+        window.navigateTab = (viewId, navId) => {
+            const currentState = history.state || {};
+            
+            if (viewId === currentState.viewId) return;
+
+            if (viewId === 'view-home') {
+                // Jika ingin ke home dari tab lain, cukup panggil back untuk menghapus stack
+                if (currentState.isTab && currentState.viewId !== 'view-home') {
+                    history.back(); 
+                } else {
+                    window.switchView(viewId, navId, 'replace');
+                }
+            } else {
+                if (currentState.viewId === 'view-home') {
+                    // Beranda ke Tab -> tumpuk (push)
+                    window.switchView(viewId, navId, true);
+                } else if (currentState.isTab) {
+                    // Tab ke Tab lain -> ganti (replace) agar back tidak muter-muter
+                    window.switchView(viewId, navId, 'replace');
+                } else {
+                    window.switchView(viewId, navId, true);
+                }
+            }
+        };
+
+        // Event listener tambahan untuk Keyboard resizer di Mobile
+        window.addEventListener('resize', () => {
+            const diskusiTab = document.getElementById('room-tab-diskusi');
+            if (diskusiTab && !diskusiTab.classList.contains('hidden')) {
+                window.scrollToBottomChat(true); 
             }
         });
 
@@ -892,17 +1035,18 @@
                 const m = document.getElementById(id); 
                 if(m) {
                     m.classList.add('translate-y-full');
-                    if(id === 'modal-celebration' || id === 'modal-name-entry') m.classList.add('hidden');
+                    if(id === 'modal-celebration' || id === 'modal-name-entry' || id === 'modal-confirm-trx') m.classList.add('hidden');
                     else setTimeout(() => m.classList.add('hidden'), 300);
                 }
             });
             const overlay = document.getElementById('modal-overlay'); if(overlay) overlay.classList.add('hidden');
+            window.closeConfirmModal(); 
         };
 
         window.showModal = (id) => {
             const overlay = document.getElementById('modal-overlay');
             const m = document.getElementById(id);
-            if(id !== 'modal-celebration' && id !== 'modal-name-entry' && overlay) overlay.classList.remove('hidden');
+            if(id !== 'modal-celebration' && id !== 'modal-name-entry' && id !== 'modal-confirm-trx' && overlay) overlay.classList.remove('hidden');
             if(m) {
                 m.classList.remove('hidden');
                 setTimeout(() => m.classList.remove('translate-y-full'), 10);
@@ -961,37 +1105,50 @@
             else document.documentElement.classList.remove('dark');
         };
 
-        window.requestPushPermission = async () => {
-            const toggle = document.getElementById('toggle-notif');
-            if (!toggle) return;
-
-            if (toggle.checked) {
-                if (!("Notification" in window)) {
-                    window.showToast("Browser tidak mendukung notifikasi sistem.", true);
-                    toggle.checked = false;
-                    return;
-                }
-                
-                try {
-                    const permission = await Notification.requestPermission();
-                    if (permission === "granted") {
-                        appData.pushEnabled = true;
-                        window.saveLocal();
-                        window.showToast("Notifikasi berhasil diaktifkan!");
-                    } else {
-                        appData.pushEnabled = false;
-                        window.saveLocal();
-                        toggle.checked = false;
-                        window.showToast("Izin notifikasi ditolak oleh sistem.", true);
-                    }
-                } catch(e) {
-                    toggle.checked = false;
+        window.handleInstallApp = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredPrompt = null;
                 }
             } else {
-                appData.pushEnabled = false;
-                window.saveLocal();
-                window.showToast("Notifikasi dinonaktifkan.");
+                window.showInstallTutorial();
             }
+        };
+
+        window.showInstallTutorial = () => {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const container = document.getElementById('install-instructions');
+            const lang = i18n[appData.language];
+
+            if(isIOS) {
+                container.innerHTML = `
+                    <p class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-3">${lang.install_ios_desc}</p>
+                    <div class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl mb-2">
+                        <i data-lucide="share" class="w-6 h-6 text-indigo-500"></i>
+                        <p class="text-sm font-black dark:text-white">1. ${lang.install_ios_step1}</p>
+                    </div>
+                    <div class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                        <i data-lucide="plus-square" class="w-6 h-6 text-indigo-500"></i>
+                        <p class="text-sm font-black dark:text-white">2. ${lang.install_ios_step2}</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <p class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-3">${lang.install_android_desc}</p>
+                    <div class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl mb-2">
+                        <i data-lucide="more-vertical" class="w-6 h-6 text-indigo-500"></i>
+                        <p class="text-sm font-black dark:text-white">1. ${lang.install_android_step1}</p>
+                    </div>
+                    <div class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                        <i data-lucide="download" class="w-6 h-6 text-indigo-500"></i>
+                        <p class="text-sm font-black dark:text-white">2. ${lang.install_android_step2}</p>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+            window.showModal('modal-install');
         }
 
         async function syncJoinedRoomsToCloud() {
@@ -1299,7 +1456,6 @@
                 globalRooms.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                 updateUI();
                 if(currentRoomId) refreshRoomUI(currentRoomId);
-                renderPieChart();
             });
 
             onSnapshot(collection(db, "history"), (snap) => {
@@ -1323,26 +1479,14 @@
                 updateUI();
                 if(currentRoomId) refreshRoomUI(currentRoomId);
 
-                // Notif Realtime
+                // Notif Realtime Dalam Aplikasi
                 if (!isInitialHistoryLoad && hasNewContent && latestTx) {
                     if (appData.joinedRooms.includes(latestTx.roomId) && latestTx.userName !== appData.user) {
                         const isId = appData.language === 'id';
                         const vIn = isId ? 'menabung' : 'added';
                         const vOut = isId ? 'menarik' : 'withdrew';
                         const prep = latestTx.type === 'in' ? (isId ? 'di' : 'to') : (isId ? 'dari' : 'from');
-                        
-                        const notifText = `${latestTx.userName} ${latestTx.type === 'in' ? vIn : vOut} Rp ${latestTx.amount.toLocaleString('id-ID')} ${prep} ${latestTx.roomName}`;
-                        
-                        // Notif dalam aplikasi (tanpa suara)
-                        window.showRealtimeNotif(`🔔 ${notifText}`);
-                        
-                        // Notif Sistem (Push Notification) jika pengguna mengaktifkan dan mengizinkan
-                        if (appData.pushEnabled && window.Notification && Notification.permission === "granted") {
-                            new Notification(isId ? "Aktivitas Baru!" : "New Activity!", {
-                                body: notifText,
-                                icon: "https://cdn-icons-png.flaticon.com/512/2830/2830284.png"
-                            });
-                        }
+                        window.showRealtimeNotif(`🔔 ${latestTx.userName} ${latestTx.type === 'in' ? vIn : vOut} Rp ${latestTx.amount.toLocaleString('id-ID')} ${prep} ${latestTx.roomName}`);
                     }
                 }
             });
@@ -1364,8 +1508,8 @@
             row.className = 'milestone-row bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mb-3 shadow-sm relative';
             row.innerHTML = `
                 <button onclick="this.parentElement.remove()" class="absolute top-4 right-4 text-slate-300"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                <input type="text" placeholder="Item name..." class="ms-name w-full mb-3 text-sm font-bold border-b border-slate-100 dark:border-slate-700 outline-none pb-2 bg-transparent dark:text-white">
-                <div class="relative"><span class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">Rp</span><input type="text" inputmode="numeric" placeholder="0" class="ms-price money-input w-full pl-6 text-sm font-black outline-none bg-transparent dark:text-white"></div>`;
+                <input type="text" autocomplete="off" spellcheck="false" placeholder="Item name..." class="ms-name w-full mb-3 text-sm font-bold border-b border-slate-100 dark:border-slate-700 outline-none pb-2 bg-transparent dark:text-white">
+                <div class="relative"><span class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">Rp</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" class="ms-price money-input w-full pl-6 text-sm font-black outline-none bg-transparent dark:text-white"></div>`;
             container.appendChild(row); lucide.createIcons();
             row.querySelector('.ms-price').addEventListener('input', function() {
                 const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : '';
@@ -1410,7 +1554,7 @@
 
             try {
                 await setDoc(doc(db, "rooms", roomId), newRoom);
-                window.switchView('view-home', 'nav-home');
+                window.switchView('view-home', 'nav-home', true);
                 window.showToast("Berhasil dibuat!");
                 nameEl.value = ''; btn.disabled = false; btn.innerText = 'Simpan';
             } catch(e) { window.showToast("Terjadi kesalahan.", true); btn.disabled = false; }
@@ -1453,6 +1597,7 @@
             const tDiskusi = document.getElementById('tab-diskusi');
             const cRingkasan = document.getElementById('room-tab-ringkasan');
             const cDiskusi = document.getElementById('room-tab-diskusi');
+            const fab = document.getElementById('fab-trx');
 
             if(!tRingkasan || !tDiskusi || !cRingkasan || !cDiskusi) return;
 
@@ -1471,6 +1616,14 @@
 
                 cRingkasan.classList.remove('hidden');
                 cDiskusi.classList.add('hidden');
+                if(fab) fab.classList.remove('hidden');
+                
+                // Ringkasan langsung ke atas (Instan)
+                const scroller = document.getElementById('view-detail');
+                if (scroller) {
+                    scroller.style.scrollBehavior = 'auto'; 
+                    scroller.scrollTop = 0;
+                }
             } else {
                 tDiskusi.classList.replace('bg-white', 'bg-slate-900');
                 tDiskusi.classList.replace('dark:bg-slate-800', 'dark:bg-indigo-600');
@@ -1486,24 +1639,27 @@
 
                 cRingkasan.classList.add('hidden');
                 cDiskusi.classList.remove('hidden');
+                if(fab) fab.classList.add('hidden');
                 
                 const dot = document.getElementById('chat-unread-dot');
                 if (dot) dot.classList.add('hidden');
                 
-                const box = document.getElementById('chat-messages');
-                if(box) box.scrollTop = box.scrollHeight;
+                // Diskusi langsung ke paling bawah (instan)
+                window.scrollToBottomChat(true); 
             }
         };
 
         let currentRoomChatsData = [];
         window.openRoomDetail = (id) => { 
+            window.isFirstChatRender = true;
             currentRoomId = id; 
             refreshRoomUI(id); 
             window.switchRoomTab('ringkasan');
-            window.switchView('view-detail'); 
-            history.pushState(null, null, location.href);
             
-            chatRenderLimit = 20; // reset chat limit
+            // Push history khusus agar bisa back
+            window.switchView('view-detail', null, true); 
+            
+            chatRenderLimit = 20; 
             if(chatUnsubscribe) chatUnsubscribe();
             
             chatUnsubscribe = onSnapshot(collection(db, "chats"), (snap) => {
@@ -1537,6 +1693,33 @@
             updateUI();
         };
 
+        window.scrollToBottomChat = (instant = false) => {
+            const diskusiTab = document.getElementById('room-tab-diskusi');
+            if (diskusiTab && diskusiTab.classList.contains('hidden')) return;
+
+            const scroller = document.getElementById('view-detail');
+            if(scroller) {
+                scroller.style.scrollBehavior = instant ? 'auto' : 'smooth';
+                scroller.scrollTop = scroller.scrollHeight;
+                document.getElementById('chat-scroll-btn').classList.add('hidden');
+                const dot = document.getElementById('chat-unread-dot-hint');
+                if (dot) dot.classList.add('hidden');
+            }
+        };
+
+        const viewDetailScroller = document.getElementById('view-detail');
+        if(viewDetailScroller) {
+            viewDetailScroller.addEventListener('scroll', function() {
+                const btn = document.getElementById('chat-scroll-btn');
+                const diskusiTab = document.getElementById('room-tab-diskusi');
+                if (!btn || !diskusiTab || diskusiTab.classList.contains('hidden')) return;
+                
+                if (this.scrollHeight - this.scrollTop - this.clientHeight <= 100) {
+                    btn.classList.add('hidden');
+                }
+            });
+        }
+
         function getChatDateLabel(timestamp, lang) {
             const date = new Date(timestamp);
             const now = new Date();
@@ -1562,15 +1745,36 @@
             return `${date.getDate()} ${monthStr} ${date.getFullYear()}`;
         }
 
+        // Variable global untuk melacak stiker yang sudah pernah dianimasikan
+        if (!window.animatedStickersTracker) {
+            window.animatedStickersTracker = new Set();
+        }
+
         window.animateSticker = (el) => {
+            if (el.dataset.animating === 'true') return; 
+            el.dataset.animating = 'true';
+            
             el.classList.remove('anim-float-temp');
             void el.offsetWidth; 
             el.classList.add('anim-float-temp');
+            
+            setTimeout(() => {
+                el.dataset.animating = 'false';
+            }, 2400); 
         };
 
         function renderChats(msgs) {
             const box = document.getElementById('chat-messages');
-            if(!box) return;
+            const scroller = document.getElementById('view-detail');
+            if(!box || !scroller) return;
+
+            let isScrolledUp = false;
+            if (window.isFirstChatRender) {
+                isScrolledUp = false;
+            } else {
+                isScrolledUp = scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight > 100;
+            }
+
             if(msgs.length === 0) {
                 box.innerHTML = `<p class="text-center text-xs text-slate-400 font-bold italic py-4 mt-8">Belum ada diskusi. Jadilah yang pertama!</p>`;
                 return;
@@ -1578,16 +1782,17 @@
             
             box.innerHTML = '';
             
-            // Memory Pagination Logic
             const visibleMsgs = msgs.slice(-chatRenderLimit);
             if (msgs.length > chatRenderLimit) {
                 box.innerHTML += `<button onclick="window.loadMoreChats()" class="w-full text-center py-2 text-xs font-bold text-indigo-500 hover:text-indigo-600 transition-colors">Muat pesan sebelumnya...</button>`;
             }
 
             let lastDateLabel = '';
+            let latestIsMe = false;
 
-            visibleMsgs.forEach(m => {
+            visibleMsgs.forEach((m, idx) => {
                 const isMe = m.uid === appData.uid;
+                if(idx === visibleMsgs.length - 1) latestIsMe = isMe;
                 const avaChar = m.avatar.emoji || m.name.charAt(0).toUpperCase();
                 
                 const dateLabel = getChatDateLabel(m.timestamp, appData.language);
@@ -1605,13 +1810,24 @@
                 }
                 
                 const isMentioned = m.type === 'text' && formattedMsg.includes('mention-me');
+                
+                // Logic Stiker 1x Gerak
+                let animClass = '';
+                let dataAnim = 'false';
+                if(m.type === 'sticker') {
+                    if (!window.animatedStickersTracker.has(m.timestamp)) {
+                        animClass = 'anim-float-temp';
+                        dataAnim = 'true';
+                        window.animatedStickersTracker.add(m.timestamp);
+                    }
+                }
 
                 if(isMe) {
                     box.innerHTML += `
                     <div class="flex flex-col items-end w-full pl-8 mb-2">
                         <span class="text-[9px] text-slate-400 font-bold mb-1 mr-1">Anda</span>
                         ${m.type === 'sticker' 
-                            ? `<div class="text-6xl cursor-pointer anim-float-temp" onclick="window.animateSticker(this)">${m.message}</div>` 
+                            ? `<div class="text-6xl cursor-pointer ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
                             : `<div class="chat-bubble-me p-3 text-sm font-bold shadow-sm whitespace-pre-wrap ${isMentioned ? 'ring-2 ring-rose-400' : ''}">${formattedMsg}</div>`
                         }
                     </div>`;
@@ -1623,13 +1839,31 @@
                             <span class="text-[9px] text-slate-400 font-bold">${m.name}</span>
                         </div>
                          ${m.type === 'sticker' 
-                            ? `<div class="text-6xl ml-7 cursor-pointer anim-float-temp" onclick="window.animateSticker(this)">${m.message}</div>` 
+                            ? `<div class="text-6xl ml-7 cursor-pointer ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
                             : `<div class="chat-bubble-other p-3 text-sm font-bold shadow-sm whitespace-pre-wrap ml-7 ${isMentioned ? 'ring-2 ring-rose-400' : ''}">${formattedMsg}</div>`
                         }
                     </div>`;
                 }
             });
-            box.scrollTop = box.scrollHeight;
+
+            // Matikan state animasi untuk stiker terbaru setelah 2.4 detik
+            setTimeout(() => {
+                const stickers = box.querySelectorAll('[data-animating="true"]');
+                stickers.forEach(s => s.dataset.animating = 'false');
+            }, 2400);
+
+            // Logika Scroll Cerdas
+            if (window.isFirstChatRender || latestIsMe || !isScrolledUp) {
+                setTimeout(() => window.scrollToBottomChat(window.isFirstChatRender), 10);
+                window.isFirstChatRender = false;
+            } else {
+                const btn = document.getElementById('chat-scroll-btn');
+                const dot = document.getElementById('chat-unread-dot-hint');
+                if (btn && dot) {
+                    btn.classList.remove('hidden');
+                    dot.classList.remove('hidden'); 
+                }
+            }
         }
 
         window.toggleStickerPanel = () => {
@@ -1639,7 +1873,10 @@
 
         window.sendSticker = async (sticker) => {
             if(!currentRoomId) return;
-            window.toggleStickerPanel(); // close
+            window.toggleStickerPanel(); 
+            
+            window.scrollToBottomChat(false);
+
             const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'sticker', message: sticker, timestamp: Date.now() };
             try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         }
@@ -1647,11 +1884,17 @@
         window.sendChatMessage = async () => {
             const inp = document.getElementById('chat-input');
             const msg = inp.value.trim();
-            if(!msg || !currentRoomId) return;
+            if(!msg || !currentRoomId) {
+                inp.focus(); 
+                return;
+            }
             inp.value = '';
+            inp.focus(); 
             
             const panel = document.getElementById('sticker-panel');
             if(panel && !panel.classList.contains('hidden')) panel.classList.add('hidden');
+
+            window.scrollToBottomChat(false);
 
             const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'text', message: msg, timestamp: Date.now() };
             try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
@@ -1774,7 +2017,6 @@
                 histList.innerHTML = '';
                 const filtered = globalHistory.filter(h => h.roomId === id);
                 
-                // Limited render for detail history
                 const visibleFiltered = filtered.slice(0, historyRenderLimit);
 
                 if(filtered.length === 0) {
@@ -1812,6 +2054,7 @@
             const trxTitle = document.getElementById('trx-title');
             const trxUser = document.getElementById('trx-user-display');
             const trxNote = document.getElementById('trx-note');
+            const btnSubmit = document.getElementById('btn-submit-trx');
             
             const r = globalRooms.find(x => x.id === currentRoomId);
             const msContainer = document.getElementById('trx-milestone-container');
@@ -1823,42 +2066,60 @@
             if(trxUser) trxUser.value = appData.user;
             if(trxNote) trxNote.value = ''; 
             
+            if(btnSubmit) {
+                btnSubmit.className = `w-full py-5 text-white font-black text-lg rounded-[1.5rem] shadow-xl active:scale-95 transition-all ${type === 'nabung' ? 'bg-emerald-500 shadow-emerald-200 dark:shadow-none' : 'bg-rose-500 shadow-rose-200 dark:shadow-none'}`;
+            }
+
             if(type === 'nabung' && r && r.hasMilestones) {
-                msContainer.classList.remove('hidden');
-                msSelect.innerHTML = '<option value="">-- Pilih Milestone --</option>';
-                r.milestones.forEach((m, idx) => {
-                    if(!m.done) msSelect.innerHTML += `<option value="${idx}">Bayar: ${m.name} (Rp ${m.price.toLocaleString('id-ID')})</option>`;
-                });
-                
-                msSelect.onchange = function() {
-                    if(this.value !== "") {
-                        const mPrice = r.milestones[this.value].price;
-                        trxAmount.value = mPrice.toLocaleString('id-ID');
-                    }
-                };
+                if(msContainer) msContainer.classList.remove('hidden');
+                if(msSelect) {
+                    msSelect.innerHTML = '<option value="">-- Pilih Milestone --</option>';
+                    r.milestones.forEach((m, idx) => {
+                        if(!m.done) msSelect.innerHTML += `<option value="${idx}">Bayar: ${m.name} (Rp ${m.price.toLocaleString('id-ID')})</option>`;
+                    });
+                    
+                    msSelect.onchange = function() {
+                        if(this.value !== "") {
+                            const mPrice = r.milestones[this.value].price;
+                            if(trxAmount) trxAmount.value = mPrice.toLocaleString('id-ID');
+                        }
+                    };
+                }
             } else {
-                msContainer.classList.add('hidden');
-                msSelect.innerHTML = '';
+                if(msContainer) msContainer.classList.add('hidden');
+                if(msSelect) msSelect.innerHTML = '';
             }
             
             window.showModal('modal-transaction');
+            lucide.createIcons();
             setTimeout(() => { if(trxAmount) trxAmount.focus(); }, 400);
         };
 
-        window.handleTransactionSubmit = async () => {
-            const btn = document.getElementById('btn-submit-trx');
+        window.closeConfirmModal = () => {
+            const m = document.getElementById('modal-confirm-trx');
+            const card = document.getElementById('confirm-trx-card');
+            if (m && card) {
+                card.classList.remove('scale-100');
+                card.classList.add('scale-95');
+                m.classList.remove('opacity-100');
+                m.classList.add('opacity-0');
+                setTimeout(() => m.classList.add('hidden'), 300);
+            }
+        };
+
+        window.handleTransactionSubmit = () => {
             const r = globalRooms.find(x => x.id === currentRoomId);
             const amountStr = document.getElementById('trx-amount').value.replace(/\D/g, '');
             const amount = parseInt(amountStr);
-            if(!amount || !r) return;
+            if(!amount || !r) return window.showToast("Masukkan nominal yang valid.", true);
 
             const type = document.getElementById('trx-type').value;
             let newBal = r.balance;
             if(type === 'in') {
-                if(r.hasTarget && r.balance + amount > r.target) return window.showToast("Melebihi target nominal!", true);
+                if(r.hasTarget && r.balance + amount > r.target) return window.showToast("Nominal melebihi target tabungan!", true);
                 newBal += amount;
             } else {
-                if(amount > r.balance) return window.showToast("Saldo tabungan kurang.", true);
+                if(amount > r.balance) return window.showToast("Saldo tabungan tidak mencukupi.", true);
                 newBal -= amount;
             }
 
@@ -1873,8 +2134,40 @@
                 updatedMilestones[idx].done = true;
             }
 
-            btn.disabled = true; btn.innerHTML = createSpinner() + ' ...';
             const reachedGoal = (r.hasTarget && newBal === r.target && type === 'in');
+            
+            // Simpan ke state sementara
+            pendingTransaction = { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal };
+
+            // Tampilkan Modal Konfirmasi
+            const m = document.getElementById('modal-confirm-trx');
+            const card = document.getElementById('confirm-trx-card');
+            const desc = document.getElementById('confirm-trx-desc');
+            const icon = document.getElementById('confirm-trx-icon');
+            
+            if (m && card && desc && icon) {
+                const actionText = type === 'in' ? `<span class="text-emerald-500 font-black">menabung Rp ${amount.toLocaleString('id-ID')}</span> ke` : `<span class="text-rose-500 font-black">menarik Rp ${amount.toLocaleString('id-ID')}</span> dari`;
+                icon.innerText = type === 'in' ? '💰' : '💸';
+                desc.innerHTML = `Anda akan ${actionText} tabungan <b>"${r.name}"</b>.`;
+                
+                m.classList.remove('hidden');
+                // Trigger reflow
+                void m.offsetWidth;
+                m.classList.remove('opacity-0');
+                m.classList.add('opacity-100');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }
+        };
+
+        window.executeTransaction = async () => {
+            if (!pendingTransaction) return;
+            const { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal } = pendingTransaction;
+            
+            const btn = document.getElementById('btn-confirm-yes');
+            const origText = btn.innerText;
+            btn.disabled = true; btn.innerHTML = createSpinner() + ' ...';
+
             const ts = Date.now();
             const trxId = 'trx_' + ts;
             const h = { id: trxId, roomId: currentRoomId, roomName: r.name, type: type, amount: amount, userName: appData.user, note: finalNote, timestamp: ts, date: new Date().toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}), reactions: {} };
@@ -1882,14 +2175,18 @@
             try {
                 await updateDoc(doc(db, "rooms", currentRoomId), { balance: newBal, milestones: updatedMilestones });
                 await setDoc(doc(db, "history", trxId), h);
+                
+                window.closeConfirmModal();
                 window.closeAllModals();
-                btn.disabled = false; btn.innerText = i18n[appData.language].confirm;
-                if(reachedGoal) {
-                    const celebName = document.getElementById('celeb-room-name');
-                    if(celebName) celebName.innerText = r.name;
-                    setTimeout(() => { window.showModal('modal-celebration'); }, 400);
-                }
-            } catch(e) { window.showToast("Terjadi kesalahan sistem.", true); btn.disabled = false; }
+                
+                btn.disabled = false; btn.innerText = origText;
+                pendingTransaction = null; // Reset
+                window.showToast("Transaksi Berhasil!");
+
+            } catch(e) { 
+                window.showToast("Terjadi kesalahan sistem.", true); 
+                btn.disabled = false; btn.innerText = origText; 
+            }
         };
 
         window.filterRooms = (type) => {
@@ -1932,10 +2229,16 @@
 
         window.changeTimeFilter = (val) => { currentTimeFilter = val; updateUI(); }
 
-        window.switchView = (viewId, navId = null) => {
+        window.switchView = (viewId, navId = null, pushMode = true) => {
             const views = ['view-home', 'view-detail', 'view-history', 'view-profile', 'view-create', 'view-archive'];
             views.forEach(v => { const el = document.getElementById(v); if(el) el.classList.add('hidden'); });
-            const target = document.getElementById(viewId); if(target) target.classList.remove('hidden');
+            const target = document.getElementById(viewId); 
+            if(target) {
+                target.classList.remove('hidden');
+                if (viewId !== 'view-detail') {
+                    target.scrollTop = 0; 
+                }
+            }
             const nav = document.getElementById('bottom-nav');
             if(nav) {
                 if (['view-detail', 'view-create', 'view-archive'].includes(viewId)) nav.classList.add('hidden');
@@ -1952,10 +2255,16 @@
                     const span = active.querySelector('span'); if(span) span.classList.replace('font-bold', 'font-black');
                 }
             }
-            window.scrollTo(0,0);
+            
+            if(pushMode === true) {
+                // Untuk membuka sub-halaman baru seperti view-detail, view-archive, view-create
+                history.pushState({ viewId, navId, isTab: ['view-home', 'view-history', 'view-profile'].includes(viewId) }, "", location.href);
+            } else if (pushMode === 'replace') {
+                // Untuk pindah antar tab (Home -> History -> Profile)
+                history.replaceState({ viewId, navId, isTab: ['view-home', 'view-history', 'view-profile'].includes(viewId) }, "", location.href);
+            }
             
             if(viewId === 'view-create') renderCategoryOptions();
-            if(viewId === 'view-profile') renderPieChart();
 
             if(viewId !== 'view-detail' && chatUnsubscribe) { chatUnsubscribe(); chatUnsubscribe = null; }
         };
@@ -2021,7 +2330,7 @@
             await deleteDoc(doc(db, "rooms", roomToDelete));
             appData.joinedRooms = appData.joinedRooms.filter(x => x !== roomToDelete);
             window.saveLocal(); syncJoinedRoomsToCloud();
-            window.closeAllModals(); window.switchView('view-home', 'nav-home');
+            window.closeAllModals(); window.switchView('view-home', 'nav-home', false);
         };
 
         window.leaveCurrentRoom = async () => {
@@ -2038,7 +2347,7 @@
                     await updateDoc(rRef, { members: members });
                 }
             } catch(e) {}
-            window.closeAllModals(); window.switchView('view-home', 'nav-home');
+            window.closeAllModals(); window.switchView('view-home', 'nav-home', false);
         };
 
         window.completeAndArchiveRoom = async () => {
@@ -2046,7 +2355,7 @@
             try {
                 await updateDoc(doc(db, "rooms", currentRoomId), { isArchived: true });
                 window.closeAllModals();
-                window.switchView('view-home', 'nav-home');
+                window.switchView('view-home', 'nav-home', false);
                 window.showToast(appData.language === 'id' ? "Berhasil diarsipkan" : "Archived");
             } catch(e) { window.showToast("Gagal mengarsipkan.", true); }
         };
@@ -2064,54 +2373,6 @@
                     </button>
                 `;
             });
-        }
-
-        function renderPieChart() {
-            const pieEl = document.getElementById('pie-chart-element');
-            const legendEl = document.getElementById('pie-chart-legend');
-            if(!pieEl || !legendEl) return;
-
-            const activeRooms = globalRooms.filter(r => !r.isArchived);
-            let catTotals = {};
-            CATEGORIES.forEach(c => catTotals[c.id] = 0);
-            
-            let grandTotal = 0;
-            activeRooms.forEach(r => {
-                const cId = r.category || 'lainnya';
-                catTotals[cId] += r.balance;
-                grandTotal += r.balance;
-            });
-
-            if(grandTotal === 0) {
-                pieEl.style.background = 'conic-gradient(#e2e8f0 0% 100%)';
-                legendEl.innerHTML = `<p class="text-[10px] font-bold text-slate-400 italic">Belum ada saldo tabungan aktif.</p>`;
-                return;
-            }
-
-            let gradientStr = [];
-            let currentAngle = 0;
-            legendEl.innerHTML = '';
-
-            CATEGORIES.forEach(c => {
-                const amt = catTotals[c.id];
-                if(amt > 0) {
-                    let pct = (amt / grandTotal) * 100;
-                    gradientStr.push(`${c.color} ${currentAngle}% ${currentAngle + pct}%`);
-                    currentAngle += pct;
-                    
-                    legendEl.innerHTML += `
-                        <div class="flex items-center justify-between text-[10px] font-bold">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full block" style="background-color: ${c.color}"></span>
-                                <span class="text-slate-600 dark:text-slate-300">${c.icon} ${c.label}</span>
-                            </div>
-                            <span class="text-slate-800 dark:text-white">${pct.toFixed(1)}%</span>
-                        </div>
-                    `;
-                }
-            });
-
-            pieEl.style.background = `conic-gradient(${gradientStr.join(', ')})`;
         }
 
         function updateUI() {
@@ -2329,17 +2590,6 @@
         window.onload = () => {
             lucide.createIcons();
             if (appData.darkMode) { document.documentElement.classList.add('dark'); const t = document.getElementById('toggle-dark'); if(t) t.checked = true; }
-            
-            // Setel state tombol Push Notif berdasarkan penyimpanan
-            const tNotif = document.getElementById('toggle-notif');
-            if(tNotif && appData.pushEnabled && window.Notification && Notification.permission === 'granted') {
-                tNotif.checked = true;
-            } else if (tNotif) {
-                tNotif.checked = false;
-                appData.pushEnabled = false; // Sinkronisasikan ulang jika izin dicabut manual dari browser
-                window.saveLocal();
-            }
-
             applyTranslations();
 
             document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function() { const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : ''; }); });

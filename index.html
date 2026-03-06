@@ -2349,7 +2349,17 @@
             let filtered = globalHistory.filter(h => h.roomId === currentRoomId);
             
             if (uidFilter !== 'all') {
-                filtered = filtered.filter(h => h.userUid === uidFilter);
+                // Ambil data nama dari member yang dipilih untuk fallback data lama
+                const r = globalRooms.find(x => x.id === currentRoomId);
+                const selectedMember = r ? r.members.find(m => m.uid === uidFilter) : null;
+                const selectedName = selectedMember ? selectedMember.name : null;
+
+                filtered = filtered.filter(h => {
+                    if (h.userUid) return h.userUid === uidFilter;
+                    // Trik untuk membaca data transaksi versi lama
+                    return selectedName && h.userName === selectedName; 
+                });
+                
                 let totalIn = 0;
                 filtered.forEach(h => { if(h.type === 'in') totalIn += h.amount; else totalIn -= h.amount; });
                 

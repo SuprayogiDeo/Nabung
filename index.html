@@ -71,9 +71,9 @@
         .emoji-btn.selected { border-color: #4f46e5; background-color: #eef2ff; transform: scale(1.1); border-width: 2px; }
         .dark .emoji-btn.selected { background-color: #312e81; }
 
-        /* Chat bubbles */
-        .chat-bubble-me { border-radius: 1rem 1rem 0 1rem; background-color: #4f46e5; color: white; }
-        .chat-bubble-other { border-radius: 1rem 1rem 1rem 0; background-color: #f1f5f9; color: #1e293b; }
+        /* Chat bubbles WA fit shape */
+        .chat-bubble-me { background-color: #4f46e5; color: white; }
+        .chat-bubble-other { background-color: #f1f5f9; color: #1e293b; }
         .dark .chat-bubble-other { background-color: #1e293b; color: #f8fafc; }
         
         /* Mention Highlight */
@@ -146,7 +146,6 @@
                     <!-- LIVE FEED CONTAINER -->
                     <div id="live-feed-container" class="bg-white/20 backdrop-blur-sm border border-white/10 rounded-xl p-2.5 shadow-inner hidden flex-col mb-5">
                         <div id="live-feed-list" class="max-h-[75px] overflow-y-auto no-scrollbar space-y-2 snap-y">
-                            <!-- Feed items injected here -->
                         </div>
                     </div>
                     
@@ -250,7 +249,7 @@
             <!-- TAB CONTENT 2: DISKUSI -->
             <div id="room-tab-diskusi" class="hidden">
                 <div class="p-6 pb-28 relative flex flex-col justify-end min-h-[calc(100vh-220px)]">
-                    <div id="chat-messages" class="w-full space-y-4 pr-2">
+                    <div id="chat-messages" class="w-full flex flex-col space-y-2 pr-2">
                         <!-- Chats injected here -->
                     </div>
                 </div>
@@ -423,7 +422,9 @@
                 </div>
                 
                 <div>
-                    <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3 px-1" data-t="category">Kategori</label>
+                    <div class="flex justify-between items-center mb-3 px-1">
+                        <label class="block text-xs font-black text-slate-400 uppercase tracking-widest" data-t="category">Kategori</label>
+                    </div>
                     <div id="create-categories" class="flex gap-3 overflow-x-auto no-scrollbar pb-2"></div>
                 </div>
 
@@ -523,6 +524,43 @@
                 </div>
                 
                 <button id="btn-submit-trx" onclick="window.handleTransactionSubmit()" class="w-full py-5 text-white font-black text-lg rounded-[1.5rem] shadow-xl active:scale-95 transition-all" data-t="continue">Lanjutkan</button>
+            </div>
+        </div>
+
+        <!-- MODAL POST-TRANSACTION SHARE -->
+        <div id="modal-post-trx-share" class="fixed inset-0 z-[80] bg-slate-900/60 backdrop-blur-sm hidden flex-col justify-end max-w-[480px] mx-auto transition-opacity duration-300 opacity-0" onclick="if(event.target === this) window.closeAllModals()">
+            <div class="bg-white dark:bg-slate-900 w-full rounded-t-[2.5rem] p-8 text-center transform translate-y-full transition-transform duration-300" id="post-trx-card">
+                <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-4xl bg-emerald-100 drop-shadow-md">🎉</div>
+                <h3 class="font-black text-2xl text-slate-900 dark:text-white mb-2">Transaksi Sukses!</h3>
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-8">Pamerin progres tabungan kamu ke teman-teman yuk biar makin semangat!</p>
+                
+                <div class="flex flex-col gap-3">
+                    <button onclick="window.exportRoomToJPG(currentRoomId)" class="w-full py-4 bg-emerald-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-200 dark:shadow-none active:scale-95 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="image" class="w-5 h-5"></i> Bagikan Hasil (JPG)
+                    </button>
+                    <button onclick="window.closeAllModals()" class="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-2xl active:scale-95 transition-transform">Nanti Saja</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL TAMBAH KATEGORI KUSTOM -->
+        <div id="modal-add-category" class="fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center max-w-[480px] mx-auto p-8 transition-opacity duration-300 opacity-0">
+            <div class="bg-white dark:bg-slate-900 w-full rounded-[2rem] p-8 text-center shadow-2xl transform scale-95 transition-transform duration-300" id="add-category-card">
+                <h3 class="font-black text-xl text-slate-900 dark:text-white mb-6">Tambah Kategori</h3>
+                <div class="space-y-4 mb-6 text-left">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Icon (Emoji)</label>
+                        <input type="text" id="custom-cat-emoji" autocomplete="off" placeholder="Contoh: 🏖️" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-xl text-center text-slate-900 dark:text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nama Kategori</label>
+                        <input type="text" id="custom-cat-name" autocomplete="off" placeholder="Nama Kategori" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="window.closeAllModals()" class="flex-1 py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-black rounded-2xl active:scale-95 transition-transform">Batal</button>
+                    <button onclick="window.saveCustomCategory()" class="flex-1 py-4 bg-indigo-600 text-white font-black rounded-2xl shadow-xl active:scale-95 transition-transform">Simpan</button>
+                </div>
             </div>
         </div>
 
@@ -896,13 +934,14 @@
         let appData = JSON.parse(localStorage.getItem(DB_KEY)) || {
             user: '', email: '', uid: '',
             avatar: { emoji: '', colorClass: 'bg-indigo-100', textClass: 'text-indigo-700' },
-            joinedRooms: [], darkMode: false, language: 'id'
+            joinedRooms: [], darkMode: false, language: 'id', customCategories: []
         };
         let tempAvatarSelection = { ...appData.avatar };
         let tempCategorySelection = 'lainnya'; 
 
         let globalRooms = [];
         let globalHistory = [];
+        let globalUsers = {}; // Tracking status online secara global
         let currentRoomId = null;
         let roomToDelete = null;
         let isBalanceHidden = false;
@@ -916,29 +955,23 @@
         let lastBackPress = 0; 
         let lastChatCounts = {}; 
 
-        // Optimasi: Variabel untuk fitur Reply Chat
         let replyingTo = null;
-
-        // Presence & Export
-        let currentActiveRoomUnsubscribe = null;
-
-        // Pagination Limits
         let historyRenderLimit = 15;
         let chatRenderLimit = 20;
 
-        // Auth States
         let isLoginMode = true;
         let pendingTransaction = null; 
-
-        // PWA Prompt
         let deferredPrompt;
 
-        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install'];
+        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install', 'modal-post-trx-share', 'modal-add-category'];
 
-        // Helper untuk mencegah error single/double quote pada string inline HTML
         window.safeStr = (str) => {
             if(!str) return '';
             return String(str).replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        };
+        
+        window.getAllCategories = () => {
+            return [...CATEGORIES, ...(appData.customCategories || [])];
         };
 
         // --- DYNAMIC MANIFEST & SERVICE WORKER ---
@@ -986,6 +1019,20 @@
             navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
         }
 
+        // --- PRESENCE LOGIC ---
+        const setOnlineStatus = async (status) => {
+            if(appData.uid) {
+                try { await updateDoc(doc(db, "users", appData.uid), { isOnline: status }); } catch(e) {}
+            }
+        };
+
+        window.addEventListener('visibilitychange', () => {
+            setOnlineStatus(document.visibilityState === 'visible');
+        });
+        window.addEventListener('beforeunload', () => {
+            setOnlineStatus(false);
+        });
+
         // --- ROUTING / HARDWARE BACK BUTTON ---
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -996,7 +1043,7 @@
         history.pushState({ viewId: 'view-home', navId: 'nav-home', isTab: true }, "", location.href);
 
         window.addEventListener('popstate', (e) => {
-            const modals = document.querySelectorAll('.fixed.z-\\[55\\], .fixed.z-\\[60\\], .fixed.z-\\[65\\], .fixed.z-\\[70\\]');
+            const modals = document.querySelectorAll('.fixed.z-\\[55\\], .fixed.z-\\[60\\], .fixed.z-\\[65\\], .fixed.z-\\[70\\], .fixed.z-\\[80\\]');
             let isModalOpen = false;
             modals.forEach(m => {
                 if(m && !m.classList.contains('hidden') && !m.classList.contains('translate-y-full') && !m.classList.contains('opacity-0')) {
@@ -1006,7 +1053,6 @@
 
             if (isModalOpen) {
                 window.closeAllModals();
-                window.closeMemberStats();
                 history.pushState(e.state, "", location.href); 
                 return;
             }
@@ -1065,7 +1111,7 @@
             if(t) { 
                 t.innerText = msg; 
                 t.className = `fixed bottom-24 left-1/2 transform -translate-x-1/2 translate-y-4 ${isError ? 'bg-rose-600' : 'bg-slate-900 dark:bg-slate-800'} text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 z-[100] whitespace-nowrap pointer-events-none`;
-                void t.offsetWidth; // Trigger reflow
+                void t.offsetWidth;
                 t.classList.add('toast-visible'); 
                 setTimeout(() => t.classList.remove('toast-visible'), 3000); 
             }
@@ -1119,8 +1165,8 @@
                 const m = document.getElementById(id); 
                 if(m) {
                     m.classList.add('translate-y-full');
-                    if(id === 'modal-name-entry' || id === 'modal-confirm-trx') m.classList.add('hidden');
-                    else setTimeout(() => m.classList.add('hidden'), 300);
+                    if(id === 'modal-name-entry' || id === 'modal-confirm-trx' || id === 'modal-post-trx-share' || id === 'modal-add-category') m.classList.add('opacity-0');
+                    setTimeout(() => m.classList.add('hidden'), 300);
                 }
             });
             const overlay = document.getElementById('modal-overlay'); if(overlay) overlay.classList.add('hidden');
@@ -1131,9 +1177,11 @@
         window.showModal = (id) => {
             const overlay = document.getElementById('modal-overlay');
             const m = document.getElementById(id);
-            if(id !== 'modal-name-entry' && id !== 'modal-confirm-trx' && overlay) overlay.classList.remove('hidden');
+            if(id !== 'modal-name-entry' && id !== 'modal-confirm-trx' && overlay && id !== 'modal-post-trx-share' && id !== 'modal-add-category') overlay.classList.remove('hidden');
             if(m) {
                 m.classList.remove('hidden');
+                void m.offsetWidth;
+                if(id === 'modal-name-entry' || id === 'modal-confirm-trx' || id === 'modal-post-trx-share' || id === 'modal-add-category') m.classList.remove('opacity-0');
                 setTimeout(() => m.classList.remove('translate-y-full'), 10);
             }
         };
@@ -1444,6 +1492,8 @@
                 appData.email = user.email;
                 appData.uid = user.uid;
                 window.saveLocal();
+                setOnlineStatus(true);
+                
                 if (modalLogin) modalLogin.classList.add('hidden');
 
                 try {
@@ -1556,6 +1606,17 @@
             } catch (error) { window.showToast("Gagal keluar.", true); }
         };
 
+        window.updateCheckmarks = () => {
+            const currentRoom = globalRooms.find(r => r.id === currentRoomId);
+            if(!currentRoom) return;
+            currentRoomChatsData.forEach(m => {
+                if(m.uid === appData.uid) {
+                    const el = document.getElementById(`chk-${m.id || m.timestamp}`);
+                    if(el) el.innerHTML = getCheckmarkHTML(m, currentRoom);
+                }
+            });
+        };
+
         function startRealtimeSync() {
             onSnapshot(collection(db, "rooms"), (snap) => {
                 globalRooms = [];
@@ -1566,6 +1627,13 @@
                 globalRooms.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                 updateUI();
                 if(currentRoomId) refreshRoomUI(currentRoomId);
+            });
+
+            onSnapshot(collection(db, "users"), (snap) => {
+                snap.forEach(doc => {
+                    globalUsers[doc.id] = doc.data();
+                });
+                if(currentRoomId) window.updateCheckmarks();
             });
 
             onSnapshot(collection(db, "history"), (snap) => {
@@ -1601,7 +1669,7 @@
                 }
             });
 
-            // Optimasi 2: Global listener untuk in-app notification pada Chat/Diskusi
+            // Global listener untuk in-app notification pada Chat/Diskusi
             let isInitialGlobalChatLoad = true;
             onSnapshot(collection(db, "chats"), (snap) => {
                 let hasNewChat = false;
@@ -1637,8 +1705,38 @@
         window.selectCategory = (catId) => {
             tempCategorySelection = catId;
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('selected'));
-            document.getElementById(`cat-btn-${catId}`).classList.add('selected');
+            const btn = document.getElementById(`cat-btn-${catId}`);
+            if(btn) btn.classList.add('selected');
         }
+
+        window.openAddCustomCategory = () => {
+            document.getElementById('custom-cat-emoji').value = '';
+            document.getElementById('custom-cat-name').value = '';
+            window.showModal('modal-add-category');
+        };
+
+        window.saveCustomCategory = () => {
+            const emoji = document.getElementById('custom-cat-emoji').value.trim();
+            const name = document.getElementById('custom-cat-name').value.trim();
+            if(!emoji || !name) {
+                window.showToast("Emoji dan Nama wajib diisi", true);
+                return;
+            }
+            const newCat = {
+                id: 'custom_' + Date.now(),
+                label: name,
+                icon: emoji,
+                color: '#4f46e5'
+            };
+            if(!appData.customCategories) appData.customCategories = [];
+            appData.customCategories.push(newCat);
+            window.saveLocal();
+            
+            tempCategorySelection = newCat.id;
+            window.closeAllModals();
+            renderCategoryOptions();
+            window.showToast("Kategori ditambahkan");
+        };
 
         window.addMilestoneRow = () => {
             const container = document.getElementById('milestone-rows-container');
@@ -1791,7 +1889,6 @@
             views.forEach(v => { const el = document.getElementById(v); if(el) el.classList.add('hidden'); });
             const target = document.getElementById(viewId); 
             
-            // Clean up presence when leaving view-detail
             if(viewId !== 'view-detail' && currentRoomId) {
                 window.leaveRoomPresence(currentRoomId);
             }
@@ -1925,8 +2022,6 @@
             } catch(e) { window.showToast("Gagal mengarsipkan.", true); }
         };
 
-        let currentRoomChatsData = [];
-        
         // --- FITUR PRESENCE (ACTIVE USERS) ---
         window.joinRoomPresence = async (roomId) => {
             if(!appData.uid) return;
@@ -2101,7 +2196,6 @@
             const diffY = Math.abs(currentY - swipeStartY);
 
             if (!isChatSwiping) {
-                // Deteksi apakah user ingin scroll layar ke bawah/atas atau mau swipe chat
                 if (diffY > 10 && diffY > Math.abs(diffX)) {
                     isVerticalScrolling = true;
                     return;
@@ -2112,16 +2206,16 @@
             }
 
             if (isChatSwiping) {
-                if (diffX > 0 && e.cancelable) e.preventDefault(); // Cegah geser layar (overscroll back browser)
+                if (diffX > 0 && e.cancelable) e.preventDefault(); 
                 
-                const dragDist = Math.max(0, Math.min(diffX, 80)); // Limit swipe maksimal 80px ke kanan
+                const dragDist = Math.max(0, Math.min(diffX, 80));
                 
                 const wrapper = el.querySelector('.chat-bubble-wrapper');
                 if(wrapper) wrapper.style.transform = `translateX(${dragDist}px)`;
                 
                 const indicator = el.querySelector('.reply-indicator');
                 if(indicator) {
-                    const progress = Math.min(dragDist / 60, 1); // Opacity memudar perlahan
+                    const progress = Math.min(dragDist / 60, 1);
                     indicator.style.opacity = progress;
                     indicator.style.transform = `translate(${dragDist * 0.3}px, -50%) scale(${0.5 + (progress * 0.5)})`;
                 }
@@ -2135,7 +2229,6 @@
             const wrapper = el.querySelector('.chat-bubble-wrapper');
             const indicator = el.querySelector('.reply-indicator');
             
-            // Kembalikan bubble chat ke posisi semula dengan animasi bounce halus
             if(wrapper) {
                 wrapper.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                 wrapper.style.transform = 'translateX(0px)';
@@ -2147,11 +2240,10 @@
                 indicator.style.transform = 'translate(-1rem, -50%) scale(0.5)';
             }
 
-            // Jika swipe cukup jauh, trigger fitur reply
             if (isChatSwiping && diffX >= 60) {
                 window.setReply(chatId, userName, msgText);
                 if (window.navigator && window.navigator.vibrate) {
-                    window.navigator.vibrate(50); // Getar halus di mobile
+                    window.navigator.vibrate(50);
                 }
             }
             
@@ -2162,28 +2254,28 @@
             swipeStartY = 0;
         };
 
-        // Mengembalikan status checkmark
+        // Mengembalikan status checkmark secara lebih presisi (1 Abu, 2 Abu, 2 Biru)
         function getCheckmarkHTML(chat, room) {
             if (!chat.readBy) chat.readBy = [];
-            if (!room.activeUsers) room.activeUsers = [];
 
-            // 1. Dibaca oleh anggota lain (Centang 2 Biru)
+            const otherMembers = room.members.filter(m => m.uid !== appData.uid);
+            
+            // 1. Dibaca (Centang 2 Biru) - Jika ada member lain yang sudah buka chat di room ini
             const readByOthers = chat.readBy.filter(uid => uid !== appData.uid);
             if (readByOthers.length > 0) {
-                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-blue-500"></i>`;
+                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-sky-300"></i>`;
             }
 
-            // 2. Lawan bicara sedang online di room ini (Centang 2 Abu - Delivered)
-            const activeOthers = room.activeUsers.filter(uid => uid !== appData.uid);
-            if (activeOthers.length > 0) {
-                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-slate-400"></i>`;
+            // 2. Lawan bicara sedang online secara global (Centang 2 Abu / Delivered)
+            const isAnyOtherOnline = otherMembers.some(m => globalUsers[m.uid] && globalUsers[m.uid].isOnline);
+            if (isAnyOtherOnline) {
+                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-white/70"></i>`;
             }
 
             // 3. Terkirim ke server (Centang 1 Abu)
-            return `<i data-lucide="check" class="w-3.5 h-3.5 text-slate-400"></i>`;
+            return `<i data-lucide="check" class="w-3.5 h-3.5 text-white/70"></i>`;
         }
 
-        // Optimasi 1: Set fungsi untuk fitur reply chat
         window.setReply = (chatId, userName, message) => {
             replyingTo = { id: chatId, name: userName, message: message };
             const preview = document.getElementById('reply-preview');
@@ -2264,23 +2356,24 @@
                 let replyHtmlOther = '';
                 if (m.replyTo) {
                     replyHtmlMe = `
-                    <div class="mb-1.5 p-2 bg-black/10 rounded-lg flex flex-col border-l-2 border-white/50 text-left">
-                        <span class="text-[9px] font-black opacity-80">${m.replyTo.name}</span>
-                        <span class="text-[10px] opacity-90 line-clamp-1">${m.replyTo.message}</span>
+                    <div class="mb-1.5 p-2 bg-black/10 rounded-lg flex flex-col border-l-4 border-indigo-300 text-left">
+                        <span class="text-[10px] font-black text-indigo-100">${m.replyTo.name}</span>
+                        <span class="text-[10px] text-white opacity-90 line-clamp-1">${m.replyTo.message}</span>
                     </div>`;
                     replyHtmlOther = `
-                    <div class="mb-1.5 p-2 bg-black/5 dark:bg-white/5 rounded-lg flex flex-col border-l-2 border-indigo-400 text-left">
-                        <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400">${m.replyTo.name}</span>
+                    <div class="mb-1.5 p-2 bg-black/5 dark:bg-white/5 rounded-lg flex flex-col border-l-4 border-indigo-400 text-left">
+                        <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400">${m.replyTo.name}</span>
                         <span class="text-[10px] opacity-80 line-clamp-1 text-slate-700 dark:text-slate-300">${m.replyTo.message}</span>
                     </div>`;
                 }
 
                 const safeMsg = window.safeStr(m.message);
                 const replyActionParams = `'${m.id || m.timestamp}', '${window.safeStr(isMe?'Anda':m.name)}', \`${safeMsg}\``;
+                const timeStr = new Date(m.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
 
                 if(isMe) {
                     box.innerHTML += `
-                    <div class="relative w-full mb-2 chat-swipe-container overflow-x-hidden" 
+                    <div class="relative w-full mb-1 chat-swipe-container overflow-x-hidden flex flex-col items-end" 
                          ontouchstart="window.chatSwipeStart(event, this)" 
                          ontouchmove="window.chatSwipeMove(event, this)" 
                          ontouchend="window.chatSwipeEnd(event, this, ${replyActionParams})"
@@ -2293,21 +2386,23 @@
                             <i data-lucide="reply" class="w-4 h-4"></i>
                         </div>
 
-                        <div class="chat-bubble-wrapper w-full flex flex-col items-end pl-8 relative z-10 select-none">
-                            <span class="text-[9px] text-slate-400 font-bold mb-1 mr-1 pointer-events-none">Anda</span>
+                        <div class="chat-bubble-wrapper w-full flex flex-col items-end relative z-10 select-none">
                             ${m.type === 'sticker' 
                                 ? `<div class="text-6xl cursor-pointer pointer-events-auto ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
-                                : `<div class="chat-bubble-me p-3 text-sm font-bold shadow-sm whitespace-pre-wrap text-left pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">${replyHtmlMe}${formattedMsg}</div>`
+                                : `<div class="chat-bubble-me relative p-2 pl-3 pr-16 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tr-sm pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">
+                                    ${replyHtmlMe}
+                                    <span>${formattedMsg}</span>
+                                    <div class="absolute bottom-1 right-2 flex items-center gap-0.5 opacity-80 text-[9px] pointer-events-none">
+                                        <span>${timeStr}</span>
+                                        <span id="chk-${m.id || m.timestamp}">${getCheckmarkHTML(m, currentRoom)}</span>
+                                    </div>
+                                   </div>`
                             }
-                            <div class="flex items-center justify-end gap-1 mt-1 mr-1 pointer-events-none">
-                                <span class="text-[8px] text-slate-400 font-bold">${new Date(m.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</span>
-                                <span>${getCheckmarkHTML(m, currentRoom)}</span>
-                            </div>
                         </div>
                     </div>`;
                 } else {
                     box.innerHTML += `
-                    <div class="relative w-full mb-2 chat-swipe-container overflow-x-hidden"
+                    <div class="relative w-full mb-1 chat-swipe-container overflow-x-hidden flex flex-col items-start"
                          ontouchstart="window.chatSwipeStart(event, this)" 
                          ontouchmove="window.chatSwipeMove(event, this)" 
                          ontouchend="window.chatSwipeEnd(event, this, ${replyActionParams})"
@@ -2316,19 +2411,24 @@
                          onmouseup="window.chatSwipeEnd(event, this, ${replyActionParams})"
                          onmouseleave="window.chatSwipeEnd(event, this, ${replyActionParams})">
                         
-                        <div class="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 reply-indicator transform -translate-x-4 flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400 z-0 scale-50 pointer-events-none">
+                        <div class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 reply-indicator transform translate-x-4 flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400 z-0 scale-50 pointer-events-none">
                             <i data-lucide="reply" class="w-4 h-4"></i>
                         </div>
 
-                        <div class="chat-bubble-wrapper w-full flex flex-col items-start pr-8 relative z-10 select-none"> 
-                            <div class="flex items-center gap-2 mb-1 pointer-events-none">
-                                <div class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm border border-black/5 ${m.avatar.colorClass} ${m.avatar.textClass}">${avaChar}</div>
+                        <div class="chat-bubble-wrapper w-full flex flex-col items-start relative z-10 select-none"> 
+                            <div class="flex items-center gap-2 mb-0.5 ml-2 pointer-events-none">
+                                <div class="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black shadow-sm border border-black/5 ${m.avatar.colorClass} ${m.avatar.textClass}">${avaChar}</div>
                                 <span class="text-[9px] text-slate-400 font-bold">${m.name}</span>
-                                <span class="text-[8px] text-slate-400 font-bold ml-1">${new Date(m.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</span>
                             </div>
                             ${m.type === 'sticker' 
-                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ml-7 ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
-                                : `<div class="chat-bubble-other p-3 text-sm font-bold shadow-sm whitespace-pre-wrap ml-7 pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">${replyHtmlOther}${formattedMsg}</div>`
+                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ml-2 ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
+                                : `<div class="chat-bubble-other relative p-2 pl-3 pr-12 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tl-sm pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">
+                                    ${replyHtmlOther}
+                                    <span>${formattedMsg}</span>
+                                    <div class="absolute bottom-1 right-2 flex items-center gap-0.5 opacity-60 text-[9px] pointer-events-none">
+                                        <span>${timeStr}</span>
+                                    </div>
+                                   </div>`
                             }
                         </div>
                     </div>`;
@@ -2370,7 +2470,7 @@
                 window.cancelReply();
             }
             
-            chat.readBy = []; // Initialize read array
+            chat.readBy = []; 
             
             try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         }
@@ -2392,13 +2492,12 @@
 
             const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'text', message: msg, timestamp: Date.now() };
             
-            // Sertakan info Reply jika ada
             if(replyingTo) {
                 chat.replyTo = replyingTo;
                 window.cancelReply();
             }
 
-            chat.readBy = []; // Initialize read array
+            chat.readBy = []; 
 
             try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         };
@@ -2456,7 +2555,8 @@
             const catBadge = document.getElementById('detail-category-badge');
             if(catBadge) {
                 if(r.category) {
-                    const catObj = CATEGORIES.find(c => c.id === r.category) || CATEGORIES[4];
+                    const allCat = window.getAllCategories();
+                    const catObj = allCat.find(c => c.id === r.category) || allCat[4];
                     catBadge.innerText = `${catObj.icon} ${catObj.label}`;
                     catBadge.classList.remove('hidden');
                 } else {
@@ -2657,24 +2757,20 @@
                 `;
             });
 
-            // Tampilkan sementara ke viewport tapi tersembunyi dengan z-index rendah / off-screen yang aman
             container.style.left = '0';
             container.style.top = '0';
-            container.style.opacity = '0.01'; // Jangan display:none, agar bisa dirender html2canvas
+            container.style.opacity = '0.01'; 
             container.style.zIndex = '-100';
 
-            // Jeda sejenak untuk memastikan DOM terender
             setTimeout(() => {
                 html2canvas(card, {
-                    scale: 2, // Kualitas tinggi
+                    scale: 2, 
                     backgroundColor: null,
                     useCORS: true
                 }).then(canvas => {
-                    // Sembunyikan kembali
                     container.style.left = '-9999px';
                     container.style.opacity = '1';
 
-                    // Ekspor ke file JPG
                     const imgData = canvas.toDataURL("image/jpeg", 0.9);
                     const link = document.createElement('a');
                     link.download = `Tabungan_${r.name.replace(/\s+/g, '_')}.jpg`;
@@ -2824,6 +2920,11 @@
                 pendingTransaction = null; 
                 window.showToast("Transaksi Berhasil!");
 
+                // Memicu modal Post-Transaction Share
+                setTimeout(() => {
+                    window.showModal('modal-post-trx-share');
+                }, 400);
+
             } catch(e) { 
                 window.showToast("Terjadi kesalahan sistem.", true); 
                 btn.disabled = false; btn.innerText = origText; 
@@ -2874,7 +2975,9 @@
             const container = document.getElementById('create-categories');
             if(!container) return;
             container.innerHTML = '';
-            CATEGORIES.forEach(c => {
+            
+            const allCat = window.getAllCategories();
+            allCat.forEach(c => {
                 const isSel = tempCategorySelection === c.id;
                 container.innerHTML += `
                     <button id="cat-btn-${c.id}" onclick="window.selectCategory('${c.id}')" class="category-btn px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center gap-1 shrink-0 transition-all active:scale-90 ${isSel ? 'selected' : ''}">
@@ -2883,6 +2986,15 @@
                     </button>
                 `;
             });
+            
+            // Tambah tombol Custom Category
+            container.innerHTML += `
+                <button onclick="window.openAddCustomCategory()" class="px-4 py-3 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl flex flex-col items-center justify-center gap-1 shrink-0 transition-all active:scale-90">
+                    <span class="text-xl"><i data-lucide="plus" class="w-6 h-6 text-indigo-500"></i></span>
+                    <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase">Baru</span>
+                </button>
+            `;
+            lucide.createIcons();
         }
 
         function updateUI() {
@@ -2983,7 +3095,8 @@
 
                     let catIcon = '🎯';
                     if(r.category) {
-                        const c = CATEGORIES.find(x => x.id === r.category);
+                        const allCat = window.getAllCategories();
+                        const c = allCat.find(x => x.id === r.category);
                         if(c) catIcon = c.icon;
                     }
 
@@ -3107,7 +3220,7 @@
             let isScrolling = false;
             
             chatContainer.addEventListener('touchstart', e => {
-                const row = e.target.closest('.swipeable-msg');
+                const row = e.target.closest('.chat-swipe-container');
                 if(!row) return;
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
@@ -3115,7 +3228,7 @@
                 isSwipingRight = false;
                 isScrolling = false;
                 
-                const wrapper = activeRow.querySelector('.swipe-bubble-wrapper');
+                const wrapper = activeRow.querySelector('.chat-bubble-wrapper');
                 if(wrapper) wrapper.style.transition = 'none';
             }, {passive: true});
             
@@ -3128,7 +3241,6 @@
                 const dY = Math.abs(curY - startY);
                 
                 if(!isSwipingRight) {
-                    // Jika lebih condong scroll ke bawah/atas, abaikan swipe
                     if (dY > 10 && dY > dX) {
                         isScrolling = true;
                         activeRow = null;
@@ -3140,17 +3252,21 @@
                 }
                 
                 if(isSwipingRight && dX > 0) {
-                    if(e.cancelable) e.preventDefault(); // Mengunci scroll saat menggeser chat
+                    if(e.cancelable) e.preventDefault(); 
                     
                     const moveX = Math.min(dX, 60); 
-                    const wrapper = activeRow.querySelector('.swipe-bubble-wrapper');
-                    const icon = activeRow.querySelector('.reply-icon-bg');
+                    const wrapper = activeRow.querySelector('.chat-bubble-wrapper');
+                    const icon = activeRow.querySelector('.reply-indicator');
                     
                     if(wrapper) wrapper.style.transform = `translateX(${moveX}px)`;
                     if(icon) {
                         const scale = Math.min(moveX / 40, 1);
                         icon.style.opacity = scale;
-                        icon.style.transform = `translateY(-50%) scale(${scale})`;
+                        if (icon.classList.contains('-translate-x-4')) {
+                             icon.style.transform = `translate(${moveX * 0.3}px, -50%) scale(${0.5 + (scale * 0.5)})`;
+                        } else {
+                             icon.style.transform = `translate(${moveX * 0.3}px, -50%) scale(${0.5 + (scale * 0.5)})`;
+                        }
                     }
                 }
             }, {passive: false}); 
@@ -3158,8 +3274,8 @@
             const endSwipe = () => {
                 if(!activeRow) return;
                 
-                const wrapper = activeRow.querySelector('.swipe-bubble-wrapper');
-                const icon = activeRow.querySelector('.reply-icon-bg');
+                const wrapper = activeRow.querySelector('.chat-bubble-wrapper');
+                const icon = activeRow.querySelector('.reply-indicator');
                 
                 let moveX = 0;
                 if (wrapper && wrapper.style.transform) {
@@ -3174,16 +3290,21 @@
                 if(icon) {
                     icon.style.transition = 'all 0.2s ease-out';
                     icon.style.opacity = '0';
-                    icon.style.transform = 'translateY(-50%) scale(0.5)';
+                    icon.style.transform = 'translate(-1rem, -50%) scale(0.5)';
                 }
                 
                 if(isSwipingRight && moveX > 40) { 
-                    const id = activeRow.dataset.id;
-                    const name = activeRow.dataset.name;
-                    const msg = activeRow.dataset.msg;
+                    const matchId = activeRow.innerHTML.match(/chk-([a-zA-Z0-9_]+)/);
+                    const id = matchId ? matchId[1] : Date.now();
+                    const nameText = activeRow.querySelector('.text-\\[9px\\].text-slate-400') ? activeRow.querySelector('.text-\\[9px\\].text-slate-400').innerText : 'Anda';
+                    
+                    let msgText = 'Sticker';
+                    const textNode = activeRow.querySelector('.chat-bubble-me > span:not(.inline-block), .chat-bubble-other > span:not(.inline-block)');
+                    if(textNode) msgText = textNode.innerText;
+
                     if (navigator.vibrate) navigator.vibrate(50);
                     setTimeout(() => {
-                        window.setReply(id, name, msg);
+                        window.setReply(id, nameText, msgText);
                     }, 50);
                 }
                 

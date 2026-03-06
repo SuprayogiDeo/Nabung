@@ -15,7 +15,7 @@
     <!-- Dynamic Manifest Link -->
     <link rel="manifest" id="manifest-link">
     <!-- Icon for iOS -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iI2VlZjJmZiIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyOCwgMTI4KSBzY2FsZSgwLjUpIj48cGF0aCBmaWxsPSIjNGY0NmU1IiBkPSJNMjU2IDk2TDY0IDE5MnY0Mi42aDM4NFYxOTJMMjU2IDk2em0tMTQ5LjMgMTgxLjN2MTQ5LjRoNDIuNlYyNzcuM2gtNDIuNnptMTA2LjYgMHYxNDkuNGg0Mi42VjI3Ny4zaC00Mi42em0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNIMzIwem0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNoLTQyLjZ6TTY0IDQ2OS4zdjQyLjZoMzg0di00Mi42SDY0eiIvPjwvZz48L3N2Zz4=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iI2VlZjJmZiIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyOCwgMTI4KSBzY2FsZSgwLjUpIj48cGF0aCBmaWxsPSIjNGY0NmU1IiBkPSJNMjU2IDk2TDY0IDE5MnY0Mi42aDM4NFYxOTJMMjU2IDk2em0tMTQ5LjMgMTgxLjN2MTQ5LjRoNDIuNlYyNzcuM2gtNDIuNnptMTA2LjYgMHYxNDkuNGg0Mi42VjI3Ny4zaC00Mi42em0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNoLTQyLjZ6TTY0IDQ2OS4zdjQyLjZoMzg0di00Mi42SDY0eiIvPjwvZz48L3N2Zz4=">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -942,6 +942,7 @@
         let globalRooms = [];
         let globalHistory = [];
         let globalUsers = {}; // Tracking status online secara global
+        let currentRoomChatsData = []; // VARIABEL YANG DIPERBAIKI (Diinisialisasi di level global)
         let currentRoomId = null;
         let roomToDelete = null;
         let isBalanceHidden = false;
@@ -1608,7 +1609,8 @@
 
         window.updateCheckmarks = () => {
             const currentRoom = globalRooms.find(r => r.id === currentRoomId);
-            if(!currentRoom) return;
+            if(!currentRoom || !currentRoomChatsData) return; // FIX: Added safety check
+            
             currentRoomChatsData.forEach(m => {
                 if(m.uid === appData.uid) {
                     const el = document.getElementById(`chk-${m.id || m.timestamp}`);

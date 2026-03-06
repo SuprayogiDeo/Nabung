@@ -289,17 +289,25 @@
                     <!-- REPLY PREVIEW BOX -->
                     <div id="reply-preview" class="hidden bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-3 flex justify-between items-center shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]">
                         <div class="flex-1 overflow-hidden border-l-4 border-indigo-500 pl-3">
-                            <p class="text-[10px] font-black text-indigo-500 uppercase flex items-center gap-1"><i data-lucide="reply" class="w-3 h-3"></i> Membalas <span id="reply-to-name"></span></p>
+                            <p class="text-[10px] font-black text-indigo-500 uppercase flex items-center gap-1"><i data-lucide="reply" class="w-3 h-3"></i> <span data-t="reply">Membalas</span> <span id="reply-to-name" class="ml-1"></span></p>
                             <p id="reply-to-msg" class="text-xs font-medium text-slate-600 dark:text-slate-300 truncate mt-0.5">message</p>
                         </div>
                         <button onclick="window.cancelReply()" class="p-2 ml-2 text-slate-400 bg-slate-200 dark:bg-slate-700 rounded-full active:scale-90"><i data-lucide="x" class="w-3 h-3"></i></button>
+                    </div>
+
+                    <!-- EDIT PREVIEW BOX -->
+                    <div id="edit-preview" class="hidden bg-amber-50 dark:bg-amber-900/20 border-t border-amber-200 dark:border-amber-700 p-3 flex justify-between items-center shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]">
+                        <div class="flex-1 overflow-hidden border-l-4 border-amber-500 pl-3">
+                            <p class="text-[10px] font-black text-amber-600 dark:text-amber-500 uppercase flex items-center gap-1"><i data-lucide="edit-2" class="w-3 h-3"></i> <span data-t="edit_msg">Edit Pesan</span></p>
+                        </div>
+                        <button onclick="window.cancelEdit()" class="p-2 ml-2 text-slate-400 bg-slate-200 dark:bg-slate-700 rounded-full active:scale-90"><i data-lucide="x" class="w-3 h-3"></i></button>
                     </div>
 
                     <div class="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2 pb-safe shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)]">
                         <button onpointerdown="event.preventDefault(); window.toggleStickerPanel()" class="p-3 text-slate-400 hover:text-indigo-500 bg-white dark:bg-slate-800 rounded-xl transition-colors shadow-sm"><i data-lucide="smile" class="w-6 h-6"></i></button>
                         <!-- Autocomplete OFF & Spellcheck False -->
                         <input type="text" id="chat-input" autocomplete="off" spellcheck="false" placeholder="Ketik pesan..." data-t="type_message" class="flex-1 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20 text-sm font-bold text-slate-900 dark:text-white shadow-sm">
-                        <button onpointerdown="event.preventDefault(); window.sendChatMessage()" class="p-3.5 bg-indigo-600 text-white rounded-xl active:scale-90 transition-transform shadow-lg shadow-indigo-200 dark:shadow-none"><i data-lucide="send" class="w-5 h-5"></i></button>
+                        <button onpointerdown="event.preventDefault(); window.sendChatMessage()" class="p-3.5 bg-indigo-600 text-white rounded-xl active:scale-90 transition-transform shadow-lg shadow-indigo-200 dark:shadow-none" id="btn-send-chat"><i data-lucide="send" class="w-5 h-5"></i></button>
                     </div>
                 </div>
             </div>
@@ -498,6 +506,12 @@
                 <input type="hidden" id="trx-type" value="in">
                 
                 <div class="space-y-4 mb-8">
+                    <!-- Dinamis Kategori Transaksi -->
+                    <div id="trx-category-container" class="hidden mb-4">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2" data-t="category">Kategori Transaksi</label>
+                        <div id="trx-categories" class="flex gap-3 overflow-x-auto no-scrollbar pb-2"></div>
+                    </div>
+
                     <div id="trx-milestone-container" class="hidden">
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Pilih Milestone</label>
                         <select id="trx-milestone-select" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
@@ -536,7 +550,7 @@
                 
                 <div class="flex flex-col gap-3">
                     <button onclick="window.exportRoomToJPG(currentRoomId)" class="w-full py-4 bg-emerald-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-200 dark:shadow-none active:scale-95 transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="image" class="w-5 h-5"></i> Bagikan Hasil (JPG)
+                        <i data-lucide="share-2" class="w-5 h-5"></i> <span data-t="share">Bagikan</span>
                     </button>
                     <button onclick="window.closeAllModals()" class="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-2xl active:scale-95 transition-transform">Nanti Saja</button>
                 </div>
@@ -588,6 +602,19 @@
                         </div>
                         <i data-lucide="chevron-right" class="w-5 h-5 text-rose-300 dark:text-rose-700"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL CHAT OPTIONS -->
+        <div id="modal-chat-options" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[80] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-black text-xl text-slate-900 dark:text-white" data-t="options">Opsi Pesan</h3>
+                    <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
+                </div>
+                <div class="space-y-3" id="chat-options-container">
+                    <!-- Dinamis Buttons (Reply, Edit, Tarik Pesan) -->
                 </div>
             </div>
         </div>
@@ -888,7 +915,8 @@
                 email_label: "Email", pass_label: "Password", forgot_pass: "Lupa Password?",
                 login_btn: "Masuk", register_btn: "Daftar Akun", no_account: "Belum punya akun?",
                 register_link: "Daftar Sekarang", has_account: "Sudah punya akun?", login_link: "Masuk di sini", or: "ATAU",
-                pass_reset_sent: "Email reset password telah dikirim!"
+                pass_reset_sent: "Email reset password telah dikirim!", copy_link: "Salin Tautan",
+                delete_msg: "Tarik Pesan", edit_msg: "Edit Pesan", reply: "Balas", msg_deleted: "Pesan ini telah dihapus"
             },
             en: {
                 welcome: "Welcome,", total_balance: "Total Balance", income: "Income", outcome: "Outcome",
@@ -917,7 +945,8 @@
                 email_label: "Email", pass_label: "Password", forgot_pass: "Forgot Password?",
                 login_btn: "Login", register_btn: "Register Account", no_account: "Don't have an account?",
                 register_link: "Register Now", has_account: "Already have an account?", login_link: "Login here", or: "OR",
-                pass_reset_sent: "Password reset email sent!"
+                pass_reset_sent: "Password reset email sent!", copy_link: "Copy Link",
+                delete_msg: "Delete for Everyone", edit_msg: "Edit Message", reply: "Reply", msg_deleted: "This message was deleted"
             }
         };
 
@@ -938,11 +967,12 @@
         };
         let tempAvatarSelection = { ...appData.avatar };
         let tempCategorySelection = 'lainnya'; 
+        let tempTrxCategorySelection = 'lainnya'; 
 
         let globalRooms = [];
         let globalHistory = [];
-        let globalUsers = {}; // Tracking status online secara global
-        let currentRoomChatsData = []; // VARIABEL YANG DIPERBAIKI (Diinisialisasi di level global)
+        let globalUsers = {}; 
+        let currentRoomChatsData = []; 
         let currentRoomId = null;
         let roomToDelete = null;
         let isBalanceHidden = false;
@@ -957,6 +987,7 @@
         let lastChatCounts = {}; 
 
         let replyingTo = null;
+        let editingChatId = null;
         let historyRenderLimit = 15;
         let chatRenderLimit = 20;
 
@@ -964,7 +995,7 @@
         let pendingTransaction = null; 
         let deferredPrompt;
 
-        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install', 'modal-post-trx-share', 'modal-add-category'];
+        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install', 'modal-post-trx-share', 'modal-add-category', 'modal-chat-options'];
 
         window.safeStr = (str) => {
             if(!str) return '';
@@ -1609,7 +1640,7 @@
 
         window.updateCheckmarks = () => {
             const currentRoom = globalRooms.find(r => r.id === currentRoomId);
-            if(!currentRoom || !currentRoomChatsData) return; // FIX: Added safety check
+            if(!currentRoom || !currentRoomChatsData) return; 
             
             currentRoomChatsData.forEach(m => {
                 if(m.uid === appData.uid) {
@@ -1692,7 +1723,10 @@
                             const r = globalRooms.find(x => x.id === latestChat.roomId);
                             const rName = r ? r.name : 'Tabungan';
                             let msgPrev = latestChat.type === 'sticker' ? latestChat.message : latestChat.message;
-                            if(msgPrev.length > 25) msgPrev = msgPrev.substring(0,25) + '...';
+                            
+                            if (latestChat.isDeleted) msgPrev = "🚫 Pesan ditarik";
+                            else if (msgPrev.length > 25) msgPrev = msgPrev.substring(0,25) + '...';
+                            
                             window.showRealtimeNotif(`💬 ${latestChat.name} (${rName}): ${msgPrev}`);
                         }
                     }
@@ -1708,6 +1742,13 @@
             tempCategorySelection = catId;
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('selected'));
             const btn = document.getElementById(`cat-btn-${catId}`);
+            if(btn) btn.classList.add('selected');
+        }
+
+        window.selectTrxCategory = (catId) => {
+            tempTrxCategorySelection = catId;
+            document.querySelectorAll('.trx-cat-btn').forEach(btn => btn.classList.remove('selected'));
+            const btn = document.getElementById(`trx-cat-${catId}`);
             if(btn) btn.classList.add('selected');
         }
 
@@ -1735,8 +1776,17 @@
             window.saveLocal();
             
             tempCategorySelection = newCat.id;
+            tempTrxCategorySelection = newCat.id;
+            
             window.closeAllModals();
             renderCategoryOptions();
+            
+            // Re-render trx categories if modal transaction is open
+            const trxModal = document.getElementById('modal-transaction');
+            if(trxModal && !trxModal.classList.contains('hidden')) {
+                renderTrxCategoryOptions();
+            }
+
             window.showToast("Kategori ditambahkan");
         };
 
@@ -1938,12 +1988,12 @@
             if(optsContainer) {
                 let html = `
                     <button onclick="window.exportRoomToJPG('${id}')" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-emerald-100 text-emerald-600 rounded-xl"><i data-lucide="image" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-slate-800 dark:text-white" data-t="share_jpg">Bagikan Gambar (JPG)</span>
+                        <div class="p-2 bg-emerald-100 text-emerald-600 rounded-xl"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-slate-800 dark:text-white" data-t="share">${i18n[appData.language].share}</span>
                     </button>
                     <button onclick="window.openShareOptions()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-blue-100 text-blue-600 rounded-xl"><i data-lucide="share-2" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-slate-800 dark:text-white" data-t="share">${i18n[appData.language].share}</span>
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-xl"><i data-lucide="link" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-slate-800 dark:text-white" data-t="copy_link">${i18n[appData.language].copy_link || 'Salin Tautan'}</span>
                     </button>
                 `;
 
@@ -2061,8 +2111,8 @@
                     if(data.roomId === id) {
                         msgs.push({ id: d.id, ...data });
                         
-                        // Fitur Read Receipts: Jika bukan chat kita, dan kita belum baca
-                        if (data.uid !== appData.uid) {
+                        // Fitur Read Receipts
+                        if (data.uid !== appData.uid && !data.isDeleted) {
                             const readBy = data.readBy || [];
                             if (!readBy.includes(appData.uid)) {
                                 updateDoc(doc(db, "chats", d.id), { readBy: arrayUnion(appData.uid) });
@@ -2224,7 +2274,7 @@
             }
         };
 
-        window.chatSwipeEnd = (e, el, chatId, userName, msgText) => {
+        window.chatSwipeEnd = (e, el, chatId, userName, msgText, isDeleted) => {
             if (!swipeStartX) return; 
             
             const diffX = swipeCurrentX - swipeStartX;
@@ -2242,7 +2292,8 @@
                 indicator.style.transform = 'translate(-1rem, -50%) scale(0.5)';
             }
 
-            if (isChatSwiping && diffX >= 60) {
+            // Jika swipe cukup jauh dan bukan pesan yang ditarik, trigger fitur reply
+            if (isChatSwiping && diffX >= 60 && !isDeleted) {
                 window.setReply(chatId, userName, msgText);
                 if (window.navigator && window.navigator.vibrate) {
                     window.navigator.vibrate(50);
@@ -2256,29 +2307,119 @@
             swipeStartY = 0;
         };
 
-        // Mengembalikan status checkmark secara lebih presisi (1 Abu, 2 Abu, 2 Biru)
+        // Klick pada Bubble
+        window.handleChatClick = (e, id, uid, timestamp, msgText, isDeleted) => {
+            // Hindari pemicuan klik saat user baru selesai swipe (geser)
+            if (isChatSwiping || isVerticalScrolling || isDeleted) return;
+
+            const optsContainer = document.getElementById('chat-options-container');
+            const lang = i18n[appData.language];
+            
+            let html = '';
+            
+            // Tombol Balas selalu ada
+            html += `
+                <button onclick="window.closeAllModals(); setTimeout(() => window.setReply('${id}', '${uid === appData.uid ? 'Anda' : window.safeStr(msgText)}', \`${window.safeStr(msgText)}\`), 300)" class="w-full flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
+                    <div class="p-2 bg-indigo-100 text-indigo-600 rounded-xl"><i data-lucide="reply" class="w-5 h-5"></i></div>
+                    <span class="font-bold text-slate-800 dark:text-white">${lang.reply}</span>
+                </button>
+            `;
+
+            if (uid === appData.uid) {
+                const diffTime = Date.now() - timestamp;
+                const canEdit = diffTime <= 5 * 60 * 1000; // 5 Menit
+                const canDelete = diffTime <= 5 * 60 * 60 * 1000; // 5 Jam
+                
+                if (canEdit) {
+                    html += `
+                    <button onclick="window.closeAllModals(); window.initEditChat('${id}', \`${window.safeStr(msgText)}\`)" class="w-full flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
+                        <div class="p-2 bg-amber-100 text-amber-600 rounded-xl"><i data-lucide="edit-2" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-amber-600">${lang.edit_msg}</span>
+                    </button>`;
+                }
+                
+                if (canDelete) {
+                    html += `
+                    <button onclick="window.closeAllModals(); window.deleteChatMessage('${id}')" class="w-full flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
+                        <div class="p-2 bg-rose-100 text-rose-600 rounded-xl"><i data-lucide="trash-2" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-rose-600">${lang.delete_msg}</span>
+                    </button>`;
+                }
+            }
+
+            optsContainer.innerHTML = html;
+            lucide.createIcons();
+            window.showModal('modal-chat-options');
+        };
+
+        // Hapus Pesan Chat
+        window.deleteChatMessage = async (id) => {
+            if(!confirm("Tarik pesan ini? Pesan akan ditarik untuk semua orang di tabungan ini.")) return;
+            try {
+                await updateDoc(doc(db, "chats", id), { isDeleted: true, message: "" });
+            } catch(e) {}
+        };
+
+        // Inisialisasi Mode Edit
+        window.initEditChat = (id, oldMsg) => {
+            editingChatId = id;
+            const preview = document.getElementById('edit-preview');
+            const replyPrev = document.getElementById('reply-preview');
+            const inp = document.getElementById('chat-input');
+            const btn = document.getElementById('btn-send-chat');
+            
+            if(replyPrev) replyPrev.classList.add('hidden'); // Tutup balas jika sedang buka
+            
+            if(preview) preview.classList.remove('hidden');
+            if(inp) {
+                inp.value = oldMsg;
+                inp.focus();
+            }
+            if(btn) {
+                btn.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i>`;
+                lucide.createIcons();
+            }
+        };
+
+        // Batalkan Mode Edit
+        window.cancelEdit = () => {
+            editingChatId = null;
+            const preview = document.getElementById('edit-preview');
+            const inp = document.getElementById('chat-input');
+            const btn = document.getElementById('btn-send-chat');
+
+            if(preview) preview.classList.add('hidden');
+            if(inp) inp.value = '';
+            if(btn) {
+                btn.innerHTML = `<i data-lucide="send" class="w-5 h-5"></i>`;
+                lucide.createIcons();
+            }
+        };
+
         function getCheckmarkHTML(chat, room) {
+            if (chat.isDeleted) return '';
             if (!chat.readBy) chat.readBy = [];
 
             const otherMembers = room.members.filter(m => m.uid !== appData.uid);
             
-            // 1. Dibaca (Centang 2 Biru) - Jika ada member lain yang sudah buka chat di room ini
+            // 1. Dibaca (Centang 2 Biru)
             const readByOthers = chat.readBy.filter(uid => uid !== appData.uid);
             if (readByOthers.length > 0) {
-                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-sky-300"></i>`;
+                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-sky-400"></i>`;
             }
 
             // 2. Lawan bicara sedang online secara global (Centang 2 Abu / Delivered)
             const isAnyOtherOnline = otherMembers.some(m => globalUsers[m.uid] && globalUsers[m.uid].isOnline);
             if (isAnyOtherOnline) {
-                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-white/70"></i>`;
+                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-slate-400 dark:text-slate-300"></i>`;
             }
 
             // 3. Terkirim ke server (Centang 1 Abu)
-            return `<i data-lucide="check" class="w-3.5 h-3.5 text-white/70"></i>`;
+            return `<i data-lucide="check" class="w-3.5 h-3.5 text-slate-400 dark:text-slate-300"></i>`;
         }
 
         window.setReply = (chatId, userName, message) => {
+            window.cancelEdit();
             replyingTo = { id: chatId, name: userName, message: message };
             const preview = document.getElementById('reply-preview');
             document.getElementById('reply-to-name').innerText = userName;
@@ -2296,6 +2437,8 @@
         function renderChats(msgs) {
             const box = document.getElementById('chat-messages');
             const scroller = document.getElementById('view-detail');
+            const lang = i18n[appData.language];
+
             if(!box || !scroller) return;
             
             const currentRoom = globalRooms.find(r => r.id === currentRoomId);
@@ -2335,7 +2478,10 @@
                 }
                 
                 let formattedMsg = m.message;
-                if(m.type === 'text') {
+                
+                if (m.isDeleted) {
+                    formattedMsg = `<span class="italic opacity-60 flex items-center gap-1"><i data-lucide="ban" class="w-3 h-3"></i> ${lang.msg_deleted}</span>`;
+                } else if(m.type === 'text') {
                     formattedMsg = formattedMsg.replace(/@([a-zA-Z0-9_]+)/g, (match, p1) => {
                         const isMeMentioned = p1.toLowerCase() === appData.user.toLowerCase().replace(/\s+/g,'');
                         return `<span class="${isMeMentioned ? 'mention-me' : 'mention-highlight'}">${match}</span>`;
@@ -2346,7 +2492,7 @@
                 
                 let animClass = '';
                 let dataAnim = 'false';
-                if(m.type === 'sticker') {
+                if(m.type === 'sticker' && !m.isDeleted) {
                     if (!window.animatedStickersTracker.has(m.timestamp)) {
                         animClass = 'anim-float-temp';
                         dataAnim = 'true';
@@ -2356,7 +2502,7 @@
 
                 let replyHtmlMe = '';
                 let replyHtmlOther = '';
-                if (m.replyTo) {
+                if (m.replyTo && !m.isDeleted) {
                     replyHtmlMe = `
                     <div class="mb-1.5 p-2 bg-black/10 rounded-lg flex flex-col border-l-4 border-indigo-300 text-left">
                         <span class="text-[10px] font-black text-indigo-100">${m.replyTo.name}</span>
@@ -2369,9 +2515,10 @@
                     </div>`;
                 }
 
-                const safeMsg = window.safeStr(m.message);
-                const replyActionParams = `'${m.id || m.timestamp}', '${window.safeStr(isMe?'Anda':m.name)}', \`${safeMsg}\``;
+                const safeMsg = m.isDeleted ? '' : window.safeStr(m.message);
+                const replyActionParams = `'${m.id || m.timestamp}', '${window.safeStr(isMe?'Anda':m.name)}', \`${safeMsg}\`, ${m.isDeleted}`;
                 const timeStr = new Date(m.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+                const editedStr = m.isEdited && !m.isDeleted ? `<span class="opacity-60 mr-1 italic text-[8px]">(diedit)</span>` : '';
 
                 if(isMe) {
                     box.innerHTML += `
@@ -2389,14 +2536,15 @@
                         </div>
 
                         <div class="chat-bubble-wrapper w-full flex flex-col items-end relative z-10 select-none">
-                            ${m.type === 'sticker' 
-                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
-                                : `<div class="chat-bubble-me relative p-2 pl-3 pr-16 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tr-sm pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">
+                            ${m.type === 'sticker' && !m.isDeleted
+                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ${animClass}" data-animating="${dataAnim}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">${m.message}</div>` 
+                                : `<div class="chat-bubble-me relative p-2 pl-3 pr-20 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tr-sm pointer-events-auto cursor-pointer ${isMentioned ? 'ring-2 ring-rose-400' : ''}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">
                                     ${replyHtmlMe}
-                                    <span>${formattedMsg}</span>
-                                    <div class="absolute bottom-1 right-2 flex items-center gap-0.5 opacity-80 text-[9px] pointer-events-none">
+                                    <span class="block">${formattedMsg}</span>
+                                    <div class="absolute bottom-1 right-2 flex items-center justify-end gap-0.5 opacity-80 text-[9px] pointer-events-none min-w-[50px]">
+                                        ${editedStr}
                                         <span>${timeStr}</span>
-                                        <span id="chk-${m.id || m.timestamp}">${getCheckmarkHTML(m, currentRoom)}</span>
+                                        <span id="chk-${m.id || m.timestamp}" class="ml-0.5">${getCheckmarkHTML(m, currentRoom)}</span>
                                     </div>
                                    </div>`
                             }
@@ -2422,12 +2570,13 @@
                                 <div class="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black shadow-sm border border-black/5 ${m.avatar.colorClass} ${m.avatar.textClass}">${avaChar}</div>
                                 <span class="text-[9px] text-slate-400 font-bold">${m.name}</span>
                             </div>
-                            ${m.type === 'sticker' 
-                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ml-2 ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
-                                : `<div class="chat-bubble-other relative p-2 pl-3 pr-12 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tl-sm pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">
+                            ${m.type === 'sticker' && !m.isDeleted
+                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ml-2 ${animClass}" data-animating="${dataAnim}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">${m.message}</div>` 
+                                : `<div class="chat-bubble-other relative p-2 pl-3 pr-14 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tl-sm pointer-events-auto cursor-pointer ml-2 ${isMentioned ? 'ring-2 ring-rose-400' : ''}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">
                                     ${replyHtmlOther}
-                                    <span>${formattedMsg}</span>
-                                    <div class="absolute bottom-1 right-2 flex items-center gap-0.5 opacity-60 text-[9px] pointer-events-none">
+                                    <span class="block">${formattedMsg}</span>
+                                    <div class="absolute bottom-1 right-2 flex items-center justify-end gap-0.5 opacity-60 text-[9px] pointer-events-none">
+                                        ${editedStr}
                                         <span>${timeStr}</span>
                                     </div>
                                    </div>`
@@ -2466,7 +2615,7 @@
             window.toggleStickerPanel(); 
             window.scrollToBottomChat(false);
 
-            const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'sticker', message: sticker, timestamp: Date.now() };
+            const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'sticker', message: sticker, timestamp: Date.now(), isDeleted: false, isEdited: false };
             if(replyingTo) {
                 chat.replyTo = replyingTo;
                 window.cancelReply();
@@ -2492,16 +2641,23 @@
 
             window.scrollToBottomChat(false);
 
-            const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'text', message: msg, timestamp: Date.now() };
-            
-            if(replyingTo) {
-                chat.replyTo = replyingTo;
-                window.cancelReply();
+            if (editingChatId) {
+                try { 
+                    await updateDoc(doc(db, "chats", editingChatId), { message: msg, isEdited: true }); 
+                } catch(e) {}
+                window.cancelEdit();
+            } else {
+                const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'text', message: msg, timestamp: Date.now(), isDeleted: false, isEdited: false };
+                
+                if(replyingTo) {
+                    chat.replyTo = replyingTo;
+                    window.cancelReply();
+                }
+
+                chat.readBy = []; 
+
+                try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
             }
-
-            chat.readBy = []; 
-
-            try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         };
 
         const getReactionHTML = (trxId, reactionsData = {}) => {
@@ -2544,6 +2700,31 @@
             
             try { await updateDoc(doc(db, "history", trxId), { reactions: reactions }); } catch(e) {}
         };
+
+        function renderTrxCategoryOptions() {
+            const container = document.getElementById('trx-categories');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            const allCat = window.getAllCategories();
+            allCat.forEach(c => {
+                const isSel = tempTrxCategorySelection === c.id;
+                container.innerHTML += `
+                    <button id="trx-cat-${c.id}" onclick="window.selectTrxCategory('${c.id}')" class="trx-cat-btn category-btn px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center gap-1 shrink-0 transition-all active:scale-90 ${isSel ? 'selected' : ''}">
+                        <span class="text-xl">${c.icon}</span>
+                        <span class="text-[9px] font-black text-slate-600 dark:text-slate-300 uppercase truncate max-w-[60px]">${c.label}</span>
+                    </button>
+                `;
+            });
+            
+            container.innerHTML += `
+                <button onclick="window.openAddCustomCategory()" class="px-4 py-3 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl flex flex-col items-center justify-center gap-1 shrink-0 transition-all active:scale-90">
+                    <span class="text-xl"><i data-lucide="plus" class="w-6 h-6 text-indigo-500"></i></span>
+                    <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase">Baru</span>
+                </button>
+            `;
+            lucide.createIcons();
+        }
 
         function refreshRoomUI(id) {
             const lang = i18n[appData.language];
@@ -2635,7 +2816,14 @@
                     visibleFiltered.forEach(h => {
                         const isIn = h.type === 'in';
                         const noteHtml = h.note ? `<p class="text-[10px] text-slate-500 italic mt-1 leading-tight whitespace-pre-wrap">"${h.note}"</p>` : '';
-                        histList.innerHTML += `<div class="relative pl-8 mb-6 last:mb-0"><span class="absolute -left-[20px] top-1 ${isIn ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} p-1.5 rounded-full border-4 border-white dark:border-slate-900"><i data-lucide="${isIn ? 'arrow-down' : 'arrow-up'}" class="w-3.5 h-3.5"></i></span><div class="flex justify-between items-start"><div class="flex-1 pr-2"><p class="text-sm font-black dark:text-white truncate">${h.userName}</p><p class="text-[9px] font-bold text-slate-400">${h.date}</p>${noteHtml} ${getReactionHTML(h.id, h.reactions)}</div><p class="text-sm font-black ${isIn ? 'text-emerald-600' : 'text-rose-600'} shrink-0">${isIn?'+':'-'} Rp ${h.amount.toLocaleString('id-ID')}</p></div></div>`;
+                        
+                        let iconHtml = `<i data-lucide="${isIn ? 'arrow-down' : 'arrow-up'}" class="w-3.5 h-3.5"></i>`;
+                        if (h.category) {
+                            const c = window.getAllCategories().find(x => x.id === h.category);
+                            if (c) iconHtml = `<span class="text-xs">${c.icon}</span>`;
+                        }
+
+                        histList.innerHTML += `<div class="relative pl-8 mb-6 last:mb-0"><span class="absolute -left-[20px] top-1 ${isIn ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} w-7 h-7 flex items-center justify-center rounded-full border-4 border-white dark:border-slate-900">${iconHtml}</span><div class="flex justify-between items-start"><div class="flex-1 pr-2"><p class="text-sm font-black dark:text-white truncate">${h.userName}</p><p class="text-[9px] font-bold text-slate-400">${h.date}</p>${noteHtml} ${getReactionHTML(h.id, h.reactions)}</div><p class="text-sm font-black ${isIn ? 'text-emerald-600' : 'text-rose-600'} shrink-0">${isIn?'+':'-'} Rp ${h.amount.toLocaleString('id-ID')}</p></div></div>`;
                     });
                     
                     if (filtered.length > historyRenderLimit) {
@@ -2721,13 +2909,13 @@
             }
         };
 
-        // --- FITUR SHARE GAMBAR (JPG) ---
+        // --- FITUR SHARE GAMBAR (JPG) DENGAN NATIVE SHARE ---
         window.exportRoomToJPG = (roomId) => {
             const r = globalRooms.find(x => x.id === roomId);
             if (!r) return;
 
             window.closeAllModals();
-            window.showToast("Menyiapkan gambar...", false);
+            window.showToast("Menyiapkan file bagikan...", false);
 
             const card = document.getElementById('export-card');
             const container = document.getElementById('export-card-container');
@@ -2773,13 +2961,33 @@
                     container.style.left = '-9999px';
                     container.style.opacity = '1';
 
-                    const imgData = canvas.toDataURL("image/jpeg", 0.9);
-                    const link = document.createElement('a');
-                    link.download = `Tabungan_${r.name.replace(/\s+/g, '_')}.jpg`;
-                    link.href = imgData;
-                    link.click();
-                    
-                    window.showToast("Gambar berhasil disimpan!");
+                    canvas.toBlob(async (blob) => {
+                        const file = new File([blob], `Tabungan_${r.name.replace(/\s+/g, '_')}.jpg`, { type: 'image/jpeg' });
+                        
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                            try {
+                                await navigator.share({
+                                    files: [file],
+                                    title: 'Tabungan Bersama',
+                                    text: `Halo! Ini progres tabungan "${r.name}" kita.`
+                                });
+                                window.showToast("Berhasil dibagikan!");
+                            } catch (err) {
+                                // User membatalkan dialog share
+                                if(err.name !== "AbortError") window.showToast("Dibatalkan.", false);
+                            }
+                        } else {
+                            // Fallback jika Native Share tidak didukung, unduh sebagai file
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.download = file.name;
+                            link.href = url;
+                            link.click();
+                            URL.revokeObjectURL(url);
+                            window.showToast("Gambar berhasil disimpan!");
+                        }
+                    }, 'image/jpeg', 0.9);
+
                 }).catch(err => {
                     container.style.left = '-9999px';
                     window.showToast("Gagal memproses gambar.", true);
@@ -2800,6 +3008,7 @@
             const trxUser = document.getElementById('trx-user-display');
             const trxNote = document.getElementById('trx-note');
             const btnSubmit = document.getElementById('btn-submit-trx');
+            const trxCatContainer = document.getElementById('trx-category-container');
             
             const r = globalRooms.find(x => x.id === currentRoomId);
             const msContainer = document.getElementById('trx-milestone-container');
@@ -2813,6 +3022,15 @@
             
             if(btnSubmit) {
                 btnSubmit.className = `w-full py-5 text-white font-black text-lg rounded-[1.5rem] shadow-xl active:scale-95 transition-all ${type === 'nabung' ? 'bg-emerald-500 shadow-emerald-200 dark:shadow-none' : 'bg-rose-500 shadow-rose-200 dark:shadow-none'}`;
+            }
+
+            // Tampilkan Kategori Dinamis hanya saat Nabung
+            if(type === 'nabung' && trxCatContainer) {
+                trxCatContainer.classList.remove('hidden');
+                tempTrxCategorySelection = 'lainnya'; // reset
+                renderTrxCategoryOptions();
+            } else if(trxCatContainer) {
+                trxCatContainer.classList.add('hidden');
             }
 
             if(type === 'nabung' && r && r.hasMilestones) {
@@ -2878,7 +3096,7 @@
 
             const reachedGoal = (r.hasTarget && newBal === r.target && type === 'in');
             
-            pendingTransaction = { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal };
+            pendingTransaction = { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal, category: type === 'in' ? tempTrxCategorySelection : null };
 
             const m = document.getElementById('modal-confirm-trx');
             const card = document.getElementById('confirm-trx-card');
@@ -2901,7 +3119,7 @@
 
         window.executeTransaction = async () => {
             if (!pendingTransaction) return;
-            const { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal } = pendingTransaction;
+            const { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal, category } = pendingTransaction;
             
             const btn = document.getElementById('btn-confirm-yes');
             const origText = btn.innerText;
@@ -2909,7 +3127,12 @@
 
             const ts = Date.now();
             const trxId = 'trx_' + ts;
-            const h = { id: trxId, roomId: currentRoomId, roomName: r.name, type: type, amount: amount, userName: appData.user, note: finalNote, timestamp: ts, date: new Date().toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}), reactions: {} };
+            const h = { 
+                id: trxId, roomId: currentRoomId, roomName: r.name, type: type, amount: amount, 
+                userName: appData.user, note: finalNote, timestamp: ts, 
+                date: new Date().toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}), 
+                reactions: {}, category: category 
+            };
 
             try {
                 await updateDoc(doc(db, "rooms", currentRoomId), { balance: newBal, milestones: updatedMilestones });
@@ -2922,10 +3145,12 @@
                 pendingTransaction = null; 
                 window.showToast("Transaksi Berhasil!");
 
-                // Memicu modal Post-Transaction Share
-                setTimeout(() => {
-                    window.showModal('modal-post-trx-share');
-                }, 400);
+                // Memicu modal Post-Transaction Share jika itu adalah Nabung (In)
+                if (type === 'in') {
+                    setTimeout(() => {
+                        window.showModal('modal-post-trx-share');
+                    }, 400);
+                }
 
             } catch(e) { 
                 window.showToast("Terjadi kesalahan sistem.", true); 
@@ -3303,6 +3528,11 @@
                     let msgText = 'Sticker';
                     const textNode = activeRow.querySelector('.chat-bubble-me > span:not(.inline-block), .chat-bubble-other > span:not(.inline-block)');
                     if(textNode) msgText = textNode.innerText;
+
+                    // Pastikan tidak mereply pesan yang ditarik
+                    if(msgText.includes('Pesan ini telah dihapus') || msgText.includes('This message was deleted')) {
+                        return;
+                    }
 
                     if (navigator.vibrate) navigator.vibrate(50);
                     setTimeout(() => {

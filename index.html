@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, theme-color=#4f46e5">
     
-    <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Tabungan">
@@ -12,12 +11,9 @@
     
     <title>Tabungan Bersama</title>
     
-    <!-- Dynamic Manifest Link -->
     <link rel="manifest" id="manifest-link">
-    <!-- Icon for iOS -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iI2VlZjJmZiIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyOCwgMTI4KSBzY2FsZSgwLjUpIj48cGF0aCBmaWxsPSIjNGY0NmU1IiBkPSJNMjU2IDk2TDY0IDE5MnY0Mi42aDM4NFYxOTJMMjU2IDk2em0tMTQ5LjMgMTgxLjN2MTQ5LjRoNDIuNlYyNzcuM2gtNDIuNnptMTA2LjYgMHYxNDkuNGg0Mi42VjI3Ny4zaC00Mi42em0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNoLTQyLjZ6TTY0IDQ2OS4zdjQyLjZoMzg0di00Mi42SDY0eiIvPjwvZz48L3N2Zz4=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iI2VlZjJmZiIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyOCwgMTI4KSBzY2FsZSgwLjUpIj48cGF0aCBmaWxsPSIjNGY0NmU1IiBkPSJNMjU2IDk2TDY0IDE5MnY0Mi42aDM4NFYxOTJMMjU2IDk2em0tMTQ5LjMgMTgxLjN2MTQ5LjRoNDIuNlYyNzcuM2gtNDIuNnptMTA2LjYgMHYxNDkuNGg0Mi42VjI3Ny4zaC00Mi42em0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNIMzIwem0xMDYuNyAwdjE0OS40aDQyLjZWMjc3LjNoLTQyLjZ6TTY0IDQ2OS4zdjQyLjZoMzg0di00Mi42SDY0eiIvPjwvZz48L3N2Zz4=">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,9 +24,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- HTML2Canvas untuk Export JPG -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
     <style>
         body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; } 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -71,25 +64,20 @@
         .emoji-btn.selected { border-color: #4f46e5; background-color: #eef2ff; transform: scale(1.1); border-width: 2px; }
         .dark .emoji-btn.selected { background-color: #312e81; }
 
-        /* Chat bubbles WA fit shape */
-        .chat-bubble-me { background-color: #4f46e5; color: white; }
-        .chat-bubble-other { background-color: #f1f5f9; color: #1e293b; }
+        /* Chat bubbles */
+        .chat-bubble-me { border-radius: 1rem 1rem 0 1rem; background-color: #4f46e5; color: white; }
+        .chat-bubble-other { border-radius: 1rem 1rem 1rem 0; background-color: #f1f5f9; color: #1e293b; }
         .dark .chat-bubble-other { background-color: #1e293b; color: #f8fafc; }
         
         /* Mention Highlight */
         .mention-highlight { color: #3b82f6; font-weight: 900; background: rgba(59, 130, 246, 0.1); padding: 0 4px; border-radius: 4px; }
         .mention-me { color: #f43f5e; font-weight: 900; background: rgba(244, 63, 94, 0.1); padding: 0 4px; border-radius: 4px; }
-        
-        /* Animasi Khusus Modal Stats */
-        .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 transition-colors duration-300">
 
     <div class="app-container bg-slate-50 dark:bg-slate-900 shadow-2xl">
         
-        <!-- SPLASH SCREEN -->
         <div id="splash-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700 max-w-[480px] mx-auto overflow-hidden">
             <div class="relative w-32 h-32 flex justify-center items-center mb-8">
                 <div class="absolute top-2 left-1 text-2xl anim-coin-1 drop-shadow-md">🪙</div>
@@ -102,7 +90,6 @@
             <p class="text-xs font-bold text-slate-400 mt-2 tracking-widest uppercase">Menyiapkan Dompet...</p>
         </div>
 
-        <!-- REALTIME NOTIFICATION TOAST -->
         <div id="realtime-notif" class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-full w-[90%] max-w-[400px] bg-indigo-600 text-white p-4 rounded-2xl shadow-2xl z-[110] flex items-start gap-3 transition-transform duration-300 cursor-pointer" onclick="this.classList.replace('translate-y-4', '-translate-y-full')">
             <div class="bg-white/20 p-2 rounded-full shrink-0"><i data-lucide="bell-ring" class="w-5 h-5 text-white"></i></div>
             <div>
@@ -111,12 +98,10 @@
             </div>
         </div>
 
-        <!-- Normal Toast Notification -->
         <div id="toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 translate-y-4 bg-slate-900 dark:bg-slate-800 text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 z-[100] whitespace-nowrap pointer-events-none">
             Pesan
         </div>
 
-        <!-- VIEW 1: HOME -->
         <main id="view-home" class="flex-1 overflow-y-auto no-scrollbar pb-24 hidden">
             <div class="px-6 pt-10 pb-4 bg-white dark:bg-slate-900 relative">
                 <div class="flex items-center justify-between">
@@ -143,10 +128,9 @@
                         <h1 id="total-balance" class="text-4xl font-black tracking-tight mb-4" data-value="0">Rp 0</h1>
                     </div>
 
-                    <!-- LIVE FEED CONTAINER -->
                     <div id="live-feed-container" class="bg-white/20 backdrop-blur-sm border border-white/10 rounded-xl p-2.5 shadow-inner hidden flex-col mb-5">
                         <div id="live-feed-list" class="max-h-[75px] overflow-y-auto no-scrollbar space-y-2 snap-y">
-                        </div>
+                            </div>
                     </div>
                     
                     <div class="relative z-10 pt-4 border-t border-white/20 flex justify-between items-center">
@@ -171,7 +155,6 @@
                     </button>
                 </div>
                 
-                <!-- ROOM FILTERS -->
                 <div class="flex gap-2 overflow-x-auto no-scrollbar mb-6 pb-1">
                     <button onclick="window.filterRooms('all')" id="filter-room-all" class="px-5 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-[11px] font-black rounded-full whitespace-nowrap shadow-sm transition-colors" data-t="filter_room_all">Semua</button>
                     <button onclick="window.filterRooms('personal')" id="filter-room-personal" class="px-5 py-2 bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-[11px] font-black rounded-full whitespace-nowrap shadow-sm transition-colors" data-t="filter_room_personal">Pribadi</button>
@@ -182,11 +165,10 @@
             </div>
         </main>
 
-        <!-- VIEW 2: DETAIL ROOM -->
         <main id="view-detail" class="flex-1 overflow-y-auto no-scrollbar bg-slate-50 dark:bg-slate-950 hidden relative">
             <div class="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md z-20 px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-3 flex-1 overflow-hidden">
-                    <button onclick="window.leaveRoomView()" class="p-2 text-slate-600 dark:text-slate-400 active:scale-90"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
+                    <button onclick="window.history.back()" class="p-2 text-slate-600 dark:text-slate-400 active:scale-90"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
                     <div class="flex flex-col">
                         <h1 id="detail-title" class="font-bold text-lg text-slate-800 dark:text-white truncate leading-tight">Detail</h1>
                         <span id="detail-category-badge" class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest hidden mt-0.5">✈️ Liburan</span>
@@ -195,19 +177,18 @@
                 <button id="btn-edit-room" onclick="window.openEditModal()" class="p-2 text-slate-400 hover:text-indigo-500 transition-colors shrink-0 hidden"><i data-lucide="edit-2" class="w-5 h-5"></i></button>
             </div>
 
-            <!-- MEMBER PILE -->
             <div class="px-8 pt-6 pb-2 bg-white dark:bg-slate-900 flex flex-col items-center">
-                <div id="member-pile-container" class="flex items-center justify-center -space-x-2"></div>
-                <p class="text-[10px] text-slate-400 font-bold mt-2 uppercase tracking-widest flex items-center gap-1" id="member-count-text">0 Anggota <i data-lucide="users" class="w-3 h-3"></i></p>
+                <div id="member-pile-container" class="flex items-center justify-center -space-x-2 mb-3"></div>
+                <button onclick="window.openMemberListModal()" class="px-5 py-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 active:scale-95 transition-transform border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <span id="member-count-text">0 Anggota</span> <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                </button>
             </div>
 
-            <!-- BALANCE -->
             <div class="px-8 pb-4 pt-2 bg-white dark:bg-slate-900 text-center">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2" data-t="available_balance">Saldo Tersedia</p>
                 <h2 id="detail-balance" class="text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Rp 0</h2>
             </div>
 
-            <!-- TAB NAVIGATOR (RINGKASAN VS DISKUSI) -->
             <div class="px-8 pb-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
                 <div class="flex gap-2 overflow-x-auto no-scrollbar justify-center">
                     <button onclick="window.switchRoomTab('ringkasan')" id="tab-ringkasan" class="px-6 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-[11px] font-black rounded-full whitespace-nowrap shadow-sm transition-colors" data-t="tab_summary">Ringkasan</button>
@@ -218,7 +199,6 @@
                 </div>
             </div>
 
-            <!-- TAB CONTENT 1: RINGKASAN -->
             <div id="room-tab-ringkasan" class="pb-24">
                 <div class="px-8 pb-6 pt-6 bg-white dark:bg-slate-900">
                     <div id="detail-target-container" class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-3xl text-left hidden border border-slate-100 dark:border-slate-800">
@@ -246,21 +226,17 @@
                 </div>
             </div>
 
-            <!-- TAB CONTENT 2: DISKUSI -->
             <div id="room-tab-diskusi" class="hidden">
                 <div class="p-6 pb-28 relative flex flex-col justify-end min-h-[calc(100vh-220px)]">
-                    <div id="chat-messages" class="w-full flex flex-col space-y-2 pr-2">
-                        <!-- Chats injected here -->
-                    </div>
+                    <div id="chat-messages" class="w-full space-y-4 pr-2">
+                        </div>
                 </div>
 
-                <!-- Floating Scroll Down Button -->
                 <button id="chat-scroll-btn" onclick="window.scrollToBottomChat(false)" class="fixed bottom-[90px] right-6 z-40 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 p-3 rounded-full shadow-xl border border-slate-100 dark:border-slate-700 hidden active:scale-90 transition-transform">
                     <i data-lucide="chevron-down" class="w-5 h-5"></i>
                     <span id="chat-unread-dot-hint" class="absolute top-0 right-0 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-800 hidden"></span>
                 </button>
 
-                <!-- FIXED CHAT INPUT -->
                 <div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto z-40 bg-white dark:bg-slate-900">
                     <div id="sticker-panel" class="absolute bottom-full mb-2 left-6 right-6 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 p-4 hidden flex-wrap gap-2 transition-all justify-center">
                         <button onpointerdown="event.preventDefault(); window.sendSticker('💸')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💸</button>
@@ -286,39 +262,27 @@
                         <button onpointerdown="event.preventDefault(); window.sendSticker('💎')" class="text-3xl active:scale-90 hover:bg-slate-50 dark:hover:bg-slate-700 p-2 rounded-xl transition-all">💎</button>
                     </div>
 
-                    <!-- REPLY PREVIEW BOX -->
                     <div id="reply-preview" class="hidden bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-3 flex justify-between items-center shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]">
                         <div class="flex-1 overflow-hidden border-l-4 border-indigo-500 pl-3">
-                            <p class="text-[10px] font-black text-indigo-500 uppercase flex items-center gap-1"><i data-lucide="reply" class="w-3 h-3"></i> <span data-t="reply">Membalas</span> <span id="reply-to-name" class="ml-1"></span></p>
+                            <p class="text-[10px] font-black text-indigo-500 uppercase flex items-center gap-1"><i data-lucide="reply" class="w-3 h-3"></i> Membalas <span id="reply-to-name"></span></p>
                             <p id="reply-to-msg" class="text-xs font-medium text-slate-600 dark:text-slate-300 truncate mt-0.5">message</p>
                         </div>
                         <button onclick="window.cancelReply()" class="p-2 ml-2 text-slate-400 bg-slate-200 dark:bg-slate-700 rounded-full active:scale-90"><i data-lucide="x" class="w-3 h-3"></i></button>
                     </div>
 
-                    <!-- EDIT PREVIEW BOX -->
-                    <div id="edit-preview" class="hidden bg-amber-50 dark:bg-amber-900/20 border-t border-amber-200 dark:border-amber-700 p-3 flex justify-between items-center shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]">
-                        <div class="flex-1 overflow-hidden border-l-4 border-amber-500 pl-3">
-                            <p class="text-[10px] font-black text-amber-600 dark:text-amber-500 uppercase flex items-center gap-1"><i data-lucide="edit-2" class="w-3 h-3"></i> <span data-t="edit_msg">Edit Pesan</span></p>
-                        </div>
-                        <button onclick="window.cancelEdit()" class="p-2 ml-2 text-slate-400 bg-slate-200 dark:bg-slate-700 rounded-full active:scale-90"><i data-lucide="x" class="w-3 h-3"></i></button>
-                    </div>
-
                     <div class="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2 pb-safe shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)]">
                         <button onpointerdown="event.preventDefault(); window.toggleStickerPanel()" class="p-3 text-slate-400 hover:text-indigo-500 bg-white dark:bg-slate-800 rounded-xl transition-colors shadow-sm"><i data-lucide="smile" class="w-6 h-6"></i></button>
-                        <!-- Autocomplete OFF & Spellcheck False -->
                         <input type="text" id="chat-input" autocomplete="off" spellcheck="false" placeholder="Ketik pesan..." data-t="type_message" class="flex-1 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20 text-sm font-bold text-slate-900 dark:text-white shadow-sm">
-                        <button onpointerdown="event.preventDefault(); window.sendChatMessage()" class="p-3.5 bg-indigo-600 text-white rounded-xl active:scale-90 transition-transform shadow-lg shadow-indigo-200 dark:shadow-none" id="btn-send-chat"><i data-lucide="send" class="w-5 h-5"></i></button>
+                        <button onpointerdown="event.preventDefault(); window.sendChatMessage()" class="p-3.5 bg-indigo-600 text-white rounded-xl active:scale-90 transition-transform shadow-lg shadow-indigo-200 dark:shadow-none"><i data-lucide="send" class="w-5 h-5"></i></button>
                     </div>
                 </div>
             </div>
 
-            <!-- FAB TRANSACTION -->
             <button id="fab-trx" onclick="window.showModal('modal-action-sheet')" class="fixed bottom-6 right-6 z-40 bg-premium text-white p-4 rounded-full shadow-2xl shadow-indigo-500/50 dark:shadow-none active:scale-90 transition-transform">
                 <i data-lucide="plus" class="w-7 h-7"></i>
             </button>
         </main>
 
-        <!-- VIEW 3: HISTORY -->
         <main id="view-history" class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-white dark:bg-slate-900 hidden">
             <div class="px-6 pt-10 pb-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10">
                 <h1 class="text-2xl font-black text-slate-900 dark:text-white mb-5 tracking-tight" data-t="history">Riwayat</h1>
@@ -338,7 +302,6 @@
             <div id="global-history-container" class="p-6 space-y-4"></div>
         </main>
 
-        <!-- VIEW 4: PROFILE -->
         <main id="view-profile" class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-slate-50 dark:bg-slate-950 hidden">
             <div class="p-10 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-center relative">
                 <div class="relative inline-block mx-auto mb-5">
@@ -356,7 +319,6 @@
                 <div>
                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-2 mb-4" data-t="data_activities">Data & Aktivitas</h3>
                     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                        <!-- Menggunakan switchView dengan PushState untuk sub-halaman Arsip -->
                         <div onclick="window.switchView('view-archive', null, true)" class="flex items-center justify-between p-5 cursor-pointer active:bg-slate-50 dark:active:bg-slate-800 transition-colors border-b border-slate-100 dark:border-slate-800">
                             <div class="flex items-center gap-4">
                                 <div class="p-2.5 bg-amber-50 dark:bg-amber-900/20 text-amber-500 rounded-xl"><i data-lucide="archive" class="w-5 h-5"></i></div>
@@ -408,7 +370,6 @@
             </div>
         </main>
 
-        <!-- VIEW 5: ARCHIVE -->
         <main id="view-archive" class="flex-1 overflow-y-auto no-scrollbar pb-24 bg-slate-50 dark:bg-slate-950 hidden">
             <div class="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md z-10 px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
                 <button onclick="window.history.back()" class="p-2 text-slate-600 dark:text-slate-400 active:scale-90 transition-transform"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
@@ -417,7 +378,6 @@
             <div class="p-6" id="archive-container"></div>
         </main>
 
-        <!-- VIEW 6: CREATE -->
         <main id="view-create" class="flex-1 overflow-y-auto no-scrollbar pb-32 bg-white dark:bg-slate-950 hidden relative">
              <div class="sticky top-0 bg-white z-10 px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3 dark:bg-slate-900">
                 <button onclick="window.history.back()" class="p-2 text-slate-600 active:scale-90 dark:text-slate-400"><i data-lucide="x" class="w-7 h-7"></i></button>
@@ -430,9 +390,7 @@
                 </div>
                 
                 <div>
-                    <div class="flex justify-between items-center mb-3 px-1">
-                        <label class="block text-xs font-black text-slate-400 uppercase tracking-widest" data-t="category">Kategori</label>
-                    </div>
+                    <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3 px-1" data-t="category">Kategori</label>
                     <div id="create-categories" class="flex gap-3 overflow-x-auto no-scrollbar pb-2"></div>
                 </div>
 
@@ -476,7 +434,6 @@
             </div>
         </main>
 
-        <!-- FOOTER NAV -->
         <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-10 pb-safe hidden">
             <button onclick="window.navigateTab('view-home', 'nav-home')" class="nav-btn flex-1 flex flex-col items-center gap-1 text-indigo-600 transition-all" id="nav-home">
                 <i data-lucide="home" class="w-6 h-6"></i>
@@ -492,10 +449,17 @@
             </button>
         </nav>
 
-        <!-- OVERLAY MODALS -->
         <div id="modal-overlay" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm z-[50] hidden transition-opacity" onclick="window.closeAllModals()"></div>
 
-        <!-- MODAL TRANSACTION (NABUNG / TARIK) -->
+        <div id="modal-member-list" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-slate-50 dark:bg-slate-950 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden flex flex-col max-h-[85vh]">
+            <div class="p-6 pb-4 flex justify-between items-center bg-white dark:bg-slate-900 rounded-t-[2.5rem] border-b border-slate-100 dark:border-slate-800 sticky top-0 z-10">
+                <h3 class="font-black text-xl text-slate-900 dark:text-white">Daftar Anggota</h3>
+                <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto no-scrollbar flex-1 space-y-4" id="member-list-container">
+                </div>
+        </div>
+
         <div id="modal-transaction" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-6">
@@ -506,12 +470,6 @@
                 <input type="hidden" id="trx-type" value="in">
                 
                 <div class="space-y-4 mb-8">
-                    <!-- Dinamis Kategori Transaksi -->
-                    <div id="trx-category-container" class="hidden mb-4">
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2" data-t="category">Kategori Transaksi</label>
-                        <div id="trx-categories" class="flex gap-3 overflow-x-auto no-scrollbar pb-2"></div>
-                    </div>
-
                     <div id="trx-milestone-container" class="hidden">
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Pilih Milestone</label>
                         <select id="trx-milestone-select" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
@@ -541,44 +499,6 @@
             </div>
         </div>
 
-        <!-- MODAL POST-TRANSACTION SHARE -->
-        <div id="modal-post-trx-share" class="fixed inset-0 z-[80] bg-slate-900/60 backdrop-blur-sm hidden flex-col justify-end max-w-[480px] mx-auto transition-opacity duration-300 opacity-0" onclick="if(event.target === this) window.closeAllModals()">
-            <div class="bg-white dark:bg-slate-900 w-full rounded-t-[2.5rem] p-8 text-center transform translate-y-full transition-transform duration-300" id="post-trx-card">
-                <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-4xl bg-emerald-100 drop-shadow-md">🎉</div>
-                <h3 class="font-black text-2xl text-slate-900 dark:text-white mb-2">Transaksi Sukses!</h3>
-                <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-8">Pamerin progres tabungan kamu ke teman-teman yuk biar makin semangat!</p>
-                
-                <div class="flex flex-col gap-3">
-                    <button onclick="window.exportRoomToJPG(currentRoomId)" class="w-full py-4 bg-emerald-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-200 dark:shadow-none active:scale-95 transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="share-2" class="w-5 h-5"></i> <span data-t="share">Bagikan</span>
-                    </button>
-                    <button onclick="window.closeAllModals()" class="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-2xl active:scale-95 transition-transform">Nanti Saja</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL TAMBAH KATEGORI KUSTOM -->
-        <div id="modal-add-category" class="fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center max-w-[480px] mx-auto p-8 transition-opacity duration-300 opacity-0">
-            <div class="bg-white dark:bg-slate-900 w-full rounded-[2rem] p-8 text-center shadow-2xl transform scale-95 transition-transform duration-300" id="add-category-card">
-                <h3 class="font-black text-xl text-slate-900 dark:text-white mb-6">Tambah Kategori</h3>
-                <div class="space-y-4 mb-6 text-left">
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Icon (Emoji)</label>
-                        <input type="text" id="custom-cat-emoji" autocomplete="off" placeholder="Contoh: 🏖️" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-xl text-center text-slate-900 dark:text-white outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nama Kategori</label>
-                        <input type="text" id="custom-cat-name" autocomplete="off" placeholder="Nama Kategori" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-slate-900 dark:text-white outline-none">
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="window.closeAllModals()" class="flex-1 py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-black rounded-2xl active:scale-95 transition-transform">Batal</button>
-                    <button onclick="window.saveCustomCategory()" class="flex-1 py-4 bg-indigo-600 text-white font-black rounded-2xl shadow-xl active:scale-95 transition-transform">Simpan</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL ACTION SHEET (PILIH TRANSAKSI) -->
         <div id="modal-action-sheet" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-6">
@@ -606,20 +526,6 @@
             </div>
         </div>
 
-        <!-- MODAL CHAT OPTIONS -->
-        <div id="modal-chat-options" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[80] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
-            <div class="p-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-black text-xl text-slate-900 dark:text-white" data-t="options">Opsi Pesan</h3>
-                    <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
-                </div>
-                <div class="space-y-3" id="chat-options-container">
-                    <!-- Dinamis Buttons (Reply, Edit, Tarik Pesan) -->
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL CONFIRM TRX -->
         <div id="modal-confirm-trx" class="fixed inset-0 z-[70] flex items-center justify-center p-8 hidden bg-slate-900/80 max-w-[480px] mx-auto backdrop-blur-sm transition-opacity duration-300 opacity-0">
             <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] w-full text-center relative shadow-2xl transform scale-95 transition-transform duration-300" id="confirm-trx-card">
                 <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-4xl drop-shadow-md" id="confirm-trx-icon">💰</div>
@@ -632,7 +538,6 @@
             </div>
         </div>
 
-        <!-- MODAL TUTORIAL INSTALL PWA -->
         <div id="modal-install" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-6">
@@ -640,12 +545,10 @@
                     <button onclick="window.closeAllModals()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
                 </div>
                 <div id="install-instructions" class="space-y-4">
-                    <!-- Dynamic Install Info -->
-                </div>
+                    </div>
             </div>
         </div>
 
-        <!-- ONBOARDING -->
         <div id="modal-onboarding" class="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-white dark:bg-slate-900 max-w-[480px] mx-auto transition-opacity duration-500 hidden opacity-0 overflow-y-auto no-scrollbar">
             <div class="w-full text-center py-8">
                 <div class="w-24 h-24 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mx-auto flex items-center justify-center mb-6 shadow-inner border border-indigo-100 dark:border-indigo-900/30">
@@ -707,7 +610,6 @@
             </div>
         </div>
 
-        <!-- NAME ENTRY (AFTER LOGIN) -->
         <div id="modal-name-entry" class="fixed inset-0 z-[60] flex items-center justify-center p-8 hidden bg-white dark:bg-slate-900 max-w-[480px] mx-auto transition-opacity duration-500 opacity-0">
             <div class="w-full text-center">
                 <div class="w-28 h-28 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mx-auto flex items-center justify-center mb-10 shadow-inner border border-indigo-100 dark:border-indigo-900/30">
@@ -727,7 +629,6 @@
             </div>
         </div>
 
-        <!-- MODAL AVATAR -->
         <div id="modal-avatar" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden flex flex-col max-h-[80vh]">
             <div class="p-8 pb-4 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
                 <h3 class="font-black text-xl text-slate-900 dark:text-white" data-t="choose_avatar">Pilih Avatar</h3>
@@ -744,7 +645,6 @@
             </div>
         </div>
 
-        <!-- MODAL EDIT -->
         <div id="modal-edit" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-8">
@@ -768,7 +668,6 @@
             </div>
         </div>
 
-        <!-- MODAL MANAGE ROOM -->
         <div id="modal-manage" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-6">
@@ -779,7 +678,6 @@
             </div>
         </div>
 
-        <!-- MODAL SHARE LINK -->
         <div id="modal-share" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] z-[55] transform translate-y-full transition-transform duration-300 shadow-2xl hidden">
             <div class="p-8">
                 <div class="flex justify-between items-center mb-6">
@@ -793,84 +691,11 @@
             </div>
         </div>
 
-        <!-- MODAL MEMBER STATS -->
-        <div id="modal-member-stats" class="fixed inset-0 z-[65] bg-slate-900/60 backdrop-blur-sm hidden flex-col justify-end max-w-[480px] mx-auto transition-opacity duration-300 opacity-0" onclick="if(event.target === this) window.closeMemberStats()">
-            <div class="bg-white dark:bg-slate-900 w-full rounded-t-[2.5rem] p-8 transform translate-y-full transition-transform duration-300" id="member-stats-card">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="flex items-center gap-4">
-                        <div id="ms-avatar" class="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-black shadow-inner border-2 border-slate-100 dark:border-slate-800"></div>
-                        <div>
-                            <h3 id="ms-name" class="font-black text-xl text-slate-900 dark:text-white leading-tight">Nama</h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Status Anggota</p>
-                        </div>
-                    </div>
-                    <button onclick="window.closeMemberStats()" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full active:scale-90 transition-transform"><i data-lucide="x" class="w-5 h-5 text-slate-500"></i></button>
-                </div>
-
-                <div class="bg-indigo-50 dark:bg-indigo-900/20 p-5 rounded-3xl border border-indigo-100 dark:border-indigo-800/50 mb-6 flex justify-between items-center">
-                    <div>
-                        <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-1">Total Terkumpul</p>
-                        <p id="ms-total-in" class="text-2xl font-black text-indigo-600 dark:text-indigo-400">Rp 0</p>
-                    </div>
-                    <div id="ms-progress-badge" class="bg-indigo-600 text-white px-3 py-1.5 rounded-full text-xs font-black shadow-md hidden">
-                        0%
-                    </div>
-                </div>
-
-                <h4 class="text-xs font-black text-slate-800 dark:text-slate-200 mb-4 uppercase tracking-widest flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Riwayat Spesifik</h4>
-                <div id="ms-history-list" class="max-h-[30vh] overflow-y-auto no-scrollbar space-y-3 pb-4">
-                    <!-- History injected here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- HIDDEN EXPORT CARD (For HTML2Canvas) -->
-        <div id="export-card-container" class="fixed top-0 left-[-9999px] w-[400px] z-0">
-            <div id="export-card" class="bg-white p-8 rounded-[2.5rem] relative overflow-hidden">
-                <!-- Decorative background elements -->
-                <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500 rounded-full opacity-10 blur-2xl"></div>
-                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-500 rounded-full opacity-10 blur-2xl"></div>
-                
-                <div class="text-center mb-8 relative z-10">
-                    <div class="w-16 h-16 bg-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-3xl shadow-lg mb-4 text-white">
-                        💰
-                    </div>
-                    <h2 class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1">Tabungan Bersama</h2>
-                    <h1 id="export-title" class="text-2xl font-black text-slate-900 leading-tight">Nama Tujuan</h1>
-                </div>
-
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 mb-6 relative z-10 text-center">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Terkumpul</p>
-                    <p id="export-balance" class="text-4xl font-black text-indigo-600 tracking-tight">Rp 0</p>
-                    
-                    <div id="export-target-container" class="mt-4 pt-4 border-t border-slate-200 hidden">
-                        <div class="flex justify-between text-[10px] font-bold mb-2 text-slate-500">
-                            <span>Progres Target</span>
-                            <span id="export-progress-text">0 / 0</span>
-                        </div>
-                        <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-                            <div id="export-progress-bar" class="bg-indigo-500 h-full" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative z-10">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 text-center">Anggota</p>
-                    <div id="export-members" class="flex flex-wrap justify-center gap-2"></div>
-                </div>
-
-                <div class="mt-8 pt-6 border-t border-dashed border-slate-200 text-center relative z-10">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Dibuat dengan aplikasi Tabungan Bersama</p>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Firebase SDK Modules -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         // --- CONFIG ---
@@ -915,8 +740,7 @@
                 email_label: "Email", pass_label: "Password", forgot_pass: "Lupa Password?",
                 login_btn: "Masuk", register_btn: "Daftar Akun", no_account: "Belum punya akun?",
                 register_link: "Daftar Sekarang", has_account: "Sudah punya akun?", login_link: "Masuk di sini", or: "ATAU",
-                pass_reset_sent: "Email reset password telah dikirim!", copy_link: "Salin Tautan",
-                delete_msg: "Tarik Pesan", edit_msg: "Edit Pesan", reply: "Balas", msg_deleted: "Pesan ini telah dihapus"
+                pass_reset_sent: "Email reset password telah dikirim!"
             },
             en: {
                 welcome: "Welcome,", total_balance: "Total Balance", income: "Income", outcome: "Outcome",
@@ -945,8 +769,7 @@
                 email_label: "Email", pass_label: "Password", forgot_pass: "Forgot Password?",
                 login_btn: "Login", register_btn: "Register Account", no_account: "Don't have an account?",
                 register_link: "Register Now", has_account: "Already have an account?", login_link: "Login here", or: "OR",
-                pass_reset_sent: "Password reset email sent!", copy_link: "Copy Link",
-                delete_msg: "Delete for Everyone", edit_msg: "Edit Message", reply: "Reply", msg_deleted: "This message was deleted"
+                pass_reset_sent: "Password reset email sent!"
             }
         };
 
@@ -963,16 +786,13 @@
         let appData = JSON.parse(localStorage.getItem(DB_KEY)) || {
             user: '', email: '', uid: '',
             avatar: { emoji: '', colorClass: 'bg-indigo-100', textClass: 'text-indigo-700' },
-            joinedRooms: [], darkMode: false, language: 'id', customCategories: []
+            joinedRooms: [], darkMode: false, language: 'id'
         };
         let tempAvatarSelection = { ...appData.avatar };
         let tempCategorySelection = 'lainnya'; 
-        let tempTrxCategorySelection = 'lainnya'; 
 
         let globalRooms = [];
         let globalHistory = [];
-        let globalUsers = {}; 
-        let currentRoomChatsData = []; 
         let currentRoomId = null;
         let roomToDelete = null;
         let isBalanceHidden = false;
@@ -982,28 +802,32 @@
         let currentRoomFilter = 'all'; 
         let isInitialHistoryLoad = true; 
         
+        let currentUserHistoryFilter = null; // Menambahkan variabel untuk filter pengguna
+
         let chatUnsubscribe = null; 
         let lastBackPress = 0; 
         let lastChatCounts = {}; 
 
+        // Optimasi: Variabel untuk fitur Reply Chat
         let replyingTo = null;
-        let editingChatId = null;
+
+        // Pagination Limits
         let historyRenderLimit = 15;
         let chatRenderLimit = 20;
 
+        // Auth States
         let isLoginMode = true;
         let pendingTransaction = null; 
+
+        // PWA Prompt
         let deferredPrompt;
 
-        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install', 'modal-post-trx-share', 'modal-add-category', 'modal-chat-options'];
+        const modalIds = ['modal-transaction', 'modal-manage', 'modal-share', 'modal-avatar', 'modal-edit', 'modal-name-entry', 'modal-action-sheet', 'modal-install', 'modal-member-list'];
 
+        // Helper untuk mencegah error single/double quote pada string inline HTML
         window.safeStr = (str) => {
             if(!str) return '';
             return String(str).replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        };
-        
-        window.getAllCategories = () => {
-            return [...CATEGORIES, ...(appData.customCategories || [])];
         };
 
         // --- DYNAMIC MANIFEST & SERVICE WORKER ---
@@ -1051,20 +875,6 @@
             navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
         }
 
-        // --- PRESENCE LOGIC ---
-        const setOnlineStatus = async (status) => {
-            if(appData.uid) {
-                try { await updateDoc(doc(db, "users", appData.uid), { isOnline: status }); } catch(e) {}
-            }
-        };
-
-        window.addEventListener('visibilitychange', () => {
-            setOnlineStatus(document.visibilityState === 'visible');
-        });
-        window.addEventListener('beforeunload', () => {
-            setOnlineStatus(false);
-        });
-
         // --- ROUTING / HARDWARE BACK BUTTON ---
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -1075,7 +885,7 @@
         history.pushState({ viewId: 'view-home', navId: 'nav-home', isTab: true }, "", location.href);
 
         window.addEventListener('popstate', (e) => {
-            const modals = document.querySelectorAll('.fixed.z-\\[55\\], .fixed.z-\\[60\\], .fixed.z-\\[65\\], .fixed.z-\\[70\\], .fixed.z-\\[80\\]');
+            const modals = document.querySelectorAll('.fixed.z-\\[55\\], .fixed.z-\\[60\\], .fixed.z-\\[70\\]');
             let isModalOpen = false;
             modals.forEach(m => {
                 if(m && !m.classList.contains('hidden') && !m.classList.contains('translate-y-full') && !m.classList.contains('opacity-0')) {
@@ -1143,7 +953,7 @@
             if(t) { 
                 t.innerText = msg; 
                 t.className = `fixed bottom-24 left-1/2 transform -translate-x-1/2 translate-y-4 ${isError ? 'bg-rose-600' : 'bg-slate-900 dark:bg-slate-800'} text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 z-[100] whitespace-nowrap pointer-events-none`;
-                void t.offsetWidth;
+                void t.offsetWidth; // Trigger reflow
                 t.classList.add('toast-visible'); 
                 setTimeout(() => t.classList.remove('toast-visible'), 3000); 
             }
@@ -1197,23 +1007,20 @@
                 const m = document.getElementById(id); 
                 if(m) {
                     m.classList.add('translate-y-full');
-                    if(id === 'modal-name-entry' || id === 'modal-confirm-trx' || id === 'modal-post-trx-share' || id === 'modal-add-category') m.classList.add('opacity-0');
-                    setTimeout(() => m.classList.add('hidden'), 300);
+                    if(id === 'modal-name-entry' || id === 'modal-confirm-trx') m.classList.add('hidden');
+                    else setTimeout(() => m.classList.add('hidden'), 300);
                 }
             });
             const overlay = document.getElementById('modal-overlay'); if(overlay) overlay.classList.add('hidden');
             window.closeConfirmModal(); 
-            window.closeMemberStats();
         };
 
         window.showModal = (id) => {
             const overlay = document.getElementById('modal-overlay');
             const m = document.getElementById(id);
-            if(id !== 'modal-name-entry' && id !== 'modal-confirm-trx' && overlay && id !== 'modal-post-trx-share' && id !== 'modal-add-category') overlay.classList.remove('hidden');
+            if(id !== 'modal-name-entry' && id !== 'modal-confirm-trx' && overlay) overlay.classList.remove('hidden');
             if(m) {
                 m.classList.remove('hidden');
-                void m.offsetWidth;
-                if(id === 'modal-name-entry' || id === 'modal-confirm-trx' || id === 'modal-post-trx-share' || id === 'modal-add-category') m.classList.remove('opacity-0');
                 setTimeout(() => m.classList.remove('translate-y-full'), 10);
             }
         };
@@ -1339,6 +1146,7 @@
             } catch(e) {}
         }
 
+        // Optimasi 3: Fungsi Sinkronisasi Avatar & Nama ke seluruh Room yang diikuti
         async function syncUserToRooms(userUid, newName, newAvatar) {
             if(!appData.joinedRooms || appData.joinedRooms.length === 0) return;
             appData.joinedRooms.forEach(async (roomId) => {
@@ -1524,8 +1332,6 @@
                 appData.email = user.email;
                 appData.uid = user.uid;
                 window.saveLocal();
-                setOnlineStatus(true);
-                
                 if (modalLogin) modalLogin.classList.add('hidden');
 
                 try {
@@ -1557,6 +1363,7 @@
                         window.saveLocal();
                         startRealtimeSync();
                         updateUI();
+                        window.updateOnlineStatus(true); // Memperbarui status ke Online
 
                         hideSplash(() => {
                             if (modalName) modalName.classList.add('hidden');
@@ -1625,6 +1432,7 @@
 
             startRealtimeSync();
             updateUI();
+            window.updateOnlineStatus(true); // Memperbarui status ke Online
             btn.disabled = false; btn.innerText = "Simpan Profil & Masuk";
         };
 
@@ -1638,18 +1446,6 @@
             } catch (error) { window.showToast("Gagal keluar.", true); }
         };
 
-        window.updateCheckmarks = () => {
-            const currentRoom = globalRooms.find(r => r.id === currentRoomId);
-            if(!currentRoom || !currentRoomChatsData) return; 
-            
-            currentRoomChatsData.forEach(m => {
-                if(m.uid === appData.uid) {
-                    const el = document.getElementById(`chk-${m.id || m.timestamp}`);
-                    if(el) el.innerHTML = getCheckmarkHTML(m, currentRoom);
-                }
-            });
-        };
-
         function startRealtimeSync() {
             onSnapshot(collection(db, "rooms"), (snap) => {
                 globalRooms = [];
@@ -1660,13 +1456,6 @@
                 globalRooms.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                 updateUI();
                 if(currentRoomId) refreshRoomUI(currentRoomId);
-            });
-
-            onSnapshot(collection(db, "users"), (snap) => {
-                snap.forEach(doc => {
-                    globalUsers[doc.id] = doc.data();
-                });
-                if(currentRoomId) window.updateCheckmarks();
             });
 
             onSnapshot(collection(db, "history"), (snap) => {
@@ -1702,7 +1491,7 @@
                 }
             });
 
-            // Global listener untuk in-app notification pada Chat/Diskusi
+            // Optimasi 2: Global listener untuk in-app notification pada Chat/Diskusi
             let isInitialGlobalChatLoad = true;
             onSnapshot(collection(db, "chats"), (snap) => {
                 let hasNewChat = false;
@@ -1723,10 +1512,7 @@
                             const r = globalRooms.find(x => x.id === latestChat.roomId);
                             const rName = r ? r.name : 'Tabungan';
                             let msgPrev = latestChat.type === 'sticker' ? latestChat.message : latestChat.message;
-                            
-                            if (latestChat.isDeleted) msgPrev = "🚫 Pesan ditarik";
-                            else if (msgPrev.length > 25) msgPrev = msgPrev.substring(0,25) + '...';
-                            
+                            if(msgPrev.length > 25) msgPrev = msgPrev.substring(0,25) + '...';
                             window.showRealtimeNotif(`💬 ${latestChat.name} (${rName}): ${msgPrev}`);
                         }
                     }
@@ -1741,54 +1527,8 @@
         window.selectCategory = (catId) => {
             tempCategorySelection = catId;
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('selected'));
-            const btn = document.getElementById(`cat-btn-${catId}`);
-            if(btn) btn.classList.add('selected');
+            document.getElementById(`cat-btn-${catId}`).classList.add('selected');
         }
-
-        window.selectTrxCategory = (catId) => {
-            tempTrxCategorySelection = catId;
-            document.querySelectorAll('.trx-cat-btn').forEach(btn => btn.classList.remove('selected'));
-            const btn = document.getElementById(`trx-cat-${catId}`);
-            if(btn) btn.classList.add('selected');
-        }
-
-        window.openAddCustomCategory = () => {
-            document.getElementById('custom-cat-emoji').value = '';
-            document.getElementById('custom-cat-name').value = '';
-            window.showModal('modal-add-category');
-        };
-
-        window.saveCustomCategory = () => {
-            const emoji = document.getElementById('custom-cat-emoji').value.trim();
-            const name = document.getElementById('custom-cat-name').value.trim();
-            if(!emoji || !name) {
-                window.showToast("Emoji dan Nama wajib diisi", true);
-                return;
-            }
-            const newCat = {
-                id: 'custom_' + Date.now(),
-                label: name,
-                icon: emoji,
-                color: '#4f46e5'
-            };
-            if(!appData.customCategories) appData.customCategories = [];
-            appData.customCategories.push(newCat);
-            window.saveLocal();
-            
-            tempCategorySelection = newCat.id;
-            tempTrxCategorySelection = newCat.id;
-            
-            window.closeAllModals();
-            renderCategoryOptions();
-            
-            // Re-render trx categories if modal transaction is open
-            const trxModal = document.getElementById('modal-transaction');
-            if(trxModal && !trxModal.classList.contains('hidden')) {
-                renderTrxCategoryOptions();
-            }
-
-            window.showToast("Kategori ditambahkan");
-        };
 
         window.addMilestoneRow = () => {
             const container = document.getElementById('milestone-rows-container');
@@ -1936,160 +1676,7 @@
             }
         };
 
-        window.switchView = (viewId, navId = null, pushMode = true) => {
-            const views = ['view-home', 'view-detail', 'view-history', 'view-profile', 'view-create', 'view-archive'];
-            views.forEach(v => { const el = document.getElementById(v); if(el) el.classList.add('hidden'); });
-            const target = document.getElementById(viewId); 
-            
-            if(viewId !== 'view-detail' && currentRoomId) {
-                window.leaveRoomPresence(currentRoomId);
-            }
-
-            if(target) {
-                target.classList.remove('hidden');
-                if (viewId !== 'view-detail') {
-                    target.scrollTop = 0; 
-                }
-            }
-            const nav = document.getElementById('bottom-nav');
-            if(nav) {
-                if (['view-detail', 'view-create', 'view-archive'].includes(viewId)) nav.classList.add('hidden');
-                else nav.classList.remove('hidden');
-            }
-            if(navId) {
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.classList.replace('text-indigo-600', 'text-slate-300');
-                    const span = btn.querySelector('span'); if(span) span.classList.replace('font-black', 'font-bold');
-                });
-                const active = document.getElementById(navId);
-                if(active) {
-                    active.classList.replace('text-slate-300', 'text-indigo-600');
-                    const span = active.querySelector('span'); if(span) span.classList.replace('font-bold', 'font-black');
-                }
-            }
-            
-            if(pushMode === true) {
-                history.pushState({ viewId, navId, isTab: ['view-home', 'view-history', 'view-profile'].includes(viewId) }, "", location.href);
-            } else if (pushMode === 'replace') {
-                history.replaceState({ viewId, navId, isTab: ['view-home', 'view-history', 'view-profile'].includes(viewId) }, "", location.href);
-            }
-            
-            if(viewId === 'view-create') renderCategoryOptions();
-
-            if(viewId !== 'view-detail' && chatUnsubscribe) { chatUnsubscribe(); chatUnsubscribe = null; }
-        };
-
-        window.openManageModal = (id) => { 
-            roomToDelete = id; 
-            const r = globalRooms.find(x => x.id === id);
-            const isAdmin = r && (!r.adminUid || r.adminUid === appData.uid);
-            
-            const optsContainer = document.getElementById('manage-options-container');
-            if(optsContainer) {
-                let html = `
-                    <button onclick="window.exportRoomToJPG('${id}')" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-emerald-100 text-emerald-600 rounded-xl"><i data-lucide="share-2" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-slate-800 dark:text-white" data-t="share">${i18n[appData.language].share}</span>
-                    </button>
-                    <button onclick="window.openShareOptions()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-blue-100 text-blue-600 rounded-xl"><i data-lucide="link" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-slate-800 dark:text-white" data-t="copy_link">${i18n[appData.language].copy_link || 'Salin Tautan'}</span>
-                    </button>
-                `;
-
-                if(isAdmin) {
-                    html += `
-                    <button onclick="window.deleteCurrentRoom()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-rose-100 text-rose-600 rounded-xl"><i data-lucide="trash-2" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-rose-600" data-t="delete">${i18n[appData.language].delete}</span>
-                    </button>`;
-                } else {
-                    html += `
-                    <button onclick="window.leaveCurrentRoom()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-amber-100 text-amber-600 rounded-xl"><i data-lucide="log-out" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-amber-600" data-t="leave">${i18n[appData.language].leave || "Keluar Tabungan"}</span>
-                    </button>`;
-                }
-                optsContainer.innerHTML = html;
-                lucide.createIcons();
-            }
-
-            window.showModal('modal-manage'); 
-        };
-
-        window.openShareOptions = () => {
-            const mManage = document.getElementById('modal-manage');
-            if(mManage) mManage.classList.add('translate-y-full');
-            const baseUrl = window.location.origin + window.location.pathname;
-            const fullLink = baseUrl + "?id=" + roomToDelete;
-            const textEl = document.getElementById('share-link-text');
-            if(textEl) {
-                textEl.innerText = window.location.host + "/?id=" + roomToDelete.substring(0,8) + "...";
-                textEl.setAttribute('data-link', fullLink);
-            }
-            setTimeout(() => window.showModal('modal-share'), 350);
-        };
-
-        window.copyShareLink = () => {
-            const textEl = document.getElementById('share-link-text');
-            if(!textEl) return;
-            const link = textEl.getAttribute('data-link');
-            const el = document.createElement('textarea'); el.value = link;
-            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            window.showToast("Disalin!"); window.closeAllModals();
-        };
-
-        window.deleteCurrentRoom = async () => {
-            if(!confirm("Apakah Anda yakin ingin menghapus tabungan ini?")) return;
-            await deleteDoc(doc(db, "rooms", roomToDelete));
-            appData.joinedRooms = appData.joinedRooms.filter(x => x !== roomToDelete);
-            window.saveLocal(); syncJoinedRoomsToCloud();
-            window.closeAllModals(); window.switchView('view-home', 'nav-home', false);
-        };
-
-        window.leaveCurrentRoom = async () => {
-            if(!confirm("Anda yakin ingin keluar dari tabungan bersama ini?")) return;
-            appData.joinedRooms = appData.joinedRooms.filter(x => x !== roomToDelete);
-            window.saveLocal(); syncJoinedRoomsToCloud();
-            
-            try {
-                const rRef = doc(db, "rooms", roomToDelete);
-                const snap = await getDoc(rRef);
-                if(snap.exists()) {
-                    let members = snap.data().members || [];
-                    members = members.filter(m => m.uid !== appData.uid);
-                    await updateDoc(rRef, { members: members });
-                }
-            } catch(e) {}
-            window.closeAllModals(); window.switchView('view-home', 'nav-home', false);
-        };
-
-        window.completeAndArchiveRoom = async () => {
-            if(!currentRoomId) return;
-            try {
-                await updateDoc(doc(db, "rooms", currentRoomId), { isArchived: true });
-                window.closeAllModals();
-                window.switchView('view-home', 'nav-home', false);
-                window.showToast(appData.language === 'id' ? "Berhasil diarsipkan" : "Archived");
-            } catch(e) { window.showToast("Gagal mengarsipkan.", true); }
-        };
-
-        // --- FITUR PRESENCE (ACTIVE USERS) ---
-        window.joinRoomPresence = async (roomId) => {
-            if(!appData.uid) return;
-            try { await updateDoc(doc(db, "rooms", roomId), { activeUsers: arrayUnion(appData.uid) }); } catch(e) {}
-        };
-
-        window.leaveRoomPresence = async (roomId) => {
-            if(!appData.uid || !roomId) return;
-            try { await updateDoc(doc(db, "rooms", roomId), { activeUsers: arrayRemove(appData.uid) }); } catch(e) {}
-        };
-
-        window.leaveRoomView = () => {
-            if(currentRoomId) window.leaveRoomPresence(currentRoomId);
-            window.history.back();
-        };
-
+        let currentRoomChatsData = [];
         window.openRoomDetail = (id) => { 
             window.isFirstChatRender = true;
             currentRoomId = id; 
@@ -2097,30 +1684,13 @@
             window.switchRoomTab('ringkasan');
             
             window.switchView('view-detail', null, true); 
-            window.joinRoomPresence(id); // Set status aktif di room ini
             
             chatRenderLimit = 20; 
             if(chatUnsubscribe) chatUnsubscribe();
             
             chatUnsubscribe = onSnapshot(collection(db, "chats"), (snap) => {
                 const msgs = [];
-                let needsUpdateReadStatus = false;
-
-                snap.forEach(d => { 
-                    const data = d.data();
-                    if(data.roomId === id) {
-                        msgs.push({ id: d.id, ...data });
-                        
-                        // Fitur Read Receipts
-                        if (data.uid !== appData.uid && !data.isDeleted) {
-                            const readBy = data.readBy || [];
-                            if (!readBy.includes(appData.uid)) {
-                                updateDoc(doc(db, "chats", d.id), { readBy: arrayUnion(appData.uid) });
-                                needsUpdateReadStatus = true;
-                            }
-                        }
-                    } 
-                });
+                snap.forEach(d => { if(d.data().roomId === id) msgs.push(d.data()); });
                 msgs.sort((a,b) => a.timestamp - b.timestamp);
                 
                 currentRoomChatsData = msgs;
@@ -2248,6 +1818,7 @@
             const diffY = Math.abs(currentY - swipeStartY);
 
             if (!isChatSwiping) {
+                // Deteksi apakah user ingin scroll layar ke bawah/atas atau mau swipe chat
                 if (diffY > 10 && diffY > Math.abs(diffX)) {
                     isVerticalScrolling = true;
                     return;
@@ -2258,29 +1829,30 @@
             }
 
             if (isChatSwiping) {
-                if (diffX > 0 && e.cancelable) e.preventDefault(); 
+                if (diffX > 0 && e.cancelable) e.preventDefault(); // Cegah geser layar (overscroll back browser)
                 
-                const dragDist = Math.max(0, Math.min(diffX, 80));
+                const dragDist = Math.max(0, Math.min(diffX, 80)); // Limit swipe maksimal 80px ke kanan
                 
                 const wrapper = el.querySelector('.chat-bubble-wrapper');
                 if(wrapper) wrapper.style.transform = `translateX(${dragDist}px)`;
                 
                 const indicator = el.querySelector('.reply-indicator');
                 if(indicator) {
-                    const progress = Math.min(dragDist / 60, 1);
+                    const progress = Math.min(dragDist / 60, 1); // Opacity memudar perlahan
                     indicator.style.opacity = progress;
                     indicator.style.transform = `translate(${dragDist * 0.3}px, -50%) scale(${0.5 + (progress * 0.5)})`;
                 }
             }
         };
 
-        window.chatSwipeEnd = (e, el, chatId, userName, msgText, isDeleted) => {
+        window.chatSwipeEnd = (e, el, chatId, userName, msgText) => {
             if (!swipeStartX) return; 
             
             const diffX = swipeCurrentX - swipeStartX;
             const wrapper = el.querySelector('.chat-bubble-wrapper');
             const indicator = el.querySelector('.reply-indicator');
             
+            // Kembalikan bubble chat ke posisi semula dengan animasi bounce halus
             if(wrapper) {
                 wrapper.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                 wrapper.style.transform = 'translateX(0px)';
@@ -2292,11 +1864,11 @@
                 indicator.style.transform = 'translate(-1rem, -50%) scale(0.5)';
             }
 
-            // Jika swipe cukup jauh dan bukan pesan yang ditarik, trigger fitur reply
-            if (isChatSwiping && diffX >= 60 && !isDeleted) {
+            // Jika swipe cukup jauh, trigger fitur reply
+            if (isChatSwiping && diffX >= 60) {
                 window.setReply(chatId, userName, msgText);
                 if (window.navigator && window.navigator.vibrate) {
-                    window.navigator.vibrate(50);
+                    window.navigator.vibrate(50); // Getar halus di mobile
                 }
             }
             
@@ -2307,119 +1879,8 @@
             swipeStartY = 0;
         };
 
-        // Klick pada Bubble
-        window.handleChatClick = (e, id, uid, timestamp, msgText, isDeleted) => {
-            // Hindari pemicuan klik saat user baru selesai swipe (geser)
-            if (isChatSwiping || isVerticalScrolling || isDeleted) return;
-
-            const optsContainer = document.getElementById('chat-options-container');
-            const lang = i18n[appData.language];
-            
-            let html = '';
-            
-            // Tombol Balas selalu ada
-            html += `
-                <button onclick="window.closeAllModals(); setTimeout(() => window.setReply('${id}', '${uid === appData.uid ? 'Anda' : window.safeStr(msgText)}', \`${window.safeStr(msgText)}\`), 300)" class="w-full flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                    <div class="p-2 bg-indigo-100 text-indigo-600 rounded-xl"><i data-lucide="reply" class="w-5 h-5"></i></div>
-                    <span class="font-bold text-slate-800 dark:text-white">${lang.reply}</span>
-                </button>
-            `;
-
-            if (uid === appData.uid) {
-                const diffTime = Date.now() - timestamp;
-                const canEdit = diffTime <= 5 * 60 * 1000; // 5 Menit
-                const canDelete = diffTime <= 5 * 60 * 60 * 1000; // 5 Jam
-                
-                if (canEdit) {
-                    html += `
-                    <button onclick="window.closeAllModals(); window.initEditChat('${id}', \`${window.safeStr(msgText)}\`)" class="w-full flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-amber-100 text-amber-600 rounded-xl"><i data-lucide="edit-2" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-amber-600">${lang.edit_msg}</span>
-                    </button>`;
-                }
-                
-                if (canDelete) {
-                    html += `
-                    <button onclick="window.closeAllModals(); window.deleteChatMessage('${id}')" class="w-full flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
-                        <div class="p-2 bg-rose-100 text-rose-600 rounded-xl"><i data-lucide="trash-2" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-rose-600">${lang.delete_msg}</span>
-                    </button>`;
-                }
-            }
-
-            optsContainer.innerHTML = html;
-            lucide.createIcons();
-            window.showModal('modal-chat-options');
-        };
-
-        // Hapus Pesan Chat
-        window.deleteChatMessage = async (id) => {
-            if(!confirm("Tarik pesan ini? Pesan akan ditarik untuk semua orang di tabungan ini.")) return;
-            try {
-                await updateDoc(doc(db, "chats", id), { isDeleted: true, message: "" });
-            } catch(e) {}
-        };
-
-        // Inisialisasi Mode Edit
-        window.initEditChat = (id, oldMsg) => {
-            editingChatId = id;
-            const preview = document.getElementById('edit-preview');
-            const replyPrev = document.getElementById('reply-preview');
-            const inp = document.getElementById('chat-input');
-            const btn = document.getElementById('btn-send-chat');
-            
-            if(replyPrev) replyPrev.classList.add('hidden'); // Tutup balas jika sedang buka
-            
-            if(preview) preview.classList.remove('hidden');
-            if(inp) {
-                inp.value = oldMsg;
-                inp.focus();
-            }
-            if(btn) {
-                btn.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i>`;
-                lucide.createIcons();
-            }
-        };
-
-        // Batalkan Mode Edit
-        window.cancelEdit = () => {
-            editingChatId = null;
-            const preview = document.getElementById('edit-preview');
-            const inp = document.getElementById('chat-input');
-            const btn = document.getElementById('btn-send-chat');
-
-            if(preview) preview.classList.add('hidden');
-            if(inp) inp.value = '';
-            if(btn) {
-                btn.innerHTML = `<i data-lucide="send" class="w-5 h-5"></i>`;
-                lucide.createIcons();
-            }
-        };
-
-        function getCheckmarkHTML(chat, room) {
-            if (chat.isDeleted) return '';
-            if (!chat.readBy) chat.readBy = [];
-
-            const otherMembers = room.members.filter(m => m.uid !== appData.uid);
-            
-            // 1. Dibaca (Centang 2 Biru)
-            const readByOthers = chat.readBy.filter(uid => uid !== appData.uid);
-            if (readByOthers.length > 0) {
-                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-sky-400"></i>`;
-            }
-
-            // 2. Lawan bicara sedang online secara global (Centang 2 Abu / Delivered)
-            const isAnyOtherOnline = otherMembers.some(m => globalUsers[m.uid] && globalUsers[m.uid].isOnline);
-            if (isAnyOtherOnline) {
-                return `<i data-lucide="check-check" class="w-3.5 h-3.5 text-slate-400 dark:text-slate-300"></i>`;
-            }
-
-            // 3. Terkirim ke server (Centang 1 Abu)
-            return `<i data-lucide="check" class="w-3.5 h-3.5 text-slate-400 dark:text-slate-300"></i>`;
-        }
-
+        // Optimasi 1: Set fungsi untuk fitur reply chat
         window.setReply = (chatId, userName, message) => {
-            window.cancelEdit();
             replyingTo = { id: chatId, name: userName, message: message };
             const preview = document.getElementById('reply-preview');
             document.getElementById('reply-to-name').innerText = userName;
@@ -2437,12 +1898,7 @@
         function renderChats(msgs) {
             const box = document.getElementById('chat-messages');
             const scroller = document.getElementById('view-detail');
-            const lang = i18n[appData.language];
-
             if(!box || !scroller) return;
-            
-            const currentRoom = globalRooms.find(r => r.id === currentRoomId);
-            if(!currentRoom) return;
 
             let isScrolledUp = false;
             if (window.isFirstChatRender) {
@@ -2478,10 +1934,7 @@
                 }
                 
                 let formattedMsg = m.message;
-                
-                if (m.isDeleted) {
-                    formattedMsg = `<span class="italic opacity-60 flex items-center gap-1"><i data-lucide="ban" class="w-3 h-3"></i> ${lang.msg_deleted}</span>`;
-                } else if(m.type === 'text') {
+                if(m.type === 'text') {
                     formattedMsg = formattedMsg.replace(/@([a-zA-Z0-9_]+)/g, (match, p1) => {
                         const isMeMentioned = p1.toLowerCase() === appData.user.toLowerCase().replace(/\s+/g,'');
                         return `<span class="${isMeMentioned ? 'mention-me' : 'mention-highlight'}">${match}</span>`;
@@ -2492,7 +1945,7 @@
                 
                 let animClass = '';
                 let dataAnim = 'false';
-                if(m.type === 'sticker' && !m.isDeleted) {
+                if(m.type === 'sticker') {
                     if (!window.animatedStickersTracker.has(m.timestamp)) {
                         animClass = 'anim-float-temp';
                         dataAnim = 'true';
@@ -2502,27 +1955,25 @@
 
                 let replyHtmlMe = '';
                 let replyHtmlOther = '';
-                if (m.replyTo && !m.isDeleted) {
+                if (m.replyTo) {
                     replyHtmlMe = `
-                    <div class="mb-1.5 p-2 bg-black/10 rounded-lg flex flex-col border-l-4 border-indigo-300 text-left">
-                        <span class="text-[10px] font-black text-indigo-100">${m.replyTo.name}</span>
-                        <span class="text-[10px] text-white opacity-90 line-clamp-1">${m.replyTo.message}</span>
+                    <div class="mb-1.5 p-2 bg-black/10 rounded-lg flex flex-col border-l-2 border-white/50 text-left">
+                        <span class="text-[9px] font-black opacity-80">${m.replyTo.name}</span>
+                        <span class="text-[10px] opacity-90 line-clamp-1">${m.replyTo.message}</span>
                     </div>`;
                     replyHtmlOther = `
-                    <div class="mb-1.5 p-2 bg-black/5 dark:bg-white/5 rounded-lg flex flex-col border-l-4 border-indigo-400 text-left">
-                        <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400">${m.replyTo.name}</span>
+                    <div class="mb-1.5 p-2 bg-black/5 dark:bg-white/5 rounded-lg flex flex-col border-l-2 border-indigo-400 text-left">
+                        <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400">${m.replyTo.name}</span>
                         <span class="text-[10px] opacity-80 line-clamp-1 text-slate-700 dark:text-slate-300">${m.replyTo.message}</span>
                     </div>`;
                 }
 
-                const safeMsg = m.isDeleted ? '' : window.safeStr(m.message);
-                const replyActionParams = `'${m.id || m.timestamp}', '${window.safeStr(isMe?'Anda':m.name)}', \`${safeMsg}\`, ${m.isDeleted}`;
-                const timeStr = new Date(m.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
-                const editedStr = m.isEdited && !m.isDeleted ? `<span class="opacity-60 mr-1 italic text-[8px]">(diedit)</span>` : '';
+                const safeMsg = window.safeStr(m.message);
+                const replyActionParams = `'${m.id || m.timestamp}', '${window.safeStr(isMe?'Anda':m.name)}', \`${safeMsg}\``;
 
                 if(isMe) {
                     box.innerHTML += `
-                    <div class="relative w-full mb-1 chat-swipe-container overflow-x-hidden flex flex-col items-end" 
+                    <div class="relative w-full mb-2 chat-swipe-container overflow-x-hidden" 
                          ontouchstart="window.chatSwipeStart(event, this)" 
                          ontouchmove="window.chatSwipeMove(event, this)" 
                          ontouchend="window.chatSwipeEnd(event, this, ${replyActionParams})"
@@ -2535,24 +1986,17 @@
                             <i data-lucide="reply" class="w-4 h-4"></i>
                         </div>
 
-                        <div class="chat-bubble-wrapper w-full flex flex-col items-end relative z-10 select-none">
-                            ${m.type === 'sticker' && !m.isDeleted
-                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ${animClass}" data-animating="${dataAnim}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">${m.message}</div>` 
-                                : `<div class="chat-bubble-me relative p-2 pl-3 pr-20 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tr-sm pointer-events-auto cursor-pointer ${isMentioned ? 'ring-2 ring-rose-400' : ''}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">
-                                    ${replyHtmlMe}
-                                    <span class="block">${formattedMsg}</span>
-                                    <div class="absolute bottom-1 right-2 flex items-center justify-end gap-0.5 opacity-80 text-[9px] pointer-events-none min-w-[50px]">
-                                        ${editedStr}
-                                        <span>${timeStr}</span>
-                                        <span id="chk-${m.id || m.timestamp}" class="ml-0.5">${getCheckmarkHTML(m, currentRoom)}</span>
-                                    </div>
-                                   </div>`
+                        <div class="chat-bubble-wrapper w-full flex flex-col items-end pl-8 relative z-10 select-none">
+                            <span class="text-[9px] text-slate-400 font-bold mb-1 mr-1 pointer-events-none">Anda</span>
+                            ${m.type === 'sticker' 
+                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
+                                : `<div class="chat-bubble-me p-3 text-sm font-bold shadow-sm whitespace-pre-wrap text-left pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">${replyHtmlMe}${formattedMsg}</div>`
                             }
                         </div>
                     </div>`;
                 } else {
                     box.innerHTML += `
-                    <div class="relative w-full mb-1 chat-swipe-container overflow-x-hidden flex flex-col items-start"
+                    <div class="relative w-full mb-2 chat-swipe-container overflow-x-hidden"
                          ontouchstart="window.chatSwipeStart(event, this)" 
                          ontouchmove="window.chatSwipeMove(event, this)" 
                          ontouchend="window.chatSwipeEnd(event, this, ${replyActionParams})"
@@ -2561,25 +2005,18 @@
                          onmouseup="window.chatSwipeEnd(event, this, ${replyActionParams})"
                          onmouseleave="window.chatSwipeEnd(event, this, ${replyActionParams})">
                         
-                        <div class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 reply-indicator transform translate-x-4 flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400 z-0 scale-50 pointer-events-none">
+                        <div class="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 reply-indicator transform -translate-x-4 flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400 z-0 scale-50 pointer-events-none">
                             <i data-lucide="reply" class="w-4 h-4"></i>
                         </div>
 
-                        <div class="chat-bubble-wrapper w-full flex flex-col items-start relative z-10 select-none"> 
-                            <div class="flex items-center gap-2 mb-0.5 ml-2 pointer-events-none">
-                                <div class="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black shadow-sm border border-black/5 ${m.avatar.colorClass} ${m.avatar.textClass}">${avaChar}</div>
+                        <div class="chat-bubble-wrapper w-full flex flex-col items-start pr-8 relative z-10 select-none"> 
+                            <div class="flex items-center gap-2 mb-1 pointer-events-none">
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm border border-black/5 ${m.avatar.colorClass} ${m.avatar.textClass}">${avaChar}</div>
                                 <span class="text-[9px] text-slate-400 font-bold">${m.name}</span>
                             </div>
-                            ${m.type === 'sticker' && !m.isDeleted
-                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ml-2 ${animClass}" data-animating="${dataAnim}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">${m.message}</div>` 
-                                : `<div class="chat-bubble-other relative p-2 pl-3 pr-14 text-sm font-medium shadow-sm text-left break-words w-fit max-w-[85%] rounded-2xl rounded-tl-sm pointer-events-auto cursor-pointer ml-2 ${isMentioned ? 'ring-2 ring-rose-400' : ''}" onclick="window.handleChatClick(event, '${m.id}', '${m.uid}', ${m.timestamp}, \`${safeMsg}\`, ${m.isDeleted})">
-                                    ${replyHtmlOther}
-                                    <span class="block">${formattedMsg}</span>
-                                    <div class="absolute bottom-1 right-2 flex items-center justify-end gap-0.5 opacity-60 text-[9px] pointer-events-none">
-                                        ${editedStr}
-                                        <span>${timeStr}</span>
-                                    </div>
-                                   </div>`
+                            ${m.type === 'sticker' 
+                                ? `<div class="text-6xl cursor-pointer pointer-events-auto ml-7 ${animClass}" data-animating="${dataAnim}" onclick="window.animateSticker(this)">${m.message}</div>` 
+                                : `<div class="chat-bubble-other p-3 text-sm font-bold shadow-sm whitespace-pre-wrap ml-7 pointer-events-auto ${isMentioned ? 'ring-2 ring-rose-400' : ''}">${replyHtmlOther}${formattedMsg}</div>`
                             }
                         </div>
                     </div>`;
@@ -2615,14 +2052,11 @@
             window.toggleStickerPanel(); 
             window.scrollToBottomChat(false);
 
-            const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'sticker', message: sticker, timestamp: Date.now(), isDeleted: false, isEdited: false };
+            const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'sticker', message: sticker, timestamp: Date.now() };
             if(replyingTo) {
                 chat.replyTo = replyingTo;
                 window.cancelReply();
             }
-            
-            chat.readBy = []; 
-            
             try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         }
 
@@ -2641,23 +2075,15 @@
 
             window.scrollToBottomChat(false);
 
-            if (editingChatId) {
-                try { 
-                    await updateDoc(doc(db, "chats", editingChatId), { message: msg, isEdited: true }); 
-                } catch(e) {}
-                window.cancelEdit();
-            } else {
-                const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'text', message: msg, timestamp: Date.now(), isDeleted: false, isEdited: false };
-                
-                if(replyingTo) {
-                    chat.replyTo = replyingTo;
-                    window.cancelReply();
-                }
-
-                chat.readBy = []; 
-
-                try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
+            const chat = { roomId: currentRoomId, uid: appData.uid, name: appData.user, avatar: appData.avatar, type: 'text', message: msg, timestamp: Date.now() };
+            
+            // Sertakan info Reply jika ada
+            if(replyingTo) {
+                chat.replyTo = replyingTo;
+                window.cancelReply();
             }
+
+            try { await setDoc(doc(db, "chats", 'chat_'+Date.now()), chat); } catch(e) {}
         };
 
         const getReactionHTML = (trxId, reactionsData = {}) => {
@@ -2701,31 +2127,6 @@
             try { await updateDoc(doc(db, "history", trxId), { reactions: reactions }); } catch(e) {}
         };
 
-        function renderTrxCategoryOptions() {
-            const container = document.getElementById('trx-categories');
-            if(!container) return;
-            container.innerHTML = '';
-            
-            const allCat = window.getAllCategories();
-            allCat.forEach(c => {
-                const isSel = tempTrxCategorySelection === c.id;
-                container.innerHTML += `
-                    <button id="trx-cat-${c.id}" onclick="window.selectTrxCategory('${c.id}')" class="trx-cat-btn category-btn px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center gap-1 shrink-0 transition-all active:scale-90 ${isSel ? 'selected' : ''}">
-                        <span class="text-xl">${c.icon}</span>
-                        <span class="text-[9px] font-black text-slate-600 dark:text-slate-300 uppercase truncate max-w-[60px]">${c.label}</span>
-                    </button>
-                `;
-            });
-            
-            container.innerHTML += `
-                <button onclick="window.openAddCustomCategory()" class="px-4 py-3 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl flex flex-col items-center justify-center gap-1 shrink-0 transition-all active:scale-90">
-                    <span class="text-xl"><i data-lucide="plus" class="w-6 h-6 text-indigo-500"></i></span>
-                    <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase">Baru</span>
-                </button>
-            `;
-            lucide.createIcons();
-        }
-
         function refreshRoomUI(id) {
             const lang = i18n[appData.language];
             const r = globalRooms.find(x => x.id === id); if(!r) return;
@@ -2738,8 +2139,7 @@
             const catBadge = document.getElementById('detail-category-badge');
             if(catBadge) {
                 if(r.category) {
-                    const allCat = window.getAllCategories();
-                    const catObj = allCat.find(c => c.id === r.category) || allCat[4];
+                    const catObj = CATEGORIES.find(c => c.id === r.category) || CATEGORIES[4];
                     catBadge.innerText = `${catObj.icon} ${catObj.label}`;
                     catBadge.classList.remove('hidden');
                 } else {
@@ -2760,10 +2160,10 @@
                 pile.innerHTML = '';
                 r.members.slice(0, 5).forEach(m => {
                     const char = m.avatar.emoji || m.name.charAt(0).toUpperCase();
-                    pile.innerHTML += `<div onclick="window.openMemberStats('${r.id}', '${m.uid}')" class="cursor-pointer active:scale-90 transition-transform w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center text-xs font-black shadow-sm ${m.avatar.colorClass} ${m.avatar.textClass}" title="${m.name}">${char}</div>`;
+                    pile.innerHTML += `<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center text-xs font-black shadow-sm ${m.avatar.colorClass} ${m.avatar.textClass}" title="${m.name}">${char}</div>`;
                 });
                 if(r.members.length > 5) pile.innerHTML += `<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-black shadow-sm">+${r.members.length-5}</div>`;
-                if(countText) countText.innerHTML = `${r.members.length} Anggota <i data-lucide="users" class="w-3 h-3"></i>`;
+                if(countText) countText.innerHTML = `${r.members.length} Anggota`;
             }
 
             const tgtBox = document.getElementById('detail-target-container');
@@ -2800,12 +2200,29 @@
             const histList = document.getElementById('detail-history-list');
             if(histList) {
                 histList.innerHTML = '';
-                const filtered = globalHistory.filter(h => h.roomId === id);
+                let filtered = globalHistory.filter(h => h.roomId === id);
+                
+                // --- KODE FILTER USER BARU ---
+                let filterBadgeHtml = '';
+                if (currentUserHistoryFilter) {
+                    filtered = filtered.filter(h => h.userName === currentUserHistoryFilter);
+                    filterBadgeHtml = `
+                    <div class="flex items-center justify-between bg-indigo-50 dark:bg-indigo-900/30 p-3.5 rounded-2xl mb-4 border border-indigo-100 dark:border-indigo-800 shadow-sm animate-pulse">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="filter" class="w-4 h-4 text-indigo-500"></i>
+                            <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Riwayat: <b class="font-black">${currentUserHistoryFilter}</b></span>
+                        </div>
+                        <button onclick="window.clearUserHistoryFilter()" class="p-1.5 text-indigo-500 hover:text-rose-500 bg-white dark:bg-slate-800 rounded-lg shadow-sm transition-colors active:scale-90"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                    </div>`;
+                }
+                
+                histList.innerHTML = filterBadgeHtml;
+                // --- AKHIR KODE FILTER USER ---
                 
                 const visibleFiltered = filtered.slice(0, historyRenderLimit);
 
                 if(filtered.length === 0) {
-                    histList.innerHTML = `
+                    histList.innerHTML += `
                     <div class="text-center py-10 opacity-40">
                         <i data-lucide="hourglass" class="w-10 h-10 mx-auto mb-3 text-slate-400"></i>
                         <h3 class="font-black text-slate-600 dark:text-slate-300">${lang.empty_history}</h3>
@@ -2816,14 +2233,7 @@
                     visibleFiltered.forEach(h => {
                         const isIn = h.type === 'in';
                         const noteHtml = h.note ? `<p class="text-[10px] text-slate-500 italic mt-1 leading-tight whitespace-pre-wrap">"${h.note}"</p>` : '';
-                        
-                        let iconHtml = `<i data-lucide="${isIn ? 'arrow-down' : 'arrow-up'}" class="w-3.5 h-3.5"></i>`;
-                        if (h.category) {
-                            const c = window.getAllCategories().find(x => x.id === h.category);
-                            if (c) iconHtml = `<span class="text-xs">${c.icon}</span>`;
-                        }
-
-                        histList.innerHTML += `<div class="relative pl-8 mb-6 last:mb-0"><span class="absolute -left-[20px] top-1 ${isIn ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} w-7 h-7 flex items-center justify-center rounded-full border-4 border-white dark:border-slate-900">${iconHtml}</span><div class="flex justify-between items-start"><div class="flex-1 pr-2"><p class="text-sm font-black dark:text-white truncate">${h.userName}</p><p class="text-[9px] font-bold text-slate-400">${h.date}</p>${noteHtml} ${getReactionHTML(h.id, h.reactions)}</div><p class="text-sm font-black ${isIn ? 'text-emerald-600' : 'text-rose-600'} shrink-0">${isIn?'+':'-'} Rp ${h.amount.toLocaleString('id-ID')}</p></div></div>`;
+                        histList.innerHTML += `<div class="relative pl-8 mb-6 last:mb-0"><span class="absolute -left-[20px] top-1 ${isIn ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} p-1.5 rounded-full border-4 border-white dark:border-slate-900"><i data-lucide="${isIn ? 'arrow-down' : 'arrow-up'}" class="w-3.5 h-3.5"></i></span><div class="flex justify-between items-start"><div class="flex-1 pr-2"><p class="text-sm font-black dark:text-white truncate">${h.userName}</p><p class="text-[9px] font-bold text-slate-400">${h.date}</p>${noteHtml} ${getReactionHTML(h.id, h.reactions)}</div><p class="text-sm font-black ${isIn ? 'text-emerald-600' : 'text-rose-600'} shrink-0">${isIn?'+':'-'} Rp ${h.amount.toLocaleString('id-ID')}</p></div></div>`;
                     });
                     
                     if (filtered.length > historyRenderLimit) {
@@ -2833,167 +2243,6 @@
             }
             lucide.createIcons();
         }
-
-        // --- FITUR FILTER HISTORI ANGGOTA KHUSUS ---
-        window.openMemberStats = (roomId, uid) => {
-            const r = globalRooms.find(x => x.id === roomId);
-            if (!r) return;
-            const member = r.members.find(m => m.uid === uid);
-            if (!member) return;
-
-            const modal = document.getElementById('modal-member-stats');
-            const card = document.getElementById('member-stats-card');
-            
-            // Set Identitas
-            const avChar = member.avatar.emoji || member.name.charAt(0).toUpperCase();
-            const avEl = document.getElementById('ms-avatar');
-            avEl.className = `w-14 h-14 rounded-full flex items-center justify-center text-2xl font-black shadow-inner border-2 border-slate-100 dark:border-slate-800 ${member.avatar.colorClass} ${member.avatar.textClass}`;
-            avEl.innerText = avChar;
-            document.getElementById('ms-name').innerText = member.name + (uid === appData.uid ? ' (Anda)' : '');
-
-            // Hitung & Filter History Spesifik
-            const memberHist = globalHistory.filter(h => h.roomId === roomId && (h.uid === uid || h.userName === member.name));
-            let totalIn = 0;
-            const histList = document.getElementById('ms-history-list');
-            histList.innerHTML = '';
-
-            if (memberHist.length === 0) {
-                histList.innerHTML = `<p class="text-center text-xs text-slate-400 font-bold py-4">Belum ada riwayat transaksi.</p>`;
-            } else {
-                memberHist.forEach(h => {
-                    if (h.type === 'in') totalIn += h.amount;
-                    else totalIn -= h.amount; // Asumsi out mengurangi total kontribusinya
-                    
-                    const isIn = h.type === 'in';
-                    histList.innerHTML += `
-                        <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700">
-                            <div>
-                                <p class="text-[10px] font-bold text-slate-400">${h.date}</p>
-                                <p class="text-xs font-black text-slate-700 dark:text-slate-200 mt-0.5">${isIn ? 'Menabung' : 'Menarik'}</p>
-                            </div>
-                            <p class="text-sm font-black ${isIn ? 'text-emerald-500' : 'text-rose-500'}">${isIn?'+':'-'} Rp ${h.amount.toLocaleString('id-ID')}</p>
-                        </div>
-                    `;
-                });
-            }
-
-            document.getElementById('ms-total-in').innerText = 'Rp ' + totalIn.toLocaleString('id-ID');
-            
-            // Tampilkan badge persentase (opsional, jika room punya target)
-            const pBadge = document.getElementById('ms-progress-badge');
-            if (r.hasTarget && r.target > 0) {
-                const pct = Math.min(Math.round((totalIn / r.target) * 100), 100);
-                pBadge.innerText = `${pct}% dari Target`;
-                pBadge.classList.remove('hidden');
-            } else {
-                pBadge.classList.add('hidden');
-            }
-
-            // Show Modal
-            modal.classList.remove('hidden');
-            void modal.offsetWidth;
-            modal.classList.remove('opacity-0');
-            modal.classList.add('opacity-100');
-            card.classList.remove('translate-y-full');
-            lucide.createIcons();
-        };
-
-        window.closeMemberStats = () => {
-            const modal = document.getElementById('modal-member-stats');
-            const card = document.getElementById('member-stats-card');
-            if (modal && card) {
-                card.classList.add('translate-y-full');
-                modal.classList.remove('opacity-100');
-                modal.classList.add('opacity-0');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            }
-        };
-
-        // --- FITUR SHARE GAMBAR (JPG) DENGAN NATIVE SHARE ---
-        window.exportRoomToJPG = (roomId) => {
-            const r = globalRooms.find(x => x.id === roomId);
-            if (!r) return;
-
-            window.closeAllModals();
-            window.showToast("Menyiapkan file bagikan...", false);
-
-            const card = document.getElementById('export-card');
-            const container = document.getElementById('export-card-container');
-            
-            // Set Data
-            document.getElementById('export-title').innerText = r.name;
-            document.getElementById('export-balance').innerText = 'Rp ' + r.balance.toLocaleString('id-ID');
-            
-            const targetCont = document.getElementById('export-target-container');
-            if (r.hasTarget) {
-                targetCont.classList.remove('hidden');
-                document.getElementById('export-progress-text').innerText = `${r.balance.toLocaleString('id-ID')} / ${r.target.toLocaleString('id-ID')}`;
-                const pct = Math.min(Math.round((r.balance/r.target)*100), 100);
-                document.getElementById('export-progress-bar').style.width = pct + '%';
-            } else {
-                targetCont.classList.add('hidden');
-            }
-
-            // Members
-            const memDiv = document.getElementById('export-members');
-            memDiv.innerHTML = '';
-            r.members.forEach(m => {
-                const char = m.avatar.emoji || m.name.charAt(0).toUpperCase();
-                memDiv.innerHTML += `
-                    <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-                        <div class="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black ${m.avatar.colorClass} ${m.avatar.textClass}">${char}</div>
-                        <span class="text-[9px] font-bold text-slate-600">${m.name.split(' ')[0]}</span>
-                    </div>
-                `;
-            });
-
-            container.style.left = '0';
-            container.style.top = '0';
-            container.style.opacity = '0.01'; 
-            container.style.zIndex = '-100';
-
-            setTimeout(() => {
-                html2canvas(card, {
-                    scale: 2, 
-                    backgroundColor: null,
-                    useCORS: true
-                }).then(canvas => {
-                    container.style.left = '-9999px';
-                    container.style.opacity = '1';
-
-                    canvas.toBlob(async (blob) => {
-                        const file = new File([blob], `Tabungan_${r.name.replace(/\s+/g, '_')}.jpg`, { type: 'image/jpeg' });
-                        
-                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                            try {
-                                await navigator.share({
-                                    files: [file],
-                                    title: 'Tabungan Bersama',
-                                    text: `Halo! Ini progres tabungan "${r.name}" kita.`
-                                });
-                                window.showToast("Berhasil dibagikan!");
-                            } catch (err) {
-                                // User membatalkan dialog share
-                                if(err.name !== "AbortError") window.showToast("Dibatalkan.", false);
-                            }
-                        } else {
-                            // Fallback jika Native Share tidak didukung, unduh sebagai file
-                            const url = URL.createObjectURL(blob);
-                            const link = document.createElement('a');
-                            link.download = file.name;
-                            link.href = url;
-                            link.click();
-                            URL.revokeObjectURL(url);
-                            window.showToast("Gambar berhasil disimpan!");
-                        }
-                    }, 'image/jpeg', 0.9);
-
-                }).catch(err => {
-                    container.style.left = '-9999px';
-                    window.showToast("Gagal memproses gambar.", true);
-                });
-            }, 500);
-        };
 
         window.toggleMilestone = async (idx) => {
             const r = globalRooms.find(x => x.id === currentRoomId); if(!r) return;
@@ -3008,7 +2257,6 @@
             const trxUser = document.getElementById('trx-user-display');
             const trxNote = document.getElementById('trx-note');
             const btnSubmit = document.getElementById('btn-submit-trx');
-            const trxCatContainer = document.getElementById('trx-category-container');
             
             const r = globalRooms.find(x => x.id === currentRoomId);
             const msContainer = document.getElementById('trx-milestone-container');
@@ -3022,15 +2270,6 @@
             
             if(btnSubmit) {
                 btnSubmit.className = `w-full py-5 text-white font-black text-lg rounded-[1.5rem] shadow-xl active:scale-95 transition-all ${type === 'nabung' ? 'bg-emerald-500 shadow-emerald-200 dark:shadow-none' : 'bg-rose-500 shadow-rose-200 dark:shadow-none'}`;
-            }
-
-            // Tampilkan Kategori Dinamis hanya saat Nabung
-            if(type === 'nabung' && trxCatContainer) {
-                trxCatContainer.classList.remove('hidden');
-                tempTrxCategorySelection = 'lainnya'; // reset
-                renderTrxCategoryOptions();
-            } else if(trxCatContainer) {
-                trxCatContainer.classList.add('hidden');
             }
 
             if(type === 'nabung' && r && r.hasMilestones) {
@@ -3096,7 +2335,7 @@
 
             const reachedGoal = (r.hasTarget && newBal === r.target && type === 'in');
             
-            pendingTransaction = { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal, category: type === 'in' ? tempTrxCategorySelection : null };
+            pendingTransaction = { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal };
 
             const m = document.getElementById('modal-confirm-trx');
             const card = document.getElementById('confirm-trx-card');
@@ -3119,7 +2358,7 @@
 
         window.executeTransaction = async () => {
             if (!pendingTransaction) return;
-            const { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal, category } = pendingTransaction;
+            const { r, type, amount, newBal, finalNote, updatedMilestones, reachedGoal } = pendingTransaction;
             
             const btn = document.getElementById('btn-confirm-yes');
             const origText = btn.innerText;
@@ -3127,12 +2366,7 @@
 
             const ts = Date.now();
             const trxId = 'trx_' + ts;
-            const h = { 
-                id: trxId, roomId: currentRoomId, roomName: r.name, type: type, amount: amount, 
-                userName: appData.user, note: finalNote, timestamp: ts, 
-                date: new Date().toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}), 
-                reactions: {}, category: category 
-            };
+            const h = { id: trxId, roomId: currentRoomId, roomName: r.name, type: type, amount: amount, userName: appData.user, note: finalNote, timestamp: ts, date: new Date().toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}), reactions: {} };
 
             try {
                 await updateDoc(doc(db, "rooms", currentRoomId), { balance: newBal, milestones: updatedMilestones });
@@ -3144,13 +2378,6 @@
                 btn.disabled = false; btn.innerText = origText;
                 pendingTransaction = null; 
                 window.showToast("Transaksi Berhasil!");
-
-                // Memicu modal Post-Transaction Share jika itu adalah Nabung (In)
-                if (type === 'in') {
-                    setTimeout(() => {
-                        window.showModal('modal-post-trx-share');
-                    }, 400);
-                }
 
             } catch(e) { 
                 window.showToast("Terjadi kesalahan sistem.", true); 
@@ -3198,13 +2425,140 @@
 
         window.changeTimeFilter = (val) => { currentTimeFilter = val; updateUI(); }
 
+        window.switchView = (viewId, navId = null, pushMode = true) => {
+            const views = ['view-home', 'view-detail', 'view-history', 'view-profile', 'view-create', 'view-archive'];
+            views.forEach(v => { const el = document.getElementById(v); if(el) el.classList.add('hidden'); });
+            const target = document.getElementById(viewId); 
+            if(target) {
+                target.classList.remove('hidden');
+                if (viewId !== 'view-detail') {
+                    target.scrollTop = 0; 
+                }
+            }
+            const nav = document.getElementById('bottom-nav');
+            if(nav) {
+                if (['view-detail', 'view-create', 'view-archive'].includes(viewId)) nav.classList.add('hidden');
+                else nav.classList.remove('hidden');
+            }
+            if(navId) {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.replace('text-indigo-600', 'text-slate-300');
+                    const span = btn.querySelector('span'); if(span) span.classList.replace('font-black', 'font-bold');
+                });
+                const active = document.getElementById(navId);
+                if(active) {
+                    active.classList.replace('text-slate-300', 'text-indigo-600');
+                    const span = active.querySelector('span'); if(span) span.classList.replace('font-bold', 'font-black');
+                }
+            }
+            
+            if(pushMode === true) {
+                history.pushState({ viewId, navId, isTab: ['view-home', 'view-history', 'view-profile'].includes(viewId) }, "", location.href);
+            } else if (pushMode === 'replace') {
+                history.replaceState({ viewId, navId, isTab: ['view-home', 'view-history', 'view-profile'].includes(viewId) }, "", location.href);
+            }
+            
+            if(viewId === 'view-create') renderCategoryOptions();
+
+            if(viewId !== 'view-detail' && chatUnsubscribe) { chatUnsubscribe(); chatUnsubscribe = null; }
+        };
+
+        window.openManageModal = (id) => { 
+            roomToDelete = id; 
+            const r = globalRooms.find(x => x.id === id);
+            const isAdmin = r && (!r.adminUid || r.adminUid === appData.uid);
+            
+            const optsContainer = document.getElementById('manage-options-container');
+            if(optsContainer) {
+                let html = `
+                    <button onclick="window.openShareOptions()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-xl"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-slate-800 dark:text-white" data-t="share">${i18n[appData.language].share}</span>
+                    </button>
+                `;
+
+                if(isAdmin) {
+                    html += `
+                    <button onclick="window.deleteCurrentRoom()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
+                        <div class="p-2 bg-rose-100 text-rose-600 rounded-xl"><i data-lucide="trash-2" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-rose-600" data-t="delete">${i18n[appData.language].delete}</span>
+                    </button>`;
+                } else {
+                    html += `
+                    <button onclick="window.leaveCurrentRoom()" class="w-full flex items-center gap-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl active:bg-slate-100 transition-colors">
+                        <div class="p-2 bg-amber-100 text-amber-600 rounded-xl"><i data-lucide="log-out" class="w-5 h-5"></i></div>
+                        <span class="font-bold text-amber-600" data-t="leave">${i18n[appData.language].leave || "Keluar Tabungan"}</span>
+                    </button>`;
+                }
+                optsContainer.innerHTML = html;
+                lucide.createIcons();
+            }
+
+            window.showModal('modal-manage'); 
+        };
+
+        window.openShareOptions = () => {
+            const mManage = document.getElementById('modal-manage');
+            if(mManage) mManage.classList.add('translate-y-full');
+            const baseUrl = window.location.origin + window.location.pathname;
+            const fullLink = baseUrl + "?id=" + roomToDelete;
+            const textEl = document.getElementById('share-link-text');
+            if(textEl) {
+                textEl.innerText = window.location.host + "/?id=" + roomToDelete.substring(0,8) + "...";
+                textEl.setAttribute('data-link', fullLink);
+            }
+            setTimeout(() => window.showModal('modal-share'), 350);
+        };
+
+        window.copyShareLink = () => {
+            const textEl = document.getElementById('share-link-text');
+            if(!textEl) return;
+            const link = textEl.getAttribute('data-link');
+            const el = document.createElement('textarea'); el.value = link;
+            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            window.showToast("Disalin!"); window.closeAllModals();
+        };
+
+        window.deleteCurrentRoom = async () => {
+            if(!confirm("Apakah Anda yakin ingin menghapus tabungan ini?")) return;
+            await deleteDoc(doc(db, "rooms", roomToDelete));
+            appData.joinedRooms = appData.joinedRooms.filter(x => x !== roomToDelete);
+            window.saveLocal(); syncJoinedRoomsToCloud();
+            window.closeAllModals(); window.switchView('view-home', 'nav-home', false);
+        };
+
+        window.leaveCurrentRoom = async () => {
+            if(!confirm("Anda yakin ingin keluar dari tabungan bersama ini?")) return;
+            appData.joinedRooms = appData.joinedRooms.filter(x => x !== roomToDelete);
+            window.saveLocal(); syncJoinedRoomsToCloud();
+            
+            try {
+                const rRef = doc(db, "rooms", roomToDelete);
+                const snap = await getDoc(rRef);
+                if(snap.exists()) {
+                    let members = snap.data().members || [];
+                    members = members.filter(m => m.uid !== appData.uid);
+                    await updateDoc(rRef, { members: members });
+                }
+            } catch(e) {}
+            window.closeAllModals(); window.switchView('view-home', 'nav-home', false);
+        };
+
+        window.completeAndArchiveRoom = async () => {
+            if(!currentRoomId) return;
+            try {
+                await updateDoc(doc(db, "rooms", currentRoomId), { isArchived: true });
+                window.closeAllModals();
+                window.switchView('view-home', 'nav-home', false);
+                window.showToast(appData.language === 'id' ? "Berhasil diarsipkan" : "Archived");
+            } catch(e) { window.showToast("Gagal mengarsipkan.", true); }
+        };
+
         function renderCategoryOptions() {
             const container = document.getElementById('create-categories');
             if(!container) return;
             container.innerHTML = '';
-            
-            const allCat = window.getAllCategories();
-            allCat.forEach(c => {
+            CATEGORIES.forEach(c => {
                 const isSel = tempCategorySelection === c.id;
                 container.innerHTML += `
                     <button id="cat-btn-${c.id}" onclick="window.selectCategory('${c.id}')" class="category-btn px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center gap-1 shrink-0 transition-all active:scale-90 ${isSel ? 'selected' : ''}">
@@ -3213,15 +2567,6 @@
                     </button>
                 `;
             });
-            
-            // Tambah tombol Custom Category
-            container.innerHTML += `
-                <button onclick="window.openAddCustomCategory()" class="px-4 py-3 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl flex flex-col items-center justify-center gap-1 shrink-0 transition-all active:scale-90">
-                    <span class="text-xl"><i data-lucide="plus" class="w-6 h-6 text-indigo-500"></i></span>
-                    <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase">Baru</span>
-                </button>
-            `;
-            lucide.createIcons();
         }
 
         function updateUI() {
@@ -3322,8 +2667,7 @@
 
                     let catIcon = '🎯';
                     if(r.category) {
-                        const allCat = window.getAllCategories();
-                        const c = allCat.find(x => x.id === r.category);
+                        const c = CATEGORIES.find(x => x.id === r.category);
                         if(c) catIcon = c.icon;
                     }
 
@@ -3447,7 +2791,7 @@
             let isScrolling = false;
             
             chatContainer.addEventListener('touchstart', e => {
-                const row = e.target.closest('.chat-swipe-container');
+                const row = e.target.closest('.swipeable-msg');
                 if(!row) return;
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
@@ -3455,7 +2799,7 @@
                 isSwipingRight = false;
                 isScrolling = false;
                 
-                const wrapper = activeRow.querySelector('.chat-bubble-wrapper');
+                const wrapper = activeRow.querySelector('.swipe-bubble-wrapper');
                 if(wrapper) wrapper.style.transition = 'none';
             }, {passive: true});
             
@@ -3468,6 +2812,7 @@
                 const dY = Math.abs(curY - startY);
                 
                 if(!isSwipingRight) {
+                    // Jika lebih condong scroll ke bawah/atas, abaikan swipe
                     if (dY > 10 && dY > dX) {
                         isScrolling = true;
                         activeRow = null;
@@ -3479,21 +2824,17 @@
                 }
                 
                 if(isSwipingRight && dX > 0) {
-                    if(e.cancelable) e.preventDefault(); 
+                    if(e.cancelable) e.preventDefault(); // Mengunci scroll saat menggeser chat
                     
                     const moveX = Math.min(dX, 60); 
-                    const wrapper = activeRow.querySelector('.chat-bubble-wrapper');
-                    const icon = activeRow.querySelector('.reply-indicator');
+                    const wrapper = activeRow.querySelector('.swipe-bubble-wrapper');
+                    const icon = activeRow.querySelector('.reply-icon-bg');
                     
                     if(wrapper) wrapper.style.transform = `translateX(${moveX}px)`;
                     if(icon) {
                         const scale = Math.min(moveX / 40, 1);
                         icon.style.opacity = scale;
-                        if (icon.classList.contains('-translate-x-4')) {
-                             icon.style.transform = `translate(${moveX * 0.3}px, -50%) scale(${0.5 + (scale * 0.5)})`;
-                        } else {
-                             icon.style.transform = `translate(${moveX * 0.3}px, -50%) scale(${0.5 + (scale * 0.5)})`;
-                        }
+                        icon.style.transform = `translateY(-50%) scale(${scale})`;
                     }
                 }
             }, {passive: false}); 
@@ -3501,8 +2842,8 @@
             const endSwipe = () => {
                 if(!activeRow) return;
                 
-                const wrapper = activeRow.querySelector('.chat-bubble-wrapper');
-                const icon = activeRow.querySelector('.reply-indicator');
+                const wrapper = activeRow.querySelector('.swipe-bubble-wrapper');
+                const icon = activeRow.querySelector('.reply-icon-bg');
                 
                 let moveX = 0;
                 if (wrapper && wrapper.style.transform) {
@@ -3517,26 +2858,16 @@
                 if(icon) {
                     icon.style.transition = 'all 0.2s ease-out';
                     icon.style.opacity = '0';
-                    icon.style.transform = 'translate(-1rem, -50%) scale(0.5)';
+                    icon.style.transform = 'translateY(-50%) scale(0.5)';
                 }
                 
                 if(isSwipingRight && moveX > 40) { 
-                    const matchId = activeRow.innerHTML.match(/chk-([a-zA-Z0-9_]+)/);
-                    const id = matchId ? matchId[1] : Date.now();
-                    const nameText = activeRow.querySelector('.text-\\[9px\\].text-slate-400') ? activeRow.querySelector('.text-\\[9px\\].text-slate-400').innerText : 'Anda';
-                    
-                    let msgText = 'Sticker';
-                    const textNode = activeRow.querySelector('.chat-bubble-me > span:not(.inline-block), .chat-bubble-other > span:not(.inline-block)');
-                    if(textNode) msgText = textNode.innerText;
-
-                    // Pastikan tidak mereply pesan yang ditarik
-                    if(msgText.includes('Pesan ini telah dihapus') || msgText.includes('This message was deleted')) {
-                        return;
-                    }
-
+                    const id = activeRow.dataset.id;
+                    const name = activeRow.dataset.name;
+                    const msg = activeRow.dataset.msg;
                     if (navigator.vibrate) navigator.vibrate(50);
                     setTimeout(() => {
-                        window.setReply(id, nameText, msgText);
+                        window.setReply(id, name, msg);
                     }, 50);
                 }
                 
@@ -3546,16 +2877,6 @@
 
             chatContainer.addEventListener('touchend', endSwipe);
             chatContainer.addEventListener('touchcancel', endSwipe);
-        };
-
-        window.onload = () => {
-            lucide.createIcons();
-            if (appData.darkMode) { document.documentElement.classList.add('dark'); const t = document.getElementById('toggle-dark'); if(t) t.checked = true; }
-            applyTranslations();
-
-            document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function() { const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : ''; }); });
-            
-            initSwipeToReply();
         };
 
         window.openAvatarModal = () => {
@@ -3610,10 +2931,166 @@
             if(appData.uid) {
                 try { 
                     await updateDoc(doc(db, "users", appData.uid), { avatar: appData.avatar }); 
+                    // Panggil fungsi sinkronisasi (Optimasi 3)
                     await syncUserToRooms(appData.uid, appData.user, appData.avatar);
                 } catch(e) {}
             }
         };
+
+        // --- FITUR PRESENCE, DAFTAR ANGGOTA & FILTER RIWAYAT ---
+        window.formatLastSeen = (timestamp, locale = 'id') => {
+            if (!timestamp) return locale === 'id' ? "Belum pernah online" : "Never been online";
+            const now = new Date();
+            const lastSeenDate = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - lastSeenDate) / 1000);
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+
+            const isToday = now.toDateString() === lastSeenDate.toDateString();
+            const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+            const isYesterday = yesterday.toDateString() === lastSeenDate.toDateString();
+
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+            const timeString = lastSeenDate.toLocaleTimeString(locale === 'id' ? 'id-ID' : 'en-US', timeOptions);
+            const prefix = locale === 'id' ? 'Terakhir dilihat ' : 'Last seen ';
+
+            if (diffInSeconds < 60) return locale === 'id' ? 'Baru saja dilihat' : 'Seen just now';
+            if (diffInMinutes < 60) return locale === 'id' ? `${diffInMinutes} menit yang lalu` : `${diffInMinutes} minutes ago`;
+            if (isToday) return `${prefix}${locale === 'id' ? 'hari ini pukul' : 'today at'} ${timeString}`;
+            if (isYesterday) return `${prefix}${locale === 'id' ? 'kemarin pukul' : 'yesterday at'} ${timeString}`;
+
+            const dayOptions = { weekday: 'long' };
+            const dayString = lastSeenDate.toLocaleDateString(locale === 'id' ? 'id-ID' : 'en-US', dayOptions);
+            const textAt = locale === 'id' ? 'pukul' : 'at';
+            return `${prefix}${dayString} ${textAt} ${timeString}`;
+        };
+
+        window.updateOnlineStatus = async (status) => {
+            if (!appData.uid) return;
+            try {
+                await updateDoc(doc(db, "users", appData.uid), {
+                    isOnline: status,
+                    lastSeen: Date.now()
+                });
+            } catch (e) {}
+        };
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === 'visible') {
+                window.updateOnlineStatus(true);
+            } else {
+                window.updateOnlineStatus(false);
+            }
+        });
+
+        window.addEventListener("beforeunload", () => {
+            window.updateOnlineStatus(false);
+        });
+
+        window.calculateUserDeposit = (roomId, userName) => {
+            const roomHistory = globalHistory.filter(h => h.roomId === roomId && h.userName === userName);
+            let total = 0;
+            // Menghitung setoran bersih (uang masuk - uang ditarik)
+            roomHistory.forEach(h => {
+                if (h.type === 'in') total += h.amount;
+                if (h.type === 'out') total -= h.amount; 
+            });
+            return total;
+        };
+
+        window.openMemberListModal = async () => {
+            if (!currentRoomId) return;
+            const r = globalRooms.find(x => x.id === currentRoomId);
+            if (!r || !r.members) return;
+
+            const container = document.getElementById('member-list-container');
+            container.innerHTML = '<div class="text-center py-10"><svg class="spinner text-indigo-500" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>';
+            
+            window.showModal('modal-member-list');
+
+            const isId = appData.language === 'id';
+            
+            const promises = r.members.map(async (m) => {
+                const char = m.avatar.emoji || m.name.charAt(0).toUpperCase();
+                const totalDeposit = window.calculateUserDeposit(currentRoomId, m.name);
+                let statusHtml = '';
+
+                if (m.uid === appData.uid) {
+                    statusHtml = `<span class="text-emerald-500 font-bold text-[10px] flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span> Online (Anda)</span>`;
+                } else {
+                    try {
+                        const userSnap = await getDoc(doc(db, "users", m.uid));
+                        if (userSnap.exists()) {
+                            const data = userSnap.data();
+                            if (data.isOnline) {
+                                statusHtml = `<span class="text-emerald-500 font-bold text-[10px] flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span> Online</span>`;
+                            } else {
+                                const lastSeenTxt = window.formatLastSeen(data.lastSeen, appData.language);
+                                statusHtml = `<span class="text-slate-400 font-bold text-[10px] flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 inline-block"></span> ${lastSeenTxt}</span>`;
+                            }
+                        } else {
+                            statusHtml = `<span class="text-slate-400 font-bold text-[10px]">-</span>`;
+                        }
+                    } catch (e) {
+                        statusHtml = `<span class="text-slate-400 font-bold text-[10px]">-</span>`;
+                    }
+                }
+
+                return `
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center text-xl font-black shadow-sm shrink-0 ${m.avatar.colorClass} ${m.avatar.textClass}">${char}</div>
+                        <div class="flex-1">
+                            <h4 class="font-black text-slate-800 dark:text-white text-sm leading-tight mb-1">${m.name}</h4>
+                            ${statusHtml}
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl flex justify-between items-center">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${isId ? 'Total Kontribusi' : 'Total Contribution'}</span>
+                        <span class="font-black text-indigo-600 dark:text-indigo-400 text-sm">Rp ${totalDeposit.toLocaleString('id-ID')}</span>
+                    </div>
+                    <button onclick="window.filterHistoryByUser('${window.safeStr(m.name)}')" class="w-full py-3.5 bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors active:scale-95 flex items-center justify-center gap-2">
+                        ${isId ? 'Lihat Riwayat Transaksi' : 'View Transaction History'} <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>`;
+            });
+
+            const results = await Promise.all(promises);
+            container.innerHTML = results.join('');
+            lucide.createIcons();
+        };
+
+        window.filterHistoryByUser = (userName) => {
+            window.closeAllModals();
+            window.switchRoomTab('ringkasan');
+            currentUserHistoryFilter = userName;
+            
+            // Render ulang dengan filter yang aktif
+            refreshRoomUI(currentRoomId);
+
+            // Animasi scroll turun secara otomatis ke arah riwayat
+            setTimeout(() => {
+                const histContainer = document.getElementById('detail-history-list');
+                if (histContainer) {
+                    histContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 300);
+        };
+
+        window.clearUserHistoryFilter = () => {
+            currentUserHistoryFilter = null;
+            refreshRoomUI(currentRoomId);
+        };
+
+        window.onload = () => {
+            lucide.createIcons();
+            if (appData.darkMode) { document.documentElement.classList.add('dark'); const t = document.getElementById('toggle-dark'); if(t) t.checked = true; }
+            applyTranslations();
+
+            document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function() { const val = this.value.replace(/\D/g, ''); this.value = val ? parseInt(val).toLocaleString('id-ID') : ''; }); });
+            
+            initSwipeToReply();
+        };
+
     </script>
 </body>
 </html>
